@@ -18,11 +18,19 @@ namespace SorcerySplinter
             return Container.Resolve<MainWindow>();
         }
 
+        /// <summary>
+        /// 各DIサービスの登録
+        /// </summary>
+        /// <param name="containerRegistry"></param>
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<IMessageService, MessageService>();
         }
 
+        /// <summary>
+        /// 各画面部品の登録
+        /// </summary>
+        /// <param name="moduleCatalog"></param>
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
             moduleCatalog.AddModule<ModuleNameModule>();

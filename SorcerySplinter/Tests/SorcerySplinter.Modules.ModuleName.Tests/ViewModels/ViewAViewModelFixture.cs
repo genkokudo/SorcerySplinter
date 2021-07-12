@@ -15,7 +15,7 @@ namespace SorcerySplinter.Modules.ModuleName.Tests.ViewModels
         public ViewAViewModelFixture()
         {
             var messageService = new Mock<IMessageService>();
-            messageService.Setup(x => x.GetMessage()).Returns(MessageServiceDefaultMessage);
+            messageService.Setup(x => x.GetTopMessage()).Returns(MessageServiceDefaultMessage);
             _messageServiceMock = messageService;
 
             _regionManagerMock = new Mock<IRegionManager>();
@@ -26,7 +26,7 @@ namespace SorcerySplinter.Modules.ModuleName.Tests.ViewModels
         {
             var vm = new ViewAViewModel(_regionManagerMock.Object, _messageServiceMock.Object);
 
-            _messageServiceMock.Verify(x => x.GetMessage(), Times.Once);
+            _messageServiceMock.Verify(x => x.GetTopMessage(), Times.Once);
 
             Assert.Equal(MessageServiceDefaultMessage, vm.Message);
         }

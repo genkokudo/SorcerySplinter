@@ -4,7 +4,7 @@ namespace SorcerySplinter.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {
-        private string _title = "Prism Application";
+        private string _title = "SorcerySplinter";
         public string Title
         {
             get { return _title; }

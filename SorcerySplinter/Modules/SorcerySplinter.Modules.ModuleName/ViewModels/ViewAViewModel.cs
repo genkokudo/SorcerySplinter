@@ -16,7 +16,7 @@ namespace SorcerySplinter.Modules.ModuleName.ViewModels
         public ViewAViewModel(IRegionManager regionManager, IMessageService messageService) :
             base(regionManager)
         {
-            Message = messageService.GetMessage();
+            Message = messageService.GetTopMessage();
         }
 
         public override void OnNavigatedTo(NavigationContext navigationContext)
@@ -24,4 +24,7 @@ namespace SorcerySplinter.Modules.ModuleName.ViewModels
             //do something
         }
     }
+
+    // 画面遷移の方法は、こうらしい
+    // this.RegionManager.RequestNavigate("MainRegion", nameof(UserControl2), new NavigationParameters($"id=1"));
 }

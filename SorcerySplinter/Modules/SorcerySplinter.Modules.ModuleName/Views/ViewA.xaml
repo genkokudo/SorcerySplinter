@@ -8,6 +8,6 @@
         <TextBlock Text="{Binding Message}"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
-                   FontSize="24"/>
+                   FontSize="14"/>
     </Grid>
 </UserControl>
