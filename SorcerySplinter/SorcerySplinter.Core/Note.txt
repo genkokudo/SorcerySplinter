@@ -1,0 +1,28 @@
+﻿■Coreプロジェクトについて
+
+・Coreプロジェクトって何？
+このアプリのViewModelのBaseクラスを作成する。
+なのでここを変えればアプリ全体が変わる。
+
+・RegionNames.csとは？
+Region名を定数にしておくことで、本編の画面遷移の記述の所でミスらないようにするためのクラス。
+
+・Regionって？
+メインに施す画面分けのこと。
+<ContentControl Grid.Row="0" prism:RegionManager.RegionName="MainRegion" />
+のように書くことで、画面内に領域を作ってModuleを貼るのが基本。
+
+■RegionViewModelBaseの各メソッドについて
+・ConfirmNavigationRequest
+・IsNavigationTarget
+・OnNavigatedFrom
+・OnNavigatedTo
+画面Aから画面Bに移動しようとすると、AのOnNavigatedFrom、（BのOnNavigatingTo、）Bの画面表示、BのOnNavigatedToの順番に呼び出される。
+※遷移先表示前に実行されるOnNavigatingToはPrism 7.2で非推奨になって消えた。Prism.Navigation.IInitialize、IInitializeAsyncまたはIAutoInitialize。を代わりに使用するらしい。
+
+
+■ViewModelBase.csについて
+RegionViewModelBaseが継承している。
+よって、ViewModelBaseを数種類作る場合に共通で持たせるものを書くみたい。
+生成時や破棄の処理を書く場所がある。
+
