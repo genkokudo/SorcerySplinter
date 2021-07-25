@@ -6,6 +6,10 @@ using Xunit;
 
 namespace SorcerySplinter.Modules.ModuleName.Tests.ViewModels
 {
+    /// <summary>
+    /// ViewAのテスト
+    /// 
+    /// </summary>
     public class ViewAViewModelFixture
     {
         Mock<IMessageService> _messageServiceMock;
