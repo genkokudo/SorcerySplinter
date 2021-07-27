@@ -11,3 +11,27 @@
 ・保存用リポジトリとVSのディレクトリに保存、この2つはペアで複数登録する。（保存先を複数登録でいいか。）
 →C#のディレクトリ：VSのC#スニペット・リポジトリのC#の所
 
+■やることリスト
+・マテリアルデザインの適用
+
+・どんなプログラムにするか考える
+
+・ViewやViewModelの構成を考える
+Bbbbとかじゃなくって…。
+
+・旧プログラムからの移植方針を決定
+旧プログラムにあった画面はこれだけ。
+<MenuItem Header="_Home" Command="{Binding ToHome}"/>
+<MenuItem Header="_Dropbox設定" Command="{Binding ToDropboxSettings}"/>
+<MenuItem Header="_接続先登録" Command="{Binding ToConnectionRegister}"/>
+<MenuItem Header="_メタデータ生成" Command="{Binding ToGenerate}"/>
+<MenuItem Header="_テンプレート編集" Command="{Binding ToTemplateEdit}"/>
+<MenuItem Header="_汎用入力" Command="{Binding ToGenetalInput}"/>
+<MenuItem Header="_ソース生成" Command="{Binding ToSourceGenerate}"/>
+<MenuItem Header="_出力結果" Command="{Binding ToOutputResult}"/>
+
+・旧プログラムからの移植
+
+・サンプルデータの作成
+
+※旧プログラムは、消す前にサンプルデータを回収すること。DropBoxにあるかも？
