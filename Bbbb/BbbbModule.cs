@@ -6,6 +6,9 @@ using SorcerySplinter.Core;
 
 namespace Bbbb
 {
+    // ・Module作成者：どんなRegionが必要でどんな機能を提供するか文書に書いて周知すること。Module内にどんな名前のViewがあるかを周知すること。
+    // ・Module使用者：Moduleを使用するためにどんなRegion名を準備する必要があるか知っておく、Window内にRegionを作成しておくこと。
+
     /// <summary>
     /// 適当なモジュール
     /// </summary>
@@ -20,17 +23,12 @@ namespace Bbbb
         }
 
         /// <summary>
-        /// このモジュールが読み込まれたときの初期処理
-        /// 本体AppのViewに定義されたRegion名を直接指定する。
-        /// 他と被った場合はApp.xaml.csで後に追加したものが上書き描画されるので注意。
-        /// つまり
-        /// ・Module作成者：どんなRegionが必要でどんな機能を提供するか文書に書いて周知すること
-        /// ・Module使用者：Moduleを使用するためにどんなRegion名を準備する必要があるか知っておく、Window内にRegionを作成しておくこと
+        /// このモジュールが読み込まれたときの初期処理（＝プログラム起動時にモジュールが読まれるので、プログラム起動時の処理。）
         /// </summary>
         /// <param name="containerProvider">これが何かわからない。要調査。</param>
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewName);
+            //_regionManager.RequestNavigate(RegionNames.ContentRegion, ViewName);  // これを書いてしまうと起動時に初期画面として表示されてしまう。初期画面の指定方法として正しくない。
         }
 
         /// <summary>

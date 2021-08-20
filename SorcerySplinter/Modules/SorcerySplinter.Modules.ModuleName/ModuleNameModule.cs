@@ -17,7 +17,7 @@ namespace SorcerySplinter.Modules.ModuleName
 
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            _regionManager.RequestNavigate(RegionNames.ContentRegion, "ViewA");
+            //_regionManager.RequestNavigate(RegionNames.ContentRegion, "ViewA");  // これを書いてしまうと起動時に初期画面として表示されてしまう。初期画面の指定方法として正しくない。
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)

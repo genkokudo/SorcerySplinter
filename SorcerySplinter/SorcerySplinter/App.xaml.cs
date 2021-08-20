@@ -40,7 +40,7 @@ namespace SorcerySplinter
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
             moduleCatalog.AddModule<ModuleNameModule>();
-            moduleCatalog.AddModule<BbbbModule>();
+            moduleCatalog.AddModule<BbbbModule>();              // 最後に登録したのが初期画面になるけど、本当はどうやって初期画面を指定するのが正しいの？
         }
     }
 }
