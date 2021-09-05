@@ -14,7 +14,7 @@ namespace Bbbb
     /// </summary>
     public class BbbbModule : IModule
     {
-        private const string ViewName = "ViewC";            // TODO:これどこに書くのが適切？
+        private const string ViewName = "ViewC";            // TODO:これどこに書くのが適切？ViewNames.csみたいなのを作っておくべき。
         private readonly IRegionManager _regionManager;
 
         public BbbbModule(IRegionManager regionManager)

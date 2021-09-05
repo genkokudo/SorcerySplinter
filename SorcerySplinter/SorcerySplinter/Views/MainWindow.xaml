@@ -18,37 +18,65 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         >
-    <!-- 新しいツールを追加する時はGridの中に書きましょう -->
+    <!-- 新しい部品を追加する時はGridの中に書きましょう -->
     <Grid>
-
-        <StackPanel>
-            <Menu IsMainMenu="True">
-                <MenuItem Header="_File">
-                    <MenuItem Header="Save" Icon="{materialDesign:PackIcon Kind=ContentSave}"></MenuItem>
-                    <MenuItem Header="Save As.." />
-                    <MenuItem Header="Exit" InputGestureText="Ctrl+E" Icon="{materialDesign:PackIcon Kind=ExitToApp}" />
+        <!-- メニュー（色の付け方が分からないけどもういい。） -->
+        <Menu IsMainMenu="True">
+                <MenuItem Icon="{materialDesign:PackIcon Kind=ContentSave}"
+    Header="File">
+                    <MenuItem
+      Header="Save"
+      Icon="{materialDesign:PackIcon Kind=ContentSave}"></MenuItem>
+                    <MenuItem
+      Header="Save As.." />
+                    <MenuItem
+      Header="Exit"
+      InputGestureText="Ctrl+E"
+      Icon="{materialDesign:PackIcon Kind=ExitToApp}" />
                     <Separator />
-                    <MenuItem Header="Excellent" IsCheckable="True" IsChecked="True" />
-                    <MenuItem Header="Rubbish" IsCheckable="True" />
-                    <MenuItem Header="Dig Deeper" InputGestureText="Ctrl+D">
-                        <MenuItem   Header="Enlightenment?"   IsCheckable="True" />
-                        <MenuItem   Header="Disappointment"   IsCheckable="True" />
+                    <MenuItem
+      Header="Excellent"
+      IsCheckable="True"
+      IsChecked="True" />
+                    <MenuItem
+      Header="Rubbish"
+      IsCheckable="True" />
+                    <MenuItem
+      Header="Dig Deeper"
+      InputGestureText="Ctrl+D">
+                        <MenuItem
+        Header="Enlightenment?"
+        IsCheckable="True" />
+                        <MenuItem
+        Header="Disappointment"
+        IsCheckable="True" />
                     </MenuItem>
-                    <MenuItem Header="Look Deeper" InputGestureText="Ctrl+D">
-                        <MenuItem   Header="Plain" />
-                        <MenuItem   Header="Ice Cream" />
+                    <MenuItem
+      Header="Look Deeper"
+      InputGestureText="Ctrl+D">
+                        <MenuItem
+        Header="Plain" />
+                        <MenuItem
+        Header="Ice Cream" />
                     </MenuItem>
                 </MenuItem>
-                <MenuItem    Header="_Edit">
-                    <MenuItem Header="_Cut" Command="Cut" Icon="{materialDesign:PackIcon Kind=ContentCut}" />
-                    <MenuItem Header="_Copy" Command="Copy" Icon="{materialDesign:PackIcon Kind=ContentCopy}" />
-                    <MenuItem Header="_Paste" Command="Paste" Icon="{materialDesign:PackIcon Kind=ContentPaste}" />
+                <MenuItem
+    Header="_Edit">
+                    <MenuItem
+      Header="_Cut"
+      Command="Cut"
+      Icon="{materialDesign:PackIcon Kind=ContentCut}" />
+                    <MenuItem
+      Header="_Copy"
+      Command="Copy"
+      Icon="{materialDesign:PackIcon Kind=ContentCopy}" />
+                    <MenuItem
+      Header="_Paste"
+      Command="Paste"
+      Icon="{materialDesign:PackIcon Kind=ContentPaste}" />
                 </MenuItem>
             </Menu>
-            <materialDesign:Card Padding="16" Margin="16">
-                <TextBlock Style="{DynamicResource MaterialDesignHeadline6TextBlock}">Sorcery Splinter</TextBlock>
-            </materialDesign:Card>
-        </StackPanel>
+        
         <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}" />
     </Grid>
     

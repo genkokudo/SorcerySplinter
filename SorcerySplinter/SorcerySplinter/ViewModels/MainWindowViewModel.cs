@@ -9,11 +9,14 @@ using SorcerySplinter.Modules.ModuleName.Views;
 
 namespace SorcerySplinter.ViewModels
 {
+    /// <summary>
+    /// ここのフィールドをMainWindowにバインドしたりする
+    /// </summary>
     public class MainWindowViewModel : BindableBase
     {
         //private readonly IRegionManager _regionManager;
 
-        private string _title = "Prism Application";
+        private string _title = "Sorcery Splinter";
         public string Title
         {
             get { return _title; }

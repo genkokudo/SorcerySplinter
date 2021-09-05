@@ -33,5 +33,5 @@ Moduleは複数のViewを持つことができ、Module.csで所属するViewを
 
 ■初期画面の指定方法
 MainWindowViewModelにIRegionManagerをDIして、RegisterViewWithRegionで指定する。
-モジュールの初期化の所に遷移処理が書く人がいたが、それは正しくない。
+モジュールの初期化の所に遷移処理を書く人がいたが、それは正しくない。
 
