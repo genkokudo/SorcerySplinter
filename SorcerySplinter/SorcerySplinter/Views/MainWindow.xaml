@@ -22,61 +22,11 @@
     <Grid>
         <!-- メニュー（色の付け方が分からないけどもういい。） -->
         <Menu IsMainMenu="True">
-                <MenuItem Icon="{materialDesign:PackIcon Kind=ContentSave}"
-    Header="File">
-                    <MenuItem
-      Header="Save"
-      Icon="{materialDesign:PackIcon Kind=ContentSave}"></MenuItem>
-                    <MenuItem
-      Header="Save As.." />
-                    <MenuItem
-      Header="Exit"
-      InputGestureText="Ctrl+E"
-      Icon="{materialDesign:PackIcon Kind=ExitToApp}" />
-                    <Separator />
-                    <MenuItem
-      Header="Excellent"
-      IsCheckable="True"
-      IsChecked="True" />
-                    <MenuItem
-      Header="Rubbish"
-      IsCheckable="True" />
-                    <MenuItem
-      Header="Dig Deeper"
-      InputGestureText="Ctrl+D">
-                        <MenuItem
-        Header="Enlightenment?"
-        IsCheckable="True" />
-                        <MenuItem
-        Header="Disappointment"
-        IsCheckable="True" />
-                    </MenuItem>
-                    <MenuItem
-      Header="Look Deeper"
-      InputGestureText="Ctrl+D">
-                        <MenuItem
-        Header="Plain" />
-                        <MenuItem
-        Header="Ice Cream" />
-                    </MenuItem>
-                </MenuItem>
-                <MenuItem
-    Header="_Edit">
-                    <MenuItem
-      Header="_Cut"
-      Command="Cut"
-      Icon="{materialDesign:PackIcon Kind=ContentCut}" />
-                    <MenuItem
-      Header="_Copy"
-      Command="Copy"
-      Icon="{materialDesign:PackIcon Kind=ContentCopy}" />
-                    <MenuItem
-      Header="_Paste"
-      Command="Paste"
-      Icon="{materialDesign:PackIcon Kind=ContentPaste}" />
-                </MenuItem>
-            </Menu>
-        
+            <MenuItem Icon="{materialDesign:PackIcon Kind=Home}" Header="説明" Command="{Binding NavigateCommand}" CommandParameter="Home"></MenuItem>
+            <MenuItem Icon="{materialDesign:PackIcon Kind=FileDownload}" Header="読み込み" Command="{Binding NavigateCommand}" CommandParameter="Load"></MenuItem>
+            <MenuItem Icon="{materialDesign:PackIcon Kind=Pencil}" Header="編集" Command="{Binding NavigateCommand}" CommandParameter="Edit"></MenuItem>
+            <MenuItem Icon="{materialDesign:PackIcon Kind=Cog}" Header="設定" Command="{Binding NavigateCommand}" CommandParameter="Config"></MenuItem>
+        </Menu>
         <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}" />
     </Grid>
     
