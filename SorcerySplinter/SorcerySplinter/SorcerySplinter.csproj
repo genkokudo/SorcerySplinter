@@ -10,10 +10,8 @@
     <PackageReference Include="Prism.DryIoc" Version="8.0.0.1909" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Bbbb\Bbbb.csproj" />
     <ProjectReference Include="..\..\SorcerySplinter.Modules.Common\SorcerySplinter.Modules.Common.csproj" />
     <ProjectReference Include="..\SorcerySplinter.Core\SorcerySplinter.Core.csproj" />
-    <ProjectReference Include="..\Modules\SorcerySplinter.Modules.ModuleName\SorcerySplinter.Modules.ModuleName.csproj" />
     <ProjectReference Include="..\Services\SorcerySplinter.Services\SorcerySplinter.Services.csproj" />
   </ItemGroup>
 </Project>

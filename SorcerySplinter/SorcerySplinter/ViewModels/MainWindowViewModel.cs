@@ -1,12 +1,8 @@
-﻿using Bbbb;
-using Bbbb.Views;
-using Prism.Commands;
+﻿using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using SorcerySplinter.Core;
 using SorcerySplinter.Modules.Common.Views;
-using SorcerySplinter.Modules.ModuleName;
-using SorcerySplinter.Modules.ModuleName.Views;
 
 namespace SorcerySplinter.ViewModels
 {

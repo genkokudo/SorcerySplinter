@@ -21,8 +21,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Bbbb\Bbbb.csproj" />
-  </ItemGroup>
-
 </Project>

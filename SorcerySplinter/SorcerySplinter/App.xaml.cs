@@ -1,8 +1,6 @@
-﻿using Bbbb;
-using Prism.Ioc;
+﻿using Prism.Ioc;
 using Prism.Modularity;
 using SorcerySplinter.Modules.Common;
-using SorcerySplinter.Modules.ModuleName;
 using SorcerySplinter.Services;
 using SorcerySplinter.Views;
 using System.Windows;
@@ -39,8 +37,6 @@ namespace SorcerySplinter
         /// <param name="moduleCatalog"></param>
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
-            moduleCatalog.AddModule<ModuleNameModule>();
-            moduleCatalog.AddModule<BbbbModule>();
             moduleCatalog.AddModule<CommonModule>();
         }
     }

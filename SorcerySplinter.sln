@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SorcerySplinter.Modules.Mod
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{18C769DB-7598-40A0-ABB6-12F5958A5BE2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SorcerySplinter.Modules.ModuleName", "SorcerySplinter\Modules\SorcerySplinter.Modules.ModuleName\SorcerySplinter.Modules.ModuleName.csproj", "{9A9F62F7-8611-4D2B-902C-6FDA1FBDF16C}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{68FF284E-9120-4DB9-837F-78D8252036E7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SorcerySplinter.Services", "SorcerySplinter\Services\SorcerySplinter.Services\SorcerySplinter.Services.csproj", "{A40D2768-CEF0-4212-A3BA-2D06B1C9F720}"
@@ -18,8 +16,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SorcerySplinter", "SorcerySplinter\SorcerySplinter\SorcerySplinter.csproj", "{915E48F4-5344-4F6E-B598-CAC20E8556FA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SorcerySplinter.Core", "SorcerySplinter\SorcerySplinter.Core\SorcerySplinter.Core.csproj", "{B0849360-D2CB-4D7B-A233-81CEDBF87013}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bbbb", "Bbbb\Bbbb.csproj", "{D7EC8B1A-8296-4FC1-BD3F-B85E7A4CA65F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SorcerySplinter.Modules.Bbbb.Tests", "SorcerySplinter.Modules.Bbbb.Tests\SorcerySplinter.Modules.Bbbb.Tests.csproj", "{F69A9D53-C2CD-487F-82E7-B9B5EDC9FDA5}"
 EndProject
@@ -35,10 +31,6 @@ Global
 		{528EBF1D-4EB7-483C-93FB-3700F538E3F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{528EBF1D-4EB7-483C-93FB-3700F538E3F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{528EBF1D-4EB7-483C-93FB-3700F538E3F7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9A9F62F7-8611-4D2B-902C-6FDA1FBDF16C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9A9F62F7-8611-4D2B-902C-6FDA1FBDF16C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9A9F62F7-8611-4D2B-902C-6FDA1FBDF16C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9A9F62F7-8611-4D2B-902C-6FDA1FBDF16C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A40D2768-CEF0-4212-A3BA-2D06B1C9F720}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A40D2768-CEF0-4212-A3BA-2D06B1C9F720}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A40D2768-CEF0-4212-A3BA-2D06B1C9F720}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -51,10 +43,6 @@ Global
 		{B0849360-D2CB-4D7B-A233-81CEDBF87013}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0849360-D2CB-4D7B-A233-81CEDBF87013}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0849360-D2CB-4D7B-A233-81CEDBF87013}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D7EC8B1A-8296-4FC1-BD3F-B85E7A4CA65F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D7EC8B1A-8296-4FC1-BD3F-B85E7A4CA65F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D7EC8B1A-8296-4FC1-BD3F-B85E7A4CA65F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D7EC8B1A-8296-4FC1-BD3F-B85E7A4CA65F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F69A9D53-C2CD-487F-82E7-B9B5EDC9FDA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F69A9D53-C2CD-487F-82E7-B9B5EDC9FDA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F69A9D53-C2CD-487F-82E7-B9B5EDC9FDA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -69,9 +57,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{528EBF1D-4EB7-483C-93FB-3700F538E3F7} = {37971954-6EE2-4D30-9393-8709D0F3569C}
-		{9A9F62F7-8611-4D2B-902C-6FDA1FBDF16C} = {18C769DB-7598-40A0-ABB6-12F5958A5BE2}
 		{A40D2768-CEF0-4212-A3BA-2D06B1C9F720} = {68FF284E-9120-4DB9-837F-78D8252036E7}
-		{D7EC8B1A-8296-4FC1-BD3F-B85E7A4CA65F} = {18C769DB-7598-40A0-ABB6-12F5958A5BE2}
 		{F69A9D53-C2CD-487F-82E7-B9B5EDC9FDA5} = {37971954-6EE2-4D30-9393-8709D0F3569C}
 		{116C0F65-7680-48F1-911D-82F644EE3DD1} = {18C769DB-7598-40A0-ABB6-12F5958A5BE2}
 	EndGlobalSection

@@ -21,8 +21,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Modules\SorcerySplinter.Modules.ModuleName\SorcerySplinter.Modules.ModuleName.csproj" />
-  </ItemGroup>
-
 </Project>
