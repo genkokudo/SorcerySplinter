@@ -28,7 +28,7 @@ namespace SorcerySplinter
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<IMessageService, MessageService>(); // シングルトン
-            containerRegistry.Register<IAaaaService, AaaaService>(); // 都度生成
+            containerRegistry.Register<IConfigSaveService, ConfigSaveService>(); // 都度生成
         }
 
         /// <summary>

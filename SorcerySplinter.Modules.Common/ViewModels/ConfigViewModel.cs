@@ -43,9 +43,15 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             SnippetDirectory = "bbbb";
             SnippetDirectoryVs = "cccc";
 
+            // 設定の読み込み
+
             // コマンド設定
             SaveCommand = new DelegateCommand(SaveConfig);
         }
+
+        /// <summary>
+        /// 設定を保存する
+        /// </summary>
         private void SaveConfig()
         {
         }
