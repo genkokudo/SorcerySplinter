@@ -8,7 +8,7 @@
     <PackageReference Include="Prism.Wpf" Version="8.0.0.1909" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Services\SorcerySplinter.Services\SorcerySplinter.Services.csproj" />
     <ProjectReference Include="..\..\SorcerySplinter.Core\SorcerySplinter.Core.csproj" />
-    <ProjectReference Include="..\..\Services\SorcerySplinter.Services.Interfaces\SorcerySplinter.Services.Interfaces.csproj" />
   </ItemGroup>
 </Project>

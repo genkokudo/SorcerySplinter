@@ -14,7 +14,6 @@
     <ProjectReference Include="..\..\SorcerySplinter.Modules.Common\SorcerySplinter.Modules.Common.csproj" />
     <ProjectReference Include="..\SorcerySplinter.Core\SorcerySplinter.Core.csproj" />
     <ProjectReference Include="..\Modules\SorcerySplinter.Modules.ModuleName\SorcerySplinter.Modules.ModuleName.csproj" />
-    <ProjectReference Include="..\Services\SorcerySplinter.Services.Interfaces\SorcerySplinter.Services.Interfaces.csproj" />
     <ProjectReference Include="..\Services\SorcerySplinter.Services\SorcerySplinter.Services.csproj" />
   </ItemGroup>
 </Project>

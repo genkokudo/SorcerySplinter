@@ -1,7 +1,10 @@
-﻿using SorcerySplinter.Services.Interfaces;
-
-namespace SorcerySplinter.Services
+﻿namespace SorcerySplinter.Services
 {
+    public interface IMessageService
+    {
+        string GetMessage();
+    }
+
     public class MessageService : IMessageService
     {
         public string GetMessage()

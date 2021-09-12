@@ -3,7 +3,7 @@ using Prism.Mvvm;
 using Prism.Regions;
 using SorcerySplinter.Core;
 using SorcerySplinter.Core.Mvvm;
-using SorcerySplinter.Services.Interfaces;
+using SorcerySplinter.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;

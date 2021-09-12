@@ -4,7 +4,6 @@ using Prism.Modularity;
 using SorcerySplinter.Modules.Common;
 using SorcerySplinter.Modules.ModuleName;
 using SorcerySplinter.Services;
-using SorcerySplinter.Services.Interfaces;
 using SorcerySplinter.Views;
 using System.Windows;
 

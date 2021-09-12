@@ -1,6 +1,6 @@
 ﻿using Prism.Regions;
 using SorcerySplinter.Core.Mvvm;
-using SorcerySplinter.Services.Interfaces;
+using SorcerySplinter.Services;
 
 namespace SorcerySplinter.Modules.ModuleName.ViewModels
 {

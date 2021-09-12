@@ -15,8 +15,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{68
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SorcerySplinter.Services", "SorcerySplinter\Services\SorcerySplinter.Services\SorcerySplinter.Services.csproj", "{A40D2768-CEF0-4212-A3BA-2D06B1C9F720}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SorcerySplinter.Services.Interfaces", "SorcerySplinter\Services\SorcerySplinter.Services.Interfaces\SorcerySplinter.Services.Interfaces.csproj", "{B1B94CE1-FA32-4F6A-BFEB-DAFB3FA1B889}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SorcerySplinter", "SorcerySplinter\SorcerySplinter\SorcerySplinter.csproj", "{915E48F4-5344-4F6E-B598-CAC20E8556FA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SorcerySplinter.Core", "SorcerySplinter\SorcerySplinter.Core\SorcerySplinter.Core.csproj", "{B0849360-D2CB-4D7B-A233-81CEDBF87013}"
@@ -25,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bbbb", "Bbbb\Bbbb.csproj", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SorcerySplinter.Modules.Bbbb.Tests", "SorcerySplinter.Modules.Bbbb.Tests\SorcerySplinter.Modules.Bbbb.Tests.csproj", "{F69A9D53-C2CD-487F-82E7-B9B5EDC9FDA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SorcerySplinter.Modules.Common", "SorcerySplinter.Modules.Common\SorcerySplinter.Modules.Common.csproj", "{116C0F65-7680-48F1-911D-82F644EE3DD1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SorcerySplinter.Modules.Common", "SorcerySplinter.Modules.Common\SorcerySplinter.Modules.Common.csproj", "{116C0F65-7680-48F1-911D-82F644EE3DD1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,10 +43,6 @@ Global
 		{A40D2768-CEF0-4212-A3BA-2D06B1C9F720}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A40D2768-CEF0-4212-A3BA-2D06B1C9F720}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A40D2768-CEF0-4212-A3BA-2D06B1C9F720}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B1B94CE1-FA32-4F6A-BFEB-DAFB3FA1B889}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B1B94CE1-FA32-4F6A-BFEB-DAFB3FA1B889}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B1B94CE1-FA32-4F6A-BFEB-DAFB3FA1B889}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B1B94CE1-FA32-4F6A-BFEB-DAFB3FA1B889}.Release|Any CPU.Build.0 = Release|Any CPU
 		{915E48F4-5344-4F6E-B598-CAC20E8556FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{915E48F4-5344-4F6E-B598-CAC20E8556FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{915E48F4-5344-4F6E-B598-CAC20E8556FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -77,7 +71,6 @@ Global
 		{528EBF1D-4EB7-483C-93FB-3700F538E3F7} = {37971954-6EE2-4D30-9393-8709D0F3569C}
 		{9A9F62F7-8611-4D2B-902C-6FDA1FBDF16C} = {18C769DB-7598-40A0-ABB6-12F5958A5BE2}
 		{A40D2768-CEF0-4212-A3BA-2D06B1C9F720} = {68FF284E-9120-4DB9-837F-78D8252036E7}
-		{B1B94CE1-FA32-4F6A-BFEB-DAFB3FA1B889} = {68FF284E-9120-4DB9-837F-78D8252036E7}
 		{D7EC8B1A-8296-4FC1-BD3F-B85E7A4CA65F} = {18C769DB-7598-40A0-ABB6-12F5958A5BE2}
 		{F69A9D53-C2CD-487F-82E7-B9B5EDC9FDA5} = {37971954-6EE2-4D30-9393-8709D0F3569C}
 		{116C0F65-7680-48F1-911D-82F644EE3DD1} = {18C769DB-7598-40A0-ABB6-12F5958A5BE2}
