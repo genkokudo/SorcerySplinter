@@ -9,8 +9,8 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True" >
     <Grid>
-        <TextBlock Text="{Binding Message}"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center" />
+        <StackPanel>
+            <TextBlock Text="スニペットの読み込み" HorizontalAlignment="Left" VerticalAlignment="Top" />
+        </StackPanel>
     </Grid>
 </UserControl>

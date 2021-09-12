@@ -19,7 +19,7 @@ namespace SorcerySplinter.Modules.Common.ViewModels
 
         public HomeViewModel()
         {
-            Message = "Home from your Prism Module";
+            Message = "これは、コードスニペットを作成するソフトです。 \n";
         }
     }
 }

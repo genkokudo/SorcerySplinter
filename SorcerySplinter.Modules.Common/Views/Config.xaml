@@ -4,13 +4,24 @@
              xmlns:local="clr-namespace:SorcerySplinter.Modules.Common.Views"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True" >
     <Grid>
-        <TextBlock Text="{Binding Message}"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center" />
+        <StackPanel>
+            <TextBlock Text="設定" HorizontalAlignment="Left" VerticalAlignment="Top" />
+
+            <Label Content="名前" Margin="0,30,0,0" />
+            <TextBox Text="{Binding Author}" ToolTip="スニペットの作者として表記する名前です。" materialDesign:HintAssist.Hint="G.Iwatobi" materialDesign:HintAssist.HelperText="Bigger Helper Text" materialDesign:HintAssist.HelperTextFontSize="16" />
+
+            <Label Content="保存場所（任意）" Margin="0,30,0,0" />
+            <TextBox Text="{Binding SnippetDirectory}" ToolTip="スニペット保存場所です。" materialDesign:HintAssist.Hint="C:\Users\(username)\source\repos\Esoterica" materialDesign:HintAssist.HelperText="Bigger Helper Text" materialDesign:HintAssist.HelperTextFontSize="16" />
+
+            <Label Content="保存場所（VisualStudio用）" Margin="0,30,0,0" />
+            <TextBox Text="{Binding SnippetDirectoryVs}" ToolTip="VisualStudioのスニペットディレクトリ。これを指定すると自動でVisualStudioにスニペット導入できます。" materialDesign:HintAssist.Hint="C:\Users\(username)\Documents\Visual Studio 2019\Code Snippets\Visual C#\My Code Snippets" materialDesign:HintAssist.HelperText="Bigger Helper Text" materialDesign:HintAssist.HelperTextFontSize="16" />
+        </StackPanel>
+        <Button Content="保存" Command="{Binding SaveCommand}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
     </Grid>
 </UserControl>

@@ -20,14 +20,16 @@
         >
     <!-- 新しい部品を追加する時はGridの中に書きましょう -->
     <Grid>
-        <!-- メニュー（色の付け方が分からないけどもういい。） -->
-        <Menu IsMainMenu="True">
-            <MenuItem Icon="{materialDesign:PackIcon Kind=Home}" Header="説明" Command="{Binding NavigateCommand}" CommandParameter="Home"></MenuItem>
-            <MenuItem Icon="{materialDesign:PackIcon Kind=FileDownload}" Header="読み込み" Command="{Binding NavigateCommand}" CommandParameter="Load"></MenuItem>
-            <MenuItem Icon="{materialDesign:PackIcon Kind=Pencil}" Header="編集" Command="{Binding NavigateCommand}" CommandParameter="Edit"></MenuItem>
-            <MenuItem Icon="{materialDesign:PackIcon Kind=Cog}" Header="設定" Command="{Binding NavigateCommand}" CommandParameter="Config"></MenuItem>
-        </Menu>
-        <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}" />
+        <StackPanel>
+            <!-- メニュー（色の付け方が分からないけどもういい。） -->
+            <Menu IsMainMenu="True">
+                <MenuItem Icon="{materialDesign:PackIcon Kind=Home}" Header="説明" Command="{Binding NavigateCommand}" CommandParameter="Home"></MenuItem>
+                <MenuItem Icon="{materialDesign:PackIcon Kind=FileDownload}" Header="読み込み" Command="{Binding NavigateCommand}" CommandParameter="Load"></MenuItem>
+                <MenuItem Icon="{materialDesign:PackIcon Kind=Pencil}" Header="編集" Command="{Binding NavigateCommand}" CommandParameter="Edit"></MenuItem>
+                <MenuItem Icon="{materialDesign:PackIcon Kind=Cog}" Header="設定" Command="{Binding NavigateCommand}" CommandParameter="Config"></MenuItem>
+            </Menu>
+            <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}" />
+        </StackPanel>
     </Grid>
     
 </Window>

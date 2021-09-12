@@ -10,16 +10,16 @@ namespace SorcerySplinter.Modules.Common.ViewModels
 {
     public class LoadViewModel : BindableBase
     {
-        private string _message;
-        public string Message
-        {
-            get { return _message; }
-            set { SetProperty(ref _message, value); }
-        }
+        //private string _message;
+        //public string Message
+        //{
+        //    get { return _message; }
+        //    set { SetProperty(ref _message, value); }
+        //}
 
-        public LoadViewModel()
-        {
-            Message = "Load from your Prism Module";
-        }
+        //public LoadViewModel()
+        //{
+        //    Message = "Load from your Prism Module";
+        //}
     }
 }

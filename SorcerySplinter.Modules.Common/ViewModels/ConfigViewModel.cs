@@ -10,16 +10,44 @@ namespace SorcerySplinter.Modules.Common.ViewModels
 {
     public class ConfigViewModel : BindableBase
     {
-        private string _message;
-        public string Message
+        /// <summary>画面遷移するコマンド</summary>
+        public DelegateCommand SaveCommand { get; private set; }
+
+        // 作者名
+        private string _author;
+        public string Author
         {
-            get { return _message; }
-            set { SetProperty(ref _message, value); }
+            get { return _author; }
+            set { SetProperty(ref _author, value); }
+        }
+
+        // スニペットを保存するディレクトリ（リポジトリ用）
+        private string _snippetDirectory;
+        public string SnippetDirectory
+        {
+            get { return _snippetDirectory; }
+            set { SetProperty(ref _snippetDirectory, value); }
+        }
+
+        // スニペットを保存するディレクトリ（VisualStudio用）
+        private string _snippetDirectoryVs;
+        public string SnippetDirectoryVs
+        {
+            get { return _snippetDirectoryVs; }
+            set { SetProperty(ref _snippetDirectoryVs, value); }
         }
 
         public ConfigViewModel()
         {
-            Message = "Config from your Prism Module";
+            Author = "aaaa";
+            SnippetDirectory = "bbbb";
+            SnippetDirectoryVs = "cccc";
+
+            // コマンド設定
+            SaveCommand = new DelegateCommand(SaveConfig);
+        }
+        private void SaveConfig()
+        {
         }
     }
 }
