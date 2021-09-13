@@ -2,6 +2,30 @@
 
 namespace SorcerySplinter.Services
 {
+    // https://stackoverflow.com/questions/59909207/cannot-add-appsettings-json-inside-wpf-project-net-core-3-0
+
+    // Program.cs
+    //config = new ConfigurationBuilder()
+    //    .SetBasePath(Directory.GetCurrentDirectory())
+    //    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+    //    .Build();
+
+    // App.xaml.csだと、OnStartupをoverrideして上の処理を実装し、configを保持。
+    // 保持する必要が無ければRegisterTypesでも良いかもしれない。
+
+    // IConfiguration configurationをDI
+    // IServiceCollectionをDI
+    // services.Configure<AppSettings>(Configuration);  または
+    // services.Configure<AesServiceOption>(Configuration.GetSection("AesSettings"));
+
+    // appsettings.json
+    //    {
+    //  "AesSettings": {
+    //    "AesIv": "aaaa",
+    //    "AesKey": "bbbb"
+    //  }
+    //}
+
     /// <summary>
     /// AesServiceのオプションです
     /// </summary>
