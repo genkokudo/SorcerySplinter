@@ -1,5 +1,18 @@
-﻿namespace SorcerySplinter.Services
+﻿using Microsoft.Extensions.Options;
+
+namespace SorcerySplinter.Services
 {
+    /// <summary>
+    /// AesServiceのオプションです
+    /// </summary>
+    public class ConfigSaveOption
+    {
+        /// <summary>
+        /// 保存先ファイルパス
+        /// </summary>
+        public string Path { get; set; } = @"./data/config.mrt";
+    }
+
     /// <summary>
     /// 適当な設定データ保存サービス
     /// 標準の設定ファイルは問題があるため使用しない（保存場所選べない、モジュールから参照できないとか。）
@@ -23,14 +36,12 @@
     {
         /// <summary>
         /// 保存先ファイルパス
-        /// 固定、設定はできない仕様
-        /// 他のプログラムで使い回すなら、IOptionで設定できるようにする。
         /// </summary>
         private readonly string _path;
 
-        public ConfigSaveService()
+        public ConfigSaveService(IOptions<ConfigSaveOption> options)
         {
-            _path = "./data/config.mrt";        // 固定
+            _path = options.Value.Path;
         }
 
         public void Load()

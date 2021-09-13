@@ -4,6 +4,18 @@ using SorcerySplinter.Modules.ModuleName.ViewModels;
 using SorcerySplinter.Services.Interfaces;
 using Xunit;
 
+// どんなことをテストするのか？
+
+// ViewModelに関してテストを行う
+// サービスはモック（作成したサービスもテストを作成する）
+
+// 1個目
+// GetMessage()が1回呼び出されたことを確認する
+// メッセージがモックに設定した通りであること（サービスで得た文字列に何も変更が入っていないこと）
+
+// 2個目
+// コンストラクタによってプロパティが変更されていること
+
 namespace SorcerySplinter.Modules.ModuleName.Tests.ViewModels
 {
     /// <summary>
@@ -30,14 +42,17 @@ namespace SorcerySplinter.Modules.ModuleName.Tests.ViewModels
         {
             var vm = new ViewAViewModel(_regionManagerMock.Object, _messageServiceMock.Object);
 
+            // GetMessage()が1回呼び出されたことを確認する
             _messageServiceMock.Verify(x => x.GetMessage(), Times.Once);
 
+            // メッセージがモックに設定した通りであること（サービスで得た文字列に何も変更が入っていないこと）
             Assert.Equal(MessageServiceDefaultMessage, vm.Message);
         }
 
         [Fact]
         public void MessageINotifyPropertyChangedCalled()
         {
+            // コンストラクタによってプロパティが変更されていること
             var vm = new ViewAViewModel(_regionManagerMock.Object, _messageServiceMock.Object);
             Assert.PropertyChanged(vm, nameof(vm.Message), () => vm.Message = "Changed");
         }

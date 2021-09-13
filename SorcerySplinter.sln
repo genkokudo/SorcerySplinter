@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{37971954-6EE2-4D30-9393-8709D0F3569C}"
+	ProjectSection(SolutionItems) = preProject
+		HowTo.txt = HowTo.txt
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SorcerySplinter.Modules.ModuleName.Tests", "SorcerySplinter\Tests\SorcerySplinter.Modules.ModuleName.Tests\SorcerySplinter.Modules.ModuleName.Tests.csproj", "{528EBF1D-4EB7-483C-93FB-3700F538E3F7}"
 EndProject
