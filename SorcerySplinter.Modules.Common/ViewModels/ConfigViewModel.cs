@@ -16,10 +16,11 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         /// <summary>画面遷移するコマンド</summary>
         public DelegateCommand SaveCommand { get; private set; }
 
-        /// <summary>VisualStudioフォルダ選択するコマンド</summary>
-        public DelegateCommand<string> VsFolderCommand { get; private set; }
-        /// <summary>任意フォルダ選択するコマンド</summary>
-        public DelegateCommand<string> CommonFolderCommand { get; private set; }
+        /// <summary>フォルダ選択するコマンド</summary>
+        public DelegateCommand<string> FolderCommand { get; private set; }
+
+        /// <summary>ファイル選択するコマンド</summary>
+        public DelegateCommand FileCommand { get; private set; }
 
         // 作者名
         private string _author;
@@ -45,17 +46,39 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             set { SetProperty(ref _snippetDirectoryVs, value); }
         }
 
+        // スニペット作成用メモファイル（自分用モード）
+        private string _ginpayModeFile;
+        public string GinpayModeFile
+        {
+            get { return _ginpayModeFile; }
+            set { SetProperty(ref _ginpayModeFile, value); }
+        }
+
         public ConfigViewModel()
         {
             // 設定の読み込み
             Author = ModuleSettings.Default.Author;
             SnippetDirectory = ModuleSettings.Default.SnippetDirectory;
             SnippetDirectoryVs = ModuleSettings.Default.SnippetDirectoryVs;
+            GinpayModeFile = ModuleSettings.Default.GinpayModeFile;
 
             // コマンド設定
             SaveCommand = new DelegateCommand(SaveConfig);
-            CommonFolderCommand = new DelegateCommand<string>(ChooseFolder);
-            VsFolderCommand = new DelegateCommand<string>(ChooseFolder);
+            FolderCommand = new DelegateCommand<string>(ChooseFolder);
+            FileCommand = new DelegateCommand(ChooseFile);
+        }
+
+        /// <summary>
+        /// ファイル選択ボタン
+        /// 今の所モードとか無し
+        /// </summary>
+        private void ChooseFile()
+        {
+            var result = OpenFileDialog();
+            if (!string.IsNullOrWhiteSpace(result))
+            {
+                GinpayModeFile = result;
+            }
         }
 
         /// <summary>
@@ -118,6 +141,7 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             ModuleSettings.Default.Author = Author;
             ModuleSettings.Default.SnippetDirectory = SnippetDirectory;
             ModuleSettings.Default.SnippetDirectoryVs = SnippetDirectoryVs;
+            ModuleSettings.Default.GinpayModeFile = GinpayModeFile;
 
             ModuleSettings.Default.Save();
         }
@@ -133,14 +157,32 @@ namespace SorcerySplinter.Modules.Common.ViewModels
                 Title = "フォルダを選択してください",
                 InitialDirectory = defaultPath,
                 // フォルダ選択モードにする
-                IsFolderPicker = true,
+                IsFolderPicker = true
             };
             if (cofd.ShowDialog() != CommonFileDialogResult.Ok)
             {
                 return string.Empty;
             }
 
-            // FileNameで選択されたフォルダを取得する
+            return cofd.FileName;
+        }
+
+        /// <summary>
+        /// ファイル選択ダイアログを表示
+        /// </summary>
+        /// <returns>選択しない場合は空文字</returns>
+        private string OpenFileDialog(string defaultPath = "")
+        {
+            using var cofd = new CommonOpenFileDialog()
+            {
+                Title = "ファイルを選択してください",
+                InitialDirectory = defaultPath
+            };
+            if (cofd.ShowDialog() != CommonFileDialogResult.Ok)
+            {
+                return string.Empty;
+            }
+
             return cofd.FileName;
         }
     }

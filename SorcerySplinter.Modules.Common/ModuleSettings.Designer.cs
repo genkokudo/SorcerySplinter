@@ -58,5 +58,29 @@ namespace SorcerySplinter.Modules.Common {
                 this["SnippetDirectoryVs"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GinpayMode {
+            get {
+                return ((bool)(this["GinpayMode"]));
+            }
+            set {
+                this["GinpayMode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string GinpayModeFile {
+            get {
+                return ((string)(this["GinpayModeFile"]));
+            }
+            set {
+                this["GinpayModeFile"] = value;
+            }
+        }
     }
 }
