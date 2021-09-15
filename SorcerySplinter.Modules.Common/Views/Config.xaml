@@ -10,31 +10,32 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True" >
     <Grid>
-        <StackPanel>
+        <StackPanel Margin="10">
             <TextBlock Text="★設定★" HorizontalAlignment="Left" VerticalAlignment="Top" />
 
             <Label Content="名前" Margin="0,30,0,0" />
-            <TextBox Text="{Binding Author}" ToolTip="スニペットの作者として表記する名前です。" materialDesign:HintAssist.Hint="G.Iwatobi" materialDesign:HintAssist.HelperTextFontSize="16" />
+            <TextBox Text="{Binding Author}" ToolTip="スニペットの作者として表記する名前です。" materialDesign:HintAssist.Hint="G.Iwatobi" materialDesign:HintAssist.HelperTextFontSize="16" MinWidth="200" MaxWidth="400" HorizontalAlignment="Left" />
 
             <Label Content="保存場所（VisualStudio用）" Margin="0,30,0,0" />
             <StackPanel Orientation="Horizontal">
-                <TextBox Text="{Binding SnippetDirectoryVs}" ToolTip="VisualStudioのスニペットディレクトリ。これを指定すると自動でVisualStudioにスニペット導入できます。" materialDesign:HintAssist.Hint="C:\Users\(UserName)\Documents\Visual Studio 2019\Code Snippets" materialDesign:HintAssist.HelperTextFontSize="16" />
-                <Button Content="参照" Command="{Binding FolderCommand}" CommandParameter="VS" HorizontalAlignment="Right" VerticalAlignment="Center" Height="24"/>
+                <TextBox Text="{Binding SnippetDirectoryVs}" ToolTip="VisualStudioのスニペットディレクトリ。これを指定すると自動でVisualStudioにスニペット導入できます。" materialDesign:HintAssist.Hint="C:\Users\(UserName)\Documents\Visual Studio 2019\Code Snippets" materialDesign:HintAssist.HelperTextFontSize="16" MinWidth="400" />
+                <Button Content="参照" Margin="10,0,0,0" Command="{Binding FolderCommand}" CommandParameter="VS" HorizontalAlignment="Right" VerticalAlignment="Center" Height="24"/>
             </StackPanel>
 
             <Label Content="保存場所（任意）" Margin="0,30,0,0" />
             <StackPanel Orientation="Horizontal">
-                <TextBox Text="{Binding SnippetDirectory}" ToolTip="スニペット保存場所です。設定しなくても良いです。" materialDesign:HintAssist.Hint="C:\Users\(UserName)\source\repos\(ProjectName)" materialDesign:HintAssist.HelperTextFontSize="16" />
-                <Button Content="参照" Command="{Binding FolderCommand}" CommandParameter="Common" HorizontalAlignment="Right" VerticalAlignment="Center" Height="24"/>
+                <TextBox Text="{Binding SnippetDirectory}" ToolTip="スニペット保存場所です。設定しなくても良いです。" materialDesign:HintAssist.Hint="C:\Users\(UserName)\source\repos\(ProjectName)" materialDesign:HintAssist.HelperTextFontSize="16" MinWidth="400" />
+                <Button Content="参照" Margin="10,0,0,0" Command="{Binding FolderCommand}" CommandParameter="Common" HorizontalAlignment="Right" VerticalAlignment="Center" Height="24"/>
             </StackPanel>
 
             <Label Content="（自分用）書き溜めファイル" Margin="0,30,0,0" />
             <StackPanel Orientation="Horizontal">
-                <TextBox Text="{Binding GinpayModeFile}" ToolTip="スニペット作成の為のメモを書き溜めておくテキストファイルを指定すると、このソフトで直接参照できます。" materialDesign:HintAssist.Hint="C:\Users\(UserName)\Documents\スニペット.txt" materialDesign:HintAssist.HelperTextFontSize="16" />
-                <Button Content="参照" Command="{Binding FileCommand}" HorizontalAlignment="Right" VerticalAlignment="Center" Height="24"/>
+                <TextBox Text="{Binding GinpayModeFile}" ToolTip="スニペット作成の為のメモを書き溜めておくテキストファイルを指定すると、このソフトで直接参照できます。" materialDesign:HintAssist.Hint="C:\Users\(UserName)\Documents\スニペット.txt" materialDesign:HintAssist.HelperTextFontSize="16" MinWidth="400" />
+                <Button Content="参照" Margin="10,0,0,0" Command="{Binding FileCommand}" HorizontalAlignment="Right" VerticalAlignment="Center" Height="24"/>
             </StackPanel>
 
-            <Button Content="保存" Command="{Binding SaveCommand}" Margin="24" HorizontalAlignment="Right" VerticalAlignment="Top"/>
         </StackPanel>
+
+        <Button Content="保存" Command="{Binding SaveCommand}" Margin="24" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
     </Grid>
 </UserControl>
