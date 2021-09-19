@@ -8,7 +8,14 @@
              mc:Ignorable="d" 
              d:DesignHeight="1000" d:DesignWidth="300"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              prism:ViewModelLocator.AutoWireViewModel="True" >
+    <!-- 起動時に処理をしたいときはこれを記述 -->
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Grid>
         <StackPanel Margin="10">
             <TextBlock Text="★設定★" HorizontalAlignment="Left" VerticalAlignment="Top" />
