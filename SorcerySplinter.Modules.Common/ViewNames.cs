@@ -10,5 +10,6 @@ namespace SorcerySplinter.Modules.Common
         public const string ViewLoad = "Load";
         public const string ViewEdit = "Edit";
         public const string ViewConfig = "Config";
+        public const string ViewBuffer = "Buffer";
     }
 }

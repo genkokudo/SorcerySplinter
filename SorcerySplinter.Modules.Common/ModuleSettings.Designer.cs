@@ -62,12 +62,12 @@ namespace SorcerySplinter.Modules.Common {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool GinpayMode {
+        public bool IsGinpayMode {
             get {
-                return ((bool)(this["GinpayMode"]));
+                return ((bool)(this["IsGinpayMode"]));
             }
             set {
-                this["GinpayMode"] = value;
+                this["IsGinpayMode"] = value;
             }
         }
         

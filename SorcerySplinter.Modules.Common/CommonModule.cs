@@ -7,12 +7,12 @@ namespace SorcerySplinter.Modules.Common
 {
     public class CommonModule : IModule
     {
-        private readonly IRegionManager _regionManager;
+        //private readonly IRegionManager _regionManager;
 
-        public CommonModule(IRegionManager regionManager)
-        {
-            _regionManager = regionManager;
-        }
+        //public CommonModule(IRegionManager regionManager)
+        //{
+        //    _regionManager = regionManager;
+        //}
 
         /// <summary>
         /// このモジュールが読み込まれたときの初期処理（＝プログラム起動時にモジュールが読まれるので、プログラム起動時の処理。）
@@ -33,6 +33,7 @@ namespace SorcerySplinter.Modules.Common
             containerRegistry.RegisterForNavigation<Load>();
             containerRegistry.RegisterForNavigation<Edit>();
             containerRegistry.RegisterForNavigation<Config>();
+            containerRegistry.RegisterForNavigation<Buffer>();
         }
     }
 }

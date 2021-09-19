@@ -54,6 +54,14 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             set { SetProperty(ref _ginpayModeFile, value); }
         }
 
+        // 自分用モードのオンオフ
+        private bool _isGinpayMode;
+        public bool IsGinpayMode
+        {
+            get { return _isGinpayMode; }
+            set { SetProperty(ref _isGinpayMode, value); }
+        }
+
         public ConfigViewModel()
         {
             // 設定の読み込み
@@ -61,11 +69,26 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             SnippetDirectory = ModuleSettings.Default.SnippetDirectory;
             SnippetDirectoryVs = ModuleSettings.Default.SnippetDirectoryVs;
             GinpayModeFile = ModuleSettings.Default.GinpayModeFile;
+            IsGinpayMode = ModuleSettings.Default.IsGinpayMode;
 
             // コマンド設定
             SaveCommand = new DelegateCommand(SaveConfig);
             FolderCommand = new DelegateCommand<string>(ChooseFolder);
             FileCommand = new DelegateCommand(ChooseFile);
+        }
+
+        /// <summary>
+        /// 設定を保存する
+        /// </summary>
+        private void SaveConfig()
+        {
+            ModuleSettings.Default.Author = Author;
+            ModuleSettings.Default.SnippetDirectory = SnippetDirectory;
+            ModuleSettings.Default.SnippetDirectoryVs = SnippetDirectoryVs;
+            ModuleSettings.Default.GinpayModeFile = GinpayModeFile;
+            ModuleSettings.Default.IsGinpayMode = IsGinpayMode;
+
+            ModuleSettings.Default.Save();
         }
 
         /// <summary>
@@ -131,19 +154,6 @@ namespace SorcerySplinter.Modules.Common.ViewModels
                         break;
                 }
             }
-        }
-
-        /// <summary>
-        /// 設定を保存する
-        /// </summary>
-        private void SaveConfig()
-        {
-            ModuleSettings.Default.Author = Author;
-            ModuleSettings.Default.SnippetDirectory = SnippetDirectory;
-            ModuleSettings.Default.SnippetDirectoryVs = SnippetDirectoryVs;
-            ModuleSettings.Default.GinpayModeFile = GinpayModeFile;
-
-            ModuleSettings.Default.Save();
         }
 
         /// <summary>
