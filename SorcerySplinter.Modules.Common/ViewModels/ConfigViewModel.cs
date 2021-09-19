@@ -1,7 +1,9 @@
 ﻿
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
+using SorcerySplinter.Modules.Common.Events;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,6 +23,9 @@ namespace SorcerySplinter.Modules.Common.ViewModels
 
         /// <summary>ファイル選択するコマンド</summary>
         public DelegateCommand FileCommand { get; private set; }
+
+        /// <summary>自分用モードであることを他のモジュールに通知する</summary>
+        public IEventAggregator EventAggregator { get; set; }
 
         // 作者名
         private string _author;
@@ -62,8 +67,10 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             set { SetProperty(ref _isGinpayMode, value); }
         }
 
-        public ConfigViewModel()
+        public ConfigViewModel(IEventAggregator eventAggregator)
         {
+            EventAggregator = eventAggregator;
+
             // 設定の読み込み
             Author = ModuleSettings.Default.Author;
             SnippetDirectory = ModuleSettings.Default.SnippetDirectory;
@@ -75,6 +82,10 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             SaveCommand = new DelegateCommand(SaveConfig);
             FolderCommand = new DelegateCommand<string>(ChooseFolder);
             FileCommand = new DelegateCommand(ChooseFile);
+
+            // 設定内容を他のモジュールに通知
+            EventAggregator.GetEvent<GinpayModeEvent>()
+                .Publish(new GinpayMode { IsGinpayMode = IsGinpayMode });
         }
 
         /// <summary>
@@ -89,6 +100,10 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             ModuleSettings.Default.IsGinpayMode = IsGinpayMode;
 
             ModuleSettings.Default.Save();
+
+            // 設定内容を他のモジュールに通知
+            EventAggregator.GetEvent<GinpayModeEvent>()
+                .Publish(new GinpayMode { IsGinpayMode = IsGinpayMode });
         }
 
         /// <summary>
