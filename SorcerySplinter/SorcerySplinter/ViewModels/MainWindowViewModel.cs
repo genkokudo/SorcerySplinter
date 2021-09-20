@@ -14,9 +14,6 @@ namespace SorcerySplinter.ViewModels
     /// </summary>
     public class MainWindowViewModel : BindableBase
     {
-        /// <summary>起動時処理のコマンド</summary>
-        public DelegateCommand LoadedCommand { get; private set; }
-
         /// <summary>画面遷移するコマンド</summary>
         public DelegateCommand<string> NavigateCommand { get; private set; }
         private readonly IRegionManager _regionManager;
@@ -47,11 +44,10 @@ namespace SorcerySplinter.ViewModels
 
             // コマンド設定
             NavigateCommand = new DelegateCommand<string>(Navigate);
-            LoadedCommand = new DelegateCommand(OnLoaded);
 
             // モジュールからの通知内容を設定
             eventAggregator.GetEvent<GinpayModeEvent>()
-                .Subscribe(CalculateAnswer, ThreadOption.UIThread);      // TODO:ThreadOptionは試す
+                .Subscribe(CalculateAnswer);
 
         }
 
@@ -65,12 +61,6 @@ namespace SorcerySplinter.ViewModels
                 _regionManager.RequestNavigate(RegionNames.ContentRegion, navigatePath);
         }
 
-        /// <summary>起動時処理</summary>
-        public void OnLoaded()
-        {
-            System.Windows.MessageBox.Show($"メイン起動時処理です。");
-        }
-
         /// <summary>
         /// 自分用モードかどうかを受信
         /// </summary>
@@ -78,7 +68,6 @@ namespace SorcerySplinter.ViewModels
         private void CalculateAnswer(GinpayMode obj)
         {
             IsGinpayMode = obj.IsGinpayMode;
-            System.Windows.MessageBox.Show($"受信：" + IsGinpayMode);
         }
     }
 }

@@ -27,9 +27,6 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         /// <summary>自分用モードであることを他のモジュールに通知する</summary>
         public IEventAggregator EventAggregator { get; set; }
 
-        /// <summary>起動時処理のコマンド</summary>
-        public DelegateCommand LoadedCommand { get; private set; }
-
         // 作者名
         private string _author;
         public string Author
@@ -85,11 +82,6 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             SaveCommand = new DelegateCommand(SaveConfig);
             FolderCommand = new DelegateCommand<string>(ChooseFolder);
             FileCommand = new DelegateCommand(ChooseFile);
-            LoadedCommand = new DelegateCommand(OnLoaded);
-
-            // 設定内容を他のモジュールに通知
-            EventAggregator.GetEvent<GinpayModeEvent>()
-                .Publish(new GinpayMode { IsGinpayMode = IsGinpayMode });
         }
 
         /// <summary>
@@ -213,12 +205,6 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             }
 
             return cofd.FileName;
-        }
-
-        /// <summary>起動時処理</summary>
-        public void OnLoaded()
-        {
-            System.Windows.MessageBox.Show($"モジュールの起動時処理です。");
         }
     }
 }
