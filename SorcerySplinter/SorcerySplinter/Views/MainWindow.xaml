@@ -34,6 +34,7 @@
                 <MenuItem Icon="{materialDesign:PackIcon Kind=FileDownload}" Header="読み込み" Command="{Binding NavigateCommand}" CommandParameter="Load"></MenuItem>
                 <MenuItem Icon="{materialDesign:PackIcon Kind=Pencil}" Header="編集" Command="{Binding NavigateCommand}" CommandParameter="Edit"></MenuItem>
                 <MenuItem Icon="{materialDesign:PackIcon Kind=Cog}" Header="設定" Command="{Binding NavigateCommand}" CommandParameter="Config"></MenuItem>
+                <!-- このボタンだけ、自分用モードの時のみ表示 -->
                 <MenuItem Icon="{materialDesign:PackIcon Kind=Buffer}" Header="書き溜め" Command="{Binding NavigateCommand}" CommandParameter="Buffer">
                     <MenuItem.Style>
                         <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">

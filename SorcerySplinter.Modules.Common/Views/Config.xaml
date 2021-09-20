@@ -58,19 +58,6 @@
                 </StackPanel>
             </GroupBox>
             <Button Content="保存" Command="{Binding SaveCommand}" Margin="24" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
-
-            <!--<Button Grid.Column="2" Margin="5" Width="75" Content="aaaa">
-                <Button.Style>
-                    <Style TargetType="{x:Type Button}">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsGinpayMode}" Value="true">
-                                <Setter  Property="Visibility" Value="Collapsed" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>-->
-
         </StackPanel>
 
     </Grid>

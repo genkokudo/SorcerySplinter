@@ -3,6 +3,7 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
+using Prism.Regions;
 using SorcerySplinter.Modules.Common.Events;
 using System;
 using System.Collections.Generic;
@@ -10,10 +11,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace SorcerySplinter.Modules.Common.ViewModels
 {
-    public class ConfigViewModel : BindableBase
+    public class ConfigViewModel : BindableBase, IConfirmNavigationRequest
     {
         /// <summary>画面遷移するコマンド</summary>
         public DelegateCommand SaveCommand { get; private set; }
@@ -71,13 +73,6 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         {
             EventAggregator = eventAggregator;
 
-            // 設定の読み込み
-            Author = ModuleSettings.Default.Author;
-            SnippetDirectory = ModuleSettings.Default.SnippetDirectory;
-            SnippetDirectoryVs = ModuleSettings.Default.SnippetDirectoryVs;
-            GinpayModeFile = ModuleSettings.Default.GinpayModeFile;
-            IsGinpayMode = ModuleSettings.Default.IsGinpayMode;
-
             // コマンド設定
             SaveCommand = new DelegateCommand(SaveConfig);
             FolderCommand = new DelegateCommand<string>(ChooseFolder);
@@ -95,6 +90,7 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             ModuleSettings.Default.GinpayModeFile = GinpayModeFile;
             ModuleSettings.Default.IsGinpayMode = IsGinpayMode;
 
+            // 保存
             ModuleSettings.Default.Save();
 
             // 設定内容を他のモジュールに通知
@@ -138,7 +134,7 @@ namespace SorcerySplinter.Modules.Common.ViewModels
                     break;
                 default:
                     // その他のパターンは現在の所なし
-                    System.Windows.MessageBox.Show($"おかしい：ConfigViewModel");
+                    MessageBox.Show($"おかしい：ConfigViewModel");
                     break;
             }
 
@@ -161,7 +157,7 @@ namespace SorcerySplinter.Modules.Common.ViewModels
                         break;
                     default:
                         // その他のパターンは現在の所なし
-                        System.Windows.MessageBox.Show($"おかしい：ConfigViewModel");
+                        MessageBox.Show($"おかしい：ConfigViewModel");
                         break;
                 }
             }
@@ -205,6 +201,54 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             }
 
             return cofd.FileName;
+        }
+
+        public void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
+        {
+            // 変更があるかチェック
+            var isModified =
+                Author != ModuleSettings.Default.Author ||
+                SnippetDirectory != ModuleSettings.Default.SnippetDirectory ||
+                SnippetDirectoryVs != ModuleSettings.Default.SnippetDirectoryVs ||
+                GinpayModeFile != ModuleSettings.Default.GinpayModeFile ||
+                IsGinpayMode != ModuleSettings.Default.IsGinpayMode;
+
+            if (isModified)
+            {
+                var res = MessageBox.Show(
+                    "設定を保存していませんが\n破棄してよろしいですか？",
+                    "確認メッセージ",
+                    MessageBoxButton.OKCancel,
+                    MessageBoxImage.Question, MessageBoxResult.Cancel
+                    );
+                continuationCallback(res != MessageBoxResult.Cancel);
+            }
+            else
+            {
+                continuationCallback(true);
+            }
+        }
+
+        // 表示した時の処理
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            // 設定の読み込み
+            Author = ModuleSettings.Default.Author;
+            SnippetDirectory = ModuleSettings.Default.SnippetDirectory;
+            SnippetDirectoryVs = ModuleSettings.Default.SnippetDirectoryVs;
+            GinpayModeFile = ModuleSettings.Default.GinpayModeFile;
+            IsGinpayMode = ModuleSettings.Default.IsGinpayMode;
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            // Viewは使い回さない
+            return false;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+            // 画面から離れる時何もしない
         }
     }
 }
