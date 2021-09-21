@@ -36,7 +36,7 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         /// </summary>
         private void Init()
         {
-            MessageBox.Show($"読み込み処理");
+            //MessageBox.Show($"読み込み処理");
         }
 
         /// <summary>
