@@ -7,8 +7,30 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              prism:ViewModelLocator.AutoWireViewModel="True" >
+    <i:Interaction.Triggers>
+        <!-- 画面が表示されたときの処理 -->
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding ActivateCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Grid>
-        <TextBlock Text="{Binding Message}" HorizontalAlignment="Left" VerticalAlignment="Top" />
+        <!-- 画面分割の定義 -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+        <!-- 上側 -->
+        <!-- TODO:ピッタリサイズになって、しかも縦スクロールバーが欲しい -->
+        <TextBox Margin="10,0,10,0" Grid.Row="0"
+            AcceptsReturn="True"
+            TextWrapping="Wrap"
+            VerticalScrollBarVisibility="Auto"
+            Text="{Binding TextInput}"/>
+        <!-- 下側 -->
+        <StackPanel Grid.Row="1">
+            <Button Content="保存" Command="{Binding SaveCommand}" HorizontalAlignment="Right" Margin="0,5,5,5"/>
+        </StackPanel>
     </Grid>
 </UserControl>

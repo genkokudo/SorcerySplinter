@@ -9,8 +9,50 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True" >
     <Grid>
-        <StackPanel>
-            <TextBlock Text="{Binding Message}" HorizontalAlignment="Left" VerticalAlignment="Top" />
+        <!-- 画面分割の定義 -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="380"/><!-- TODO:2段組みにしよう -->
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+        <!-- 上側 -->
+        <StackPanel Grid.Row="0">
+            <Label Margin="10,0,0,0" Content="ファイル名＆ショートカットフレーズ"></Label>
+            <TextBox Margin="10,0,0,0" Text="{Binding Shortcut}" ToolTip="VSでスニペットを呼ぶためのフレーズです。ファイル名にもなります。" MinWidth="200" MaxWidth="400" HorizontalAlignment="Left" />
+            <Label Margin="10,20,0,0" Content="説明"></Label>
+            <TextBox Margin="10,0,0,0" Text="{Binding Discription}" ToolTip="VSで表示させることができます。" MinWidth="200" HorizontalAlignment="Left" />
+            <!-- TODO:選択肢にする：4択 -->
+            <Label Margin="10,20,0,0" Content="言語"></Label>
+            <TextBox Margin="10,0,0,0" Text="{Binding Language}" ToolTip="どの言語のスニペットか選択します。" MinWidth="200" MaxWidth="400" HorizontalAlignment="Left" />
+            <!-- TODO:"$"というプレースホルダを表示する -->
+            <Label Margin="10,20,0,0" Content="特殊文字"></Label>
+            <TextBox Margin="10,0,0,0" Text="{Binding Delimiter}" ToolTip="この文字で囲んだ文字列が変数となります。VisualStudioの仕様上、設定しない場合'$'になります。" MinWidth="200" MaxWidth="400" HorizontalAlignment="Left" />
+            <!-- TODO:選択肢にする：5択 -->
+            <Label Margin="10,20,0,0" Content="スニペットの種類"></Label>
+            <TextBox Margin="10,0,0,0" Text="{Binding Kind}" ToolTip="この文字で囲んだ文字列が変数となります。VisualStudioの仕様上、設定しない場合'$'になります。" MinWidth="200" MaxWidth="400" HorizontalAlignment="Left" />
+            <!--
+            これC#たんだけだよね？実装やめる？
+                <p>種類によってスニペットの呼び出せる場所が変わります。</p>
+                    <li>MethodBody<ol>処理のみ：メソッドの内部で使用する</ol></li>
+                    <li>MethodDecl<ol>メソッド宣言含む：クラスの中、メソッドの外で使用する</ol></li>
+                    <li>TypeDecl<ol>型：クラスの中、メソッドの外で使用する</ol></li>
+                    <li>File<ol>完全なコードファイル：単体でコードファイル、名前空間内に使用する</ol></li>
+                    <li>Any<ol>どこにでも使用できる</ol></li>
+            -->
+        </StackPanel>
+        <!-- 中側 -->
+        <!-- TODO:ピッタリサイズになって、しかも縦スクロールバーが欲しい -->
+        <Label Margin="10,20,0,0" Content="テンプレート入力"></Label>
+        <StackPanel Grid.Row="1">
+            <TextBox Margin="10,0,10,0"
+            AcceptsReturn="True"
+            TextWrapping="Wrap"
+            VerticalScrollBarVisibility="Auto"
+            Text="{Binding TextInput}"/>
+        </StackPanel>
+        <!-- 下側 -->
+        <StackPanel Grid.Row="2">
+            <Button Content="出力" Command="{Binding SaveCommand}" HorizontalAlignment="Right" Margin="0,5,5,5"/>
         </StackPanel>
     </Grid>
 </UserControl>

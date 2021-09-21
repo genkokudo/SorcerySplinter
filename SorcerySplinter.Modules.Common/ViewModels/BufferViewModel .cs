@@ -5,21 +5,46 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace SorcerySplinter.Modules.Common.ViewModels
 {
     public class BufferViewModel : BindableBase
     {
-        private string _message;
-        public string Message
+        /// <summary>保存するコマンド</summary>
+        public DelegateCommand SaveCommand { get; private set; }
+
+        /// <summary>画面表示時コマンド</summary>
+        public DelegateCommand ActivateCommand { get; private set; }
+
+        // 入力内容
+        private string _textInput;
+        public string TextInput
         {
-            get { return _message; }
-            set { SetProperty(ref _message, value); }
+            get { return _textInput; }
+            set { SetProperty(ref _textInput, value); }
         }
 
         public BufferViewModel()
         {
-            Message = "これは、自分用モードの書き溜めファイルを読み書きするソフトです。 \n";
+            SaveCommand = new DelegateCommand(Save);
+            ActivateCommand = new DelegateCommand(Init);
+        }
+
+        /// <summary>
+        /// 画面表示時にテキストを読み込む
+        /// </summary>
+        private void Init()
+        {
+            MessageBox.Show($"読み込み処理");
+        }
+
+        /// <summary>
+        /// 保存する
+        /// </summary>
+        private void Save()
+        {
+            MessageBox.Show($"保存しました。");
         }
     }
 }

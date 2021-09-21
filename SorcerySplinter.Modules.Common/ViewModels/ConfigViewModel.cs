@@ -17,7 +17,7 @@ namespace SorcerySplinter.Modules.Common.ViewModels
 {
     public class ConfigViewModel : BindableBase, IConfirmNavigationRequest
     {
-        /// <summary>画面遷移するコマンド</summary>
+        /// <summary>保存するコマンド</summary>
         public DelegateCommand SaveCommand { get; private set; }
 
         /// <summary>フォルダ選択するコマンド</summary>
