@@ -6,9 +6,7 @@
         prism:ViewModelLocator.AutoWireViewModel="True"
         xmlns:core="clr-namespace:SorcerySplinter.Core;assembly=SorcerySplinter.Core"
         Title="{Binding Title}"
-        Height="800"
-        Width="1100"
-        
+        Width="1100" Height="800"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -27,7 +25,12 @@
     </i:Interaction.Triggers>-->
     <!-- 新しい部品を追加する時はGridの中に書きましょう -->
     <Grid>
-        <StackPanel>
+        <!-- 画面分割の定義 -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
             <!-- メニュー（色の付け方が分からないけどもういい。） -->
             <Menu IsMainMenu="True">
                 <MenuItem Icon="{materialDesign:PackIcon Kind=Home}" Header="説明" Command="{Binding NavigateCommand}" CommandParameter="Home"></MenuItem>
@@ -47,8 +50,8 @@
                     </MenuItem.Style>
                 </MenuItem>
             </Menu>
-            <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}" />
         </StackPanel>
+        <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}" Grid.Row="1" Margin="20"/>
     </Grid>
     
 </Window>

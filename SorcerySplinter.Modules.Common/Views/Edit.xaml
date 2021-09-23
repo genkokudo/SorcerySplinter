@@ -12,15 +12,16 @@
     <Grid>
         <!-- 画面分割の定義 -->
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="60"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="240"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <!-- 左上 -->
-        <StackPanel Margin="20" Grid.Row="0" Grid.Column="0">
+        <StackPanel Margin="0,0,0,0" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2">
             <Label Margin="0,10,0,0"  Content="ファイル名＆ショートカットフレーズ"></Label>
             <TextBox Text="{Binding Shortcut}" ToolTip="VSでスニペットを呼ぶためのフレーズです。ファイル名にもなります。" />
             <!-- TODO:選択肢にする：4択 -->
@@ -39,13 +40,15 @@
             <Label Margin="0,10,0,0" Content="※スニペットの種類は設定できません。" Foreground="Blue" ToolTip="これはC#スニペットだけ意味がある項目ですが、設定してもコードを呼び出せる場所に制約が設定できるだけなので'Any'で統一します。"></Label>
         </StackPanel>
         <!-- 右側 -->
-        <StackPanel Margin="20" Grid.Row="0" Grid.Column="1">
+        <StackPanel Margin="20,0,0,0" Grid.Row="0" Grid.Column="1">
+            <Label Content="説明"></Label>
+            <TextBox Text="{Binding Discription}" ToolTip="この説明はVSで表示させることができます。" />
             <!-- TODO:変数リスト -->
             <!-- TODO:追加ボタン -->
             <!-- ClassName（チェック）チェックした変数はスニペットを貼るクラス名が代入されます。 -->
             <!-- GenerateSwitchCasesやSimpleTypeName関数はややこしい割にそんなに良い機能ではないので実装していません。 -->
             <!-- 注意書きを入れる。変数は全てLiteralとします。Objectはこのソフトでは設定できません。 -->
-            <Label Content="テンプレート内変数リスト"></Label>
+            <Label Margin="0,20,0,0" Content="テンプレート内変数リスト"></Label>
             <!--<ListView ItemsSource="{Binding Items1}">
                 <ListView.View>
                     <GridView>
@@ -75,18 +78,15 @@
                     </DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
+        </StackPanel>
 
-
-            <Label Margin="0,20,20,0" Content="説明"></Label>
-            <TextBox Margin="0,0,20,0" Text="{Binding Discription}" ToolTip="この説明はVSで表示させることができます。" />
-            <TextBox Margin="0,20,0,0" Style="{StaticResource MaterialDesignOutlinedTextBox}"
+        <TextBox Margin="20,20,0,20" Style="{StaticResource MaterialDesignOutlinedTextBox}" Grid.Row="1" Grid.Column="1"
                 AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"
                 materialDesign:HintAssist.Hint="テンプレート入力欄"
                 ToolTip="ここにテンプレートとなるソースを入力してください。置換する場所は$Abcd$のように特殊文字で囲んでください。"
                 Text="{Binding TextInput}"/>
-        </StackPanel>
         <!-- 右下 -->
-        <StackPanel Margin="0,0,20,20" Grid.Row="1" Grid.Column="1">
+        <StackPanel Grid.Row="2" Grid.Column="1">
             <Button Content="出力" Command="{Binding SaveCommand}" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
         </StackPanel>
     </Grid>
