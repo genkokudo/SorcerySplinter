@@ -12,7 +12,7 @@
     <Grid>
         <!-- 画面分割の定義 -->
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*"/>
+            <RowDefinition Height="20*"/>
             <RowDefinition Height="5*"/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
@@ -55,7 +55,7 @@
                         <GridViewColumn DisplayMemberBinding="{Binding SubName}" Header="変数名"/>
                         <GridViewColumn DisplayMemberBinding="{Binding SubDescription}" Header="説明" />
                         <GridViewColumn DisplayMemberBinding="{Binding SubDefValue}" Header="デフォルト値" />
-                        <GridViewColumn DisplayMemberBinding="{Binding SubClassName}" Header="クラス名を代入" />
+                        <GridViewColumn DisplayMemberBinding="{Binding SubIsClassName}" Header="クラス名を代入" />
                         <GridViewColumn Header="削除">
                             
                         </GridViewColumn>
@@ -69,13 +69,24 @@
                       AutoGenerateColumns="False" 
                       CanUserResizeRows="False"
                       HeadersVisibility="All"
-                      SelectionUnit="CellOrRowHeader" >
+                      SelectionUnit="FullRow" >
                 <!-- 各項目の設定 -->
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="説明"
+                    <DataGridTextColumn Header="変数名" Binding="{Binding SubName}"
                         ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
                         EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}">
                     </DataGridTextColumn>
+                    <DataGridTextColumn Header="説明" Binding="{Binding SubDescription}"
+                        ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}">
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="デフォルト値" Binding="{Binding SubDefValue}"
+                        ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}">
+                    </DataGridTextColumn>
+                    <DataGridCheckBoxColumn Header="クラス名を代入" Binding="{Binding SubIsClassName}"
+                        ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
+                        EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}" />
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
