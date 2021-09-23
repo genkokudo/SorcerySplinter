@@ -12,8 +12,8 @@
     <Grid>
         <!-- 画面分割の定義 -->
         <Grid.RowDefinitions>
-            <RowDefinition Height="20*"/>
-            <RowDefinition Height="5*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -22,7 +22,7 @@
         </Grid.ColumnDefinitions>
         <!-- 左上 -->
         <StackPanel Margin="0,0,0,0" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2">
-            <Label Margin="0,10,0,0"  Content="ファイル名＆ショートカットフレーズ"></Label>
+            <Label Margin="0,0,0,0"  Content="ファイル名＆ショートカットフレーズ"></Label>
             <TextBox Text="{Binding Shortcut}" materialDesign:HintAssist.Hint="cs_shortcut" ToolTip="VSでスニペットを呼ぶためのフレーズです。ファイル名にもなります。" />
             <Label Margin="0,20,0,0" Content="言語"></Label>
             <ComboBox Text="{Binding Language}" ToolTip="どの言語のスニペットか選択します。">
@@ -34,16 +34,17 @@
             </ComboBox>
             <Label Margin="0,20,0,0" Content="特殊文字"></Label>
             <TextBox Text="{Binding Delimiter}" Width="48" HorizontalAlignment="Left" materialDesign:HintAssist.Hint="$" ToolTip="この文字で囲んだ文字列が変数となります。VisualStudioの仕様上、設定しない場合'$'になります。" />
+            <Label Margin="0,20,0,0" Content="説明"></Label>
+            <TextBox Text="{Binding Discription}" TextWrapping="Wrap" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="VSで表示する説明文" ToolTip="この説明はVSで表示させることができます。" />
             <Label Margin="0,20,0,0" Content="※import情報は設定できません。" Foreground="Blue" ToolTip="これは多分C#スニペットだけ意味がある項目ですが、無くてもそんなに困らないので実装してません。"></Label>
             <Label Margin="0,10,0,0" Content="※スニペットの種類は設定できません。" Foreground="Blue" ToolTip="これはC#スニペットだけ意味がある項目ですが、設定してもコードを呼び出せる場所に制約が設定できるだけなので'Any'で統一します。"></Label>
             <Label Margin="0,10,0,0" Content="※関数はClassNameのみです。" Foreground="Blue" ToolTip="GenerateSwitchCasesやSimpleTypeName関数はややこしい割にそんなに良い機能ではないので実装していません。"></Label>
             <Label Margin="0,10,0,0" Content="※変数は全てLiteralとします。" Foreground="Blue" ToolTip="Objectはこのソフトでは設定できません。"></Label>
         </StackPanel>
         <!-- 右側 -->
-        <StackPanel Margin="20,0,0,0" Grid.Row="0" Grid.Column="1">
-            <Label Content="説明"></Label>
-            <TextBox Text="{Binding Discription}" materialDesign:HintAssist.Hint="この説明はVSで表示させることができます。" ToolTip="この説明はVSで表示させることができます。" />
-            <Label Margin="0,20,0,0" Content="テンプレート内変数リスト"></Label>
+        <ScrollViewer Grid.Row="0" Grid.Column="1">
+        <StackPanel Margin="20,0,0,0">
+            <Label Margin="0,0,0,0" Content="テンプレート内変数リスト"></Label>
             <DataGrid ItemsSource="{Binding Variables}" 
                       CanUserAddRows="True" 
                       CanUserDeleteRows="True" 
@@ -72,8 +73,7 @@
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
-
-        <!-- TODO:これやめて、ボタンを押すとポップアップで編集画面が出るようにする。 -->
+        </ScrollViewer>
         <TextBox Margin="20,20,0,20" Style="{StaticResource MaterialDesignOutlinedTextBox}" Grid.Row="1" Grid.Column="1"
                 AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"
                 materialDesign:HintAssist.Hint="テンプレート入力欄"
