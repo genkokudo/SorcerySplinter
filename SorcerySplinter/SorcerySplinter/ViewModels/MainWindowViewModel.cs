@@ -26,9 +26,6 @@ namespace SorcerySplinter.ViewModels
             set { SetProperty(ref _isGinpayMode, value); }
         }
 
-        /// <summary>他のモジュールからの通知を購読する</summary>
-        public IEventAggregator _eventAggregator { get; set; }
-
         private string _title = "Sorcery Splinter";
         public string Title
         {
@@ -39,15 +36,13 @@ namespace SorcerySplinter.ViewModels
         public MainWindowViewModel(IRegionManager regionManager, IEventAggregator eventAggregator)
         {
             _regionManager = regionManager;
-            _eventAggregator = eventAggregator;
             regionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(Home));// 初期画面指定
 
             // コマンド設定
             NavigateCommand = new DelegateCommand<string>(Navigate);
 
             // モジュールからの通知内容を設定
-            eventAggregator.GetEvent<GinpayModeEvent>()
-                .Subscribe(CalculateAnswer);
+            eventAggregator.GetEvent<GinpayModeEvent>().Subscribe(CalculateAnswer);
 
         }
 

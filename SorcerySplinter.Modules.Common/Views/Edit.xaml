@@ -7,7 +7,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
-             xmlns:prism="http://prismlibrary.com/"
+             xmlns:prism="http://prismlibrary.com/" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              prism:ViewModelLocator.AutoWireViewModel="True" >
     <Grid>
         <!-- 画面分割の定義 -->
@@ -78,7 +78,14 @@
                 AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"
                 materialDesign:HintAssist.Hint="テンプレート入力欄"
                 ToolTip="ここにテンプレートとなるソースを入力してください。置換する場所は$Abcd$のように特殊文字で囲んでください。"
-                Text="{Binding TextInput}"/>
+                Text="{Binding TextInput}">
+            <i:Interaction.Triggers>
+                <!-- 入力フォーカスが離れた時の処理 -->
+                <i:EventTrigger EventName="LostKeyboardFocus">
+                    <i:InvokeCommandAction Command="{Binding SetTextCommand}" CommandParameter="{Binding Text, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </TextBox>
         <!-- 右下 -->
         <StackPanel Grid.Row="2" Grid.Column="1">
             <Button Content="出力" Command="{Binding SaveCommand}" HorizontalAlignment="Right" VerticalAlignment="Bottom" />

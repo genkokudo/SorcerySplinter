@@ -27,20 +27,27 @@
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <!-- 左上 -->
-        <!-- これってスクリプト編集画面と共有しなければならないので、シングルトンサービスで持つ必要がある。 -->
+        <!-- スクリプト編集画面と共有するために、入力フォーカスが離れた時にイベント発行している -->
         <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}" Grid.Row="0" Grid.Column="0"
             AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"
             materialDesign:HintAssist.Hint="編集中のスクリプト"
             ToolTip="ここにテンプレートとなるソースを入力してください。置換する場所は$Abcd$のように特殊文字で囲んでください。"
             Margin="0,0,5,0"
-            Text="{Binding TextInput}"/>
+            Text="{Binding TextInput}">
+            <i:Interaction.Triggers>
+                <!-- 入力フォーカスが離れた時の処理 -->
+                <i:EventTrigger EventName="LostKeyboardFocus">
+                    <i:InvokeCommandAction Command="{Binding SetTextCommand}" CommandParameter="{Binding Text, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </TextBox>
         <!-- 右上 -->
         <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}" Grid.Row="0" Grid.Column="1"
             AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"
             materialDesign:HintAssist.Hint="書き溜めファイル"
             ToolTip="指定したファイルを参照しています。"
             Margin="5,0,0,0"
-            Text="{Binding TextInput}"/>
+            Text="{Binding BufferInput}"/>
         <!-- 下側 -->
         <Button Grid.Row="1" Grid.Column="1" Content="保存" Command="{Binding SaveCommand}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
     </Grid>
