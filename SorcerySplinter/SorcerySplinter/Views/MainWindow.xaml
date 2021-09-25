@@ -34,9 +34,9 @@
             <!-- メニュー（色の付け方が分からないけどもういい。） -->
             <Menu IsMainMenu="True">
                 <MenuItem Icon="{materialDesign:PackIcon Kind=Home}" Header="説明" Command="{Binding NavigateCommand}" CommandParameter="Home"></MenuItem>
+                <MenuItem Icon="{materialDesign:PackIcon Kind=Cog}" Header="設定" Command="{Binding NavigateCommand}" CommandParameter="Config"></MenuItem>
                 <MenuItem Icon="{materialDesign:PackIcon Kind=FileDownload}" Header="読み込み" Command="{Binding NavigateCommand}" CommandParameter="Load"></MenuItem>
                 <MenuItem Icon="{materialDesign:PackIcon Kind=Pencil}" Header="編集" Command="{Binding NavigateCommand}" CommandParameter="Edit"></MenuItem>
-                <MenuItem Icon="{materialDesign:PackIcon Kind=Cog}" Header="設定" Command="{Binding NavigateCommand}" CommandParameter="Config"></MenuItem>
                 <!-- このボタンだけ、自分用モードの時のみ表示 -->
                 <!-- TODO:モードレス表示にしたい。他の方法は？例えば画面を2段組みにして左をスニペット、右をメモにするとか。モードレスやるにはウィンドウ作らなあかんし。 -->
                 <!-- Window2 win2 = new Window2(); win2.Show(); -->
@@ -53,7 +53,7 @@
                 </MenuItem>
             </Menu>
         </StackPanel>
-        <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}" Grid.Row="1" Margin="20"/>
+        <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}" Grid.Row="1" Margin="15,0,15,15"/>
     </Grid>
     
 </Window>
