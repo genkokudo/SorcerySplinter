@@ -55,7 +55,7 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         {
             // 内容を他のモジュールに通知
             EventAggregator.GetEvent<InputTemplateEvent>()
-                .Publish(new InputTemplate { InputText = text, SendFromViewModelName = "EditViewModel" });
+                .Publish(new InputTemplate { InputText = text, SendFromViewModelName = GetType().Name });
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         /// <param name="text"></param>
         private void SetTextInput(InputTemplate obj)
         {
-            if (obj.SendFromViewModelName != "EditViewModel")
+            if (obj.SendFromViewModelName != GetType().Name)
             {
                 TextInput = obj.InputText;
             }

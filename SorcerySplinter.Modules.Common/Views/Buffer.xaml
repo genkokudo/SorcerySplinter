@@ -46,9 +46,9 @@
             AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"
             materialDesign:HintAssist.Hint="書き溜めファイル"
             ToolTip="指定したファイルを参照しています。"
-            Margin="5,0,0,0"
+            Margin="5,0,0,0" IsEnabled="{Binding IsExistsFile}"
             Text="{Binding BufferInput}"/>
         <!-- 下側 -->
-        <Button Grid.Row="1" Grid.Column="1" Content="保存" Command="{Binding SaveCommand}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+        <Button Grid.Row="1" Grid.Column="1" Content="保存" Command="{Binding SaveCommand}" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsEnabled="{Binding IsExistsFile}"/>
     </Grid>
 </UserControl>

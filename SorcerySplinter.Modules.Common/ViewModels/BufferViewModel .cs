@@ -4,6 +4,7 @@ using Prism.Mvvm;
 using SorcerySplinter.Modules.Common.Events;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,14 @@ namespace SorcerySplinter.Modules.Common.ViewModels
 
         /// <summary>他のモジュールに通知する</summary>
         public IEventAggregator EventAggregator { get; set; }
+
+        // 書き溜めファイル存在確認
+        private bool _isExistsFile;
+        public bool IsExistsFile
+        {
+            get { return _isExistsFile; }
+            set { SetProperty(ref _isExistsFile, value); }
+        }
 
         // 書き溜めファイル内容
         private string _bufferInput;
@@ -58,7 +67,17 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         /// </summary>
         private void Init()
         {
-            //MessageBox.Show($"読み込み処理");
+            var path = ModuleSettings.Default.GinpayModeFile;
+            IsExistsFile = File.Exists(path);
+            if (IsExistsFile)
+            {
+                BufferInput = File.ReadAllText(path);
+            }
+            else
+            {
+                MessageBox.Show($"指定したファイルが見つかりません。");
+                BufferInput = string.Empty;
+            }
         }
 
         /// <summary>
@@ -66,7 +85,13 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         /// </summary>
         private void Save()
         {
-            MessageBox.Show($"保存しました。");
+            var path = ModuleSettings.Default.GinpayModeFile;
+            IsExistsFile = File.Exists(path);
+            if (IsExistsFile)
+            {
+                File.WriteAllText(path, BufferInput);
+                MessageBox.Show($"保存しました。");
+            }
         }
 
         /// <summary>
@@ -77,7 +102,7 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         {
             // 内容を他のモジュールに通知
             EventAggregator.GetEvent<InputTemplateEvent>()
-                .Publish(new InputTemplate { InputText = text, SendFromViewModelName = "BufferViewModel" });
+                .Publish(new InputTemplate { InputText = text, SendFromViewModelName = GetType().Name });
         }
 
         /// <summary>
@@ -86,7 +111,7 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         /// <param name="text"></param>
         private void SetTextInput(InputTemplate obj)
         {
-            if (obj.SendFromViewModelName != "BufferViewModel")
+            if (obj.SendFromViewModelName != GetType().Name)
             {
                 TextInput = obj.InputText;
             }
