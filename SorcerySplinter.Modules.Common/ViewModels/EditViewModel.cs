@@ -13,7 +13,7 @@ namespace SorcerySplinter.Modules.Common.ViewModels
 {
     public class EditViewModel : BindableBase
     {
-        public List<SampleData> Variables { get; set; }
+        public List<TemplateVariable> Variables { get; set; }
 
         /// <summary>テンプレート更新コマンド</summary>
         public DelegateCommand<string> SetTextCommand { get; private set; }
@@ -21,23 +21,55 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         /// <summary>他のモジュールに通知する</summary>
         public IEventAggregator EventAggregator { get; set; }
 
-        // テンプレート入力内容
-        private string _textInput;
-        public string TextInput
+        // ファイル名＆ショートカットフレーズ
+        private string _shortcut;
+        public string Shortcut
         {
-            get { return _textInput; }
-            set { SetProperty(ref _textInput, value); }
+            get { return _shortcut; }
+            set { SetProperty(ref _shortcut, value); }
+        }
+
+        // 言語
+        private string _language;
+        public string Language
+        {
+            get { return _language; }
+            set { SetProperty(ref _language, value); }
+        }
+
+        // 特殊文字
+        private string _delimiter;
+        public string Delimiter
+        {
+            get { return _delimiter; }
+            set { SetProperty(ref _delimiter, value); }
+        }
+
+        // 説明
+        private string _discription;
+        public string Discription
+        {
+            get { return _discription; }
+            set { SetProperty(ref _discription, value); }
+        }
+
+        // テンプレート入力内容
+        private string _templateInput;
+        public string TemplateInput
+        {
+            get { return _templateInput; }
+            set { SetProperty(ref _templateInput, value); }
         }
 
         public EditViewModel(IEventAggregator eventAggregator)
         {
             EventAggregator = eventAggregator;
 
-            Variables = new List<SampleData>
+            Variables = new List<TemplateVariable>
             {
-                new SampleData{SubName = "1郎", SubDescription = "説明1", SubDefValue = "aaaa", SubIsClassName = true },
-                new SampleData{SubName = "2郎", SubDescription = "説明2", SubDefValue = "bbbb", SubIsClassName = false },
-                new SampleData{SubName = "3郎", SubDescription = "説明3", SubDefValue = "cccc", SubIsClassName = true }
+                new TemplateVariable{Name = "1郎", Description = "説明1", DefValue = "aaaa", IsClassName = true },
+                new TemplateVariable{Name = "2郎", Description = "説明2", DefValue = "bbbb", IsClassName = false },
+                new TemplateVariable{Name = "3郎", Description = "説明3", DefValue = "cccc", IsClassName = true }
             };
 
             // コマンドを設定
@@ -66,16 +98,19 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         {
             if (obj.SendFromViewModelName != GetType().Name)
             {
-                TextInput = obj.InputText;
+                TemplateInput = obj.InputText;
             }
         }
     }
 
-    public class SampleData
+    /// <summary>
+    /// テンプレートで使用する変数
+    /// </summary>
+    public class TemplateVariable
     {
-        public string SubName { get; set; }
-        public string SubDescription { get; set; }
-        public string SubDefValue { get; set; }
-        public bool SubIsClassName { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string DefValue { get; set; }
+        public bool IsClassName { get; set; }
     }
 }

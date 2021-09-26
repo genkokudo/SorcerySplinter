@@ -55,19 +55,19 @@
                       ToolTip="スニペット内の変数を定義します。C#のみ「クラス名を代入」をチェックすると、値は無視されてそのスニペットを貼ったクラス名が代入されます。">
                 <!-- 各項目の設定 -->
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="変数名" Binding="{Binding SubName}"
+                    <DataGridTextColumn Header="変数名" Binding="{Binding Name}"
                         ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
                         EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}">
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="説明" Binding="{Binding SubDescription}"
+                    <DataGridTextColumn Header="説明" Binding="{Binding Description}"
                         ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
                         EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}">
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="デフォルト値" Binding="{Binding SubDefValue}"
+                    <DataGridTextColumn Header="デフォルト値" Binding="{Binding DefValue}"
                         ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
                         EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}">
                     </DataGridTextColumn>
-                    <DataGridCheckBoxColumn Header="クラス名を代入" Binding="{Binding SubIsClassName}"
+                    <DataGridCheckBoxColumn Header="クラス名を代入" Binding="{Binding IsClassName}"
                         ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
                         EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}" />
                 </DataGrid.Columns>
@@ -78,7 +78,7 @@
                 AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"
                 materialDesign:HintAssist.Hint="テンプレート入力欄"
                 ToolTip="ここにテンプレートとなるソースを入力してください。置換する場所は$Abcd$のように特殊文字で囲んでください。"
-                Text="{Binding TextInput}">
+                Text="{Binding TemplateInput}">
             <i:Interaction.Triggers>
                 <!-- 入力フォーカスが離れた時の処理 -->
                 <i:EventTrigger EventName="LostKeyboardFocus">

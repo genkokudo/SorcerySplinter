@@ -33,7 +33,7 @@
             materialDesign:HintAssist.Hint="編集中のスクリプト"
             ToolTip="ここにテンプレートとなるソースを入力してください。置換する場所は$Abcd$のように特殊文字で囲んでください。"
             Margin="0,0,5,0"
-            Text="{Binding TextInput}">
+            Text="{Binding TemplateInput}">
             <i:Interaction.Triggers>
                 <!-- 入力フォーカスが離れた時の処理 -->
                 <i:EventTrigger EventName="LostKeyboardFocus">

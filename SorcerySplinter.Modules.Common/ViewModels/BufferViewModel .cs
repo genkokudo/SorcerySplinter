@@ -43,11 +43,11 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         }
 
         // テンプレート入力内容
-        private string _textInput;
-        public string TextInput
+        private string _templateInput;
+        public string TemplateInput
         {
-            get { return _textInput; }
-            set { SetProperty(ref _textInput, value); }
+            get { return _templateInput; }
+            set { SetProperty(ref _templateInput, value); }
         }
 
         public BufferViewModel(IEventAggregator eventAggregator)
@@ -113,7 +113,7 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         {
             if (obj.SendFromViewModelName != GetType().Name)
             {
-                TextInput = obj.InputText;
+                TemplateInput = obj.InputText;
             }
         }
     }
