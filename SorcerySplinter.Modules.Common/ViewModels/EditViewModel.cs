@@ -1,6 +1,7 @@
 ﻿using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
+using SnippetGenerator;
 using SorcerySplinter.Modules.Common.Events;
 using System;
 using System.Collections.Generic;
@@ -128,6 +129,14 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         {
             // TODO:ファイルの存在確認ぐらいはしてあげよう。
             MessageBox.Show($"Output");
+
+            // TODO:具体的にどう使ってるの？わからない。デジタルメガフレアを確認しよう。
+            var snippeter = new Snippeter();
+            var writer = snippeter.MakeSnippetXml(new SnippetGenerator.Common.Snippet
+            {
+                
+            });
+            //writer.Write
         }
 
         private void OpenVsFolder()

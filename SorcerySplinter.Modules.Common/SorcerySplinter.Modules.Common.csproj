@@ -10,6 +10,9 @@
     <PackageReference Include="WinCopies.WindowsAPICodePack.Shell" Version="2.8.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\SnippetGenerator\SnippetGenerator\SnippetGenerator.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Update="ModuleSettings.Designer.cs">
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <AutoGen>True</AutoGen>
