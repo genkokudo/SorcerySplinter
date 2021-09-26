@@ -42,7 +42,7 @@ namespace SorcerySplinter.ViewModels
             NavigateCommand = new DelegateCommand<string>(Navigate);
 
             // モジュールからの通知内容を設定
-            eventAggregator.GetEvent<GinpayModeEvent>().Subscribe(CalculateAnswer);
+            eventAggregator.GetEvent<GinpayModeEvent>().Subscribe(SetIsGinpayMode);
 
         }
 
@@ -60,7 +60,7 @@ namespace SorcerySplinter.ViewModels
         /// 自分用モードかどうかを受信
         /// </summary>
         /// <param name="isGinpayMode"></param>
-        private void CalculateAnswer(GinpayMode obj)
+        private void SetIsGinpayMode(GinpayMode obj)
         {
             IsGinpayMode = obj.IsGinpayMode;
         }

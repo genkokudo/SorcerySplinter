@@ -4,6 +4,7 @@ using Prism.Mvvm;
 using SorcerySplinter.Modules.Common.Events;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,15 @@ namespace SorcerySplinter.Modules.Common.ViewModels
 
         /// <summary>テンプレート更新コマンド</summary>
         public DelegateCommand<string> SetTextCommand { get; private set; }
+
+        /// <summary>出力コマンド</summary>
+        public DelegateCommand OutputCommand { get; private set; }
+
+        /// <summary>VSフォルダを開くコマンド</summary>
+        public DelegateCommand OpenVsFolderCommand { get; private set; }
+
+        /// <summary>任意フォルダを開くコマンド</summary>
+        public DelegateCommand OpenCommonFolderCommand { get; private set; }
 
         /// <summary>他のモジュールに通知する</summary>
         public IEventAggregator EventAggregator { get; set; }
@@ -61,6 +71,21 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             set { SetProperty(ref _templateInput, value); }
         }
 
+        // フォルダ存在確認
+        private bool _isExistsCommonFolder;
+        public bool IsExistsCommonFolder
+        {
+            get { return _isExistsCommonFolder; }
+            set { SetProperty(ref _isExistsCommonFolder, value); }
+        }
+        // フォルダ存在確認VS
+        private bool _isExistsVsFolder;
+        public bool IsExistsVsFolder
+        {
+            get { return _isExistsVsFolder; }
+            set { SetProperty(ref _isExistsVsFolder, value); }
+        }
+
         public EditViewModel(IEventAggregator eventAggregator)
         {
             EventAggregator = eventAggregator;
@@ -74,9 +99,45 @@ namespace SorcerySplinter.Modules.Common.ViewModels
 
             // コマンドを設定
             SetTextCommand = new DelegateCommand<string>(SetText);
+            OutputCommand = new DelegateCommand(Output);
+            OpenVsFolderCommand = new DelegateCommand(OpenVsFolder);
+            OpenCommonFolderCommand = new DelegateCommand(OpenCommonFolder);
 
             // 通知イベントを設定
             eventAggregator.GetEvent<InputTemplateEvent>().Subscribe(SetTextInput);
+
+            // モジュールからの通知内容を設定
+            eventAggregator.GetEvent<GinpayModeEvent>().Subscribe(SetIsGinpayMode);
+
+            // 初期化処理の1つ
+            SetIsGinpayMode(new GinpayMode());
+        }
+
+        /// <summary>
+        /// コンフィグの更新を受信
+        /// </summary>
+        /// <param name="isGinpayMode"></param>
+        private void SetIsGinpayMode(GinpayMode obj)
+        {
+            // フォルダ存在確認
+            IsExistsCommonFolder = Directory.Exists(ModuleSettings.Default.SnippetDirectory);
+            IsExistsVsFolder = Directory.Exists(ModuleSettings.Default.SnippetDirectoryVs);
+        }
+
+        private void Output()
+        {
+            // TODO:ファイルの存在確認ぐらいはしてあげよう。
+            MessageBox.Show($"Output");
+        }
+
+        private void OpenVsFolder()
+        {
+            System.Diagnostics.Process.Start("explorer.exe", ModuleSettings.Default.SnippetDirectoryVs);
+        }
+
+        private void OpenCommonFolder()
+        {
+            System.Diagnostics.Process.Start("explorer.exe", ModuleSettings.Default.SnippetDirectoryVs);
         }
 
         /// <summary>

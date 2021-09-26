@@ -87,8 +87,10 @@
             </i:Interaction.Triggers>
         </TextBox>
         <!-- 右下 -->
-        <StackPanel Grid.Row="2" Grid.Column="1">
-            <Button Content="出力" Command="{Binding SaveCommand}" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="VSフォルダを開く" Margin="10,0" Command="{Binding OpenVsFolderCommand}" IsEnabled="{Binding IsExistsCommonFolder}" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+            <Button Content="任意フォルダを開く" Margin="10,0" Command="{Binding OpenCommonFolderCommand}" IsEnabled="{Binding IsExistsVsFolder}" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+            <Button Content="出力" Margin="10,0,0,0" Command="{Binding OutputCommand}" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
         </StackPanel>
     </Grid>
 </UserControl>
