@@ -1,5 +1,6 @@
 ﻿using Prism.Ioc;
 using Prism.Modularity;
+using SnippetGenerator;
 using SorcerySplinter.Modules.Common;
 using SorcerySplinter.Services;
 using SorcerySplinter.Views;
@@ -28,7 +29,7 @@ namespace SorcerySplinter
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<IMessageService, MessageService>(); // シングルトン
-            //containerRegistry.Register<IConfigSaveService, ConfigSaveService>(); // 都度生成
+            containerRegistry.Register<ISnippetService, SnippetService>(); // 都度生成
         }
 
         /// <summary>

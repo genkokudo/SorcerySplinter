@@ -2,6 +2,7 @@
 using Prism.Events;
 using Prism.Mvvm;
 using SnippetGenerator;
+using SnippetGenerator.Common;
 using SorcerySplinter.Modules.Common.Events;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,11 @@ namespace SorcerySplinter.Modules.Common.ViewModels
 {
     public class EditViewModel : BindableBase
     {
+        /// <summary>変数リスト</summary>
         public List<TemplateVariable> Variables { get; set; }
+
+        ///// <summary>インポートリスト（未実装）</summary>
+        //public List<TemplateVariable> Imports { get; set; }
 
         /// <summary>テンプレート更新コマンド</summary>
         public DelegateCommand<string> SetTextCommand { get; private set; }
@@ -31,6 +36,9 @@ namespace SorcerySplinter.Modules.Common.ViewModels
 
         /// <summary>他のモジュールに通知する</summary>
         public IEventAggregator EventAggregator { get; set; }
+
+        /// <summary>スニペット出力サービス</summary>
+        public ISnippetService SnippetService { get; set; }
 
         // ファイル名＆ショートカットフレーズ
         private string _shortcut;
@@ -57,11 +65,11 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         }
 
         // 説明
-        private string _discription;
-        public string Discription
+        private string _description;
+        public string Description
         {
-            get { return _discription; }
-            set { SetProperty(ref _discription, value); }
+            get { return _description; }
+            set { SetProperty(ref _description, value); }
         }
 
         // テンプレート入力内容
@@ -87,15 +95,15 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             set { SetProperty(ref _isExistsVsFolder, value); }
         }
 
-        public EditViewModel(IEventAggregator eventAggregator)
+        public EditViewModel(IEventAggregator eventAggregator, ISnippetService snippetService)
         {
             EventAggregator = eventAggregator;
+            SnippetService = snippetService;
 
             Variables = new List<TemplateVariable>
             {
                 new TemplateVariable{Name = "1郎", Description = "説明1", DefValue = "aaaa", IsClassName = true },
-                new TemplateVariable{Name = "2郎", Description = "説明2", DefValue = "bbbb", IsClassName = false },
-                new TemplateVariable{Name = "3郎", Description = "説明3", DefValue = "cccc", IsClassName = true }
+                new TemplateVariable{Name = "2郎", Description = "説明2", DefValue = "bbbb", IsClassName = false }
             };
 
             // コマンドを設定
@@ -112,6 +120,13 @@ namespace SorcerySplinter.Modules.Common.ViewModels
 
             // 初期化処理の1つ
             SetIsGinpayMode(new GinpayMode());
+
+            // 初期値
+            Shortcut = string.Empty;
+            Delimiter = "$";
+            Description = string.Empty;
+            TemplateInput = string.Empty;
+            Language = "CSharp";
         }
 
         /// <summary>
@@ -130,13 +145,46 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             // TODO:ファイルの存在確認ぐらいはしてあげよう。
             MessageBox.Show($"Output");
 
-            // TODO:具体的にどう使ってるの？わからない。デジタルメガフレアを確認しよう。
-            var snippeter = new Snippeter();
-            var writer = snippeter.MakeSnippetXml(new SnippetGenerator.Common.Snippet
+            // スニペットXML
+            var language = SnippetGenerator.Common.Language.CSharp;
+            switch (Language)
             {
-                
-            });
+                case "XAML":
+                    language = SnippetGenerator.Common.Language.XAML;
+                    break;
+                case "JavaScript":
+                    language = SnippetGenerator.Common.Language.JavaScript;
+                    break;
+                case "TypeScript":
+                    language = SnippetGenerator.Common.Language.TypeScript;
+                    break;
+                case "HTML":
+                    language = SnippetGenerator.Common.Language.HTML;
+                    break;
+                default:
+                    language = SnippetGenerator.Common.Language.CSharp;
+                    break;
+            }
+
+            var input = new Snippet(Shortcut, ModuleSettings.Default.Author, Description, Shortcut, TemplateInput, language, Delimiter, Kind.Any);
+
+            var declarations = new List<Literal>();
+            foreach (var variable in Variables)
+            {
+                declarations.Add(new Literal
+                {
+                    Default = variable.DefValue,
+                    Id = variable.Name,
+                    ToolTip = variable.Description,
+                    FunctionValue = null,
+                    Function = variable.IsClassName ? Function.ClassName : Function.None
+                });
+            }
+            input.Declarations = declarations;
+            // TODO:ライブラリとクライアントの両方にnullチェックを付けること。
+            var xml = SnippetService.MakeSnippetXml(input).ToString();
             //writer.Write
+            MessageBox.Show(xml);
         }
 
         private void OpenVsFolder()
