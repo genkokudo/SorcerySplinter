@@ -23,7 +23,14 @@
         <!-- 左上 -->
         <StackPanel Margin="0,0,0,0" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2">
             <Label Margin="0,0,0,0"  Content="ファイル名＆ショートカットフレーズ"></Label>
-            <TextBox Text="{Binding Shortcut}" materialDesign:HintAssist.Hint="cs_shortcut" ToolTip="VSでスニペットを呼ぶためのフレーズです。ファイル名にもなります。" />
+            <TextBox Text="{Binding Shortcut, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="cs_shortcut" ToolTip="VSでスニペットを呼ぶためのフレーズです。ファイル名にもなります。">
+                <i:Interaction.Triggers>
+                    <!-- 入力時の処理：出力可能か判定する -->
+                    <i:EventTrigger EventName="TextChanged">
+                        <i:InvokeCommandAction Command="{Binding SetIsEnableOutputCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </TextBox>
             <Label Margin="0,20,0,0" Content="言語"></Label>
             <ComboBox Text="{Binding Language}" ToolTip="どの言語のスニペットか選択します。">
                 <ComboBoxItem Content="C#" Tag="CSharp" IsSelected="True"/>
@@ -33,7 +40,14 @@
                 <ComboBoxItem Content="HTML" Tag="HTML" />
             </ComboBox>
             <Label Margin="0,20,0,0" Content="特殊文字"></Label>
-            <TextBox Text="{Binding Delimiter}" Width="48" HorizontalAlignment="Left" materialDesign:HintAssist.Hint="$" ToolTip="この文字で囲んだ文字列が変数となります。VisualStudioの仕様上、設定しない場合'$'になります。" />
+            <TextBox Text="{Binding Delimiter, UpdateSourceTrigger=PropertyChanged}" Width="48" HorizontalAlignment="Left" materialDesign:HintAssist.Hint="$" ToolTip="この文字で囲んだ文字列が変数となります。VisualStudioの仕様上、設定しない場合'$'になります。" MaxLength="1">
+                <i:Interaction.Triggers>
+                    <!-- 入力時の処理：出力可能か判定する -->
+                    <i:EventTrigger EventName="TextChanged">
+                        <i:InvokeCommandAction Command="{Binding SetIsEnableOutputCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </TextBox>
             <Label Margin="0,20,0,0" Content="説明"></Label>
             <TextBox Text="{Binding Description}" TextWrapping="Wrap" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="VSで表示する説明文" ToolTip="この説明はVSで表示させることができます。" />
             <Label Margin="0,20,0,0" Content="※import情報は設定できません。" Foreground="Blue" ToolTip="これは多分C#スニペットだけ意味がある項目ですが、無くてもそんなに困らないので実装してません。"></Label>
@@ -90,7 +104,7 @@
         <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="VSフォルダを開く" Margin="10,0" Command="{Binding OpenVsFolderCommand}" IsEnabled="{Binding IsExistsCommonFolder}" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
             <Button Content="任意フォルダを開く" Margin="10,0" Command="{Binding OpenCommonFolderCommand}" IsEnabled="{Binding IsExistsVsFolder}" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
-            <Button Content="出力" Margin="10,0,0,0" Command="{Binding OutputCommand}" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+            <Button Content="出力" Margin="10,0,0,0" Command="{Binding OutputCommand}" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsEnabled="{Binding IsEnableOutput}" />
         </StackPanel>
     </Grid>
 </UserControl>

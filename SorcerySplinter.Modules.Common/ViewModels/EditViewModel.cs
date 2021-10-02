@@ -34,6 +34,9 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         /// <summary>任意フォルダを開くコマンド</summary>
         public DelegateCommand OpenCommonFolderCommand { get; private set; }
 
+        /// <summary>出力ボタンの有効化を判断するコマンド</summary>
+        public DelegateCommand SetIsEnableOutputCommand { get; private set; }
+
         /// <summary>他のモジュールに通知する</summary>
         public IEventAggregator EventAggregator { get; set; }
 
@@ -95,6 +98,14 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             set { SetProperty(ref _isExistsVsFolder, value); }
         }
 
+        // フォルダ存在確認VS
+        private bool _isEnableOutput;
+        public bool IsEnableOutput
+        {
+            get { return _isEnableOutput; }
+            set { SetProperty(ref _isEnableOutput, value); }
+        }
+
         public EditViewModel(IEventAggregator eventAggregator, ISnippetService snippetService)
         {
             EventAggregator = eventAggregator;
@@ -111,6 +122,7 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             OutputCommand = new DelegateCommand(Output);
             OpenVsFolderCommand = new DelegateCommand(OpenVsFolder);
             OpenCommonFolderCommand = new DelegateCommand(OpenCommonFolder);
+            SetIsEnableOutputCommand = new DelegateCommand(SetIsEnableOutput);
 
             // 通知イベントを設定
             eventAggregator.GetEvent<InputTemplateEvent>().Subscribe(SetTextInput);
@@ -127,6 +139,15 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             Description = string.Empty;
             TemplateInput = string.Empty;
             Language = "CSharp";
+            IsEnableOutput = false;
+        }
+
+        /// <summary>
+        /// ファイル名と特殊文字が
+        /// </summary>
+        private void SetIsEnableOutput()
+        {
+            IsEnableOutput = !string.IsNullOrWhiteSpace(Shortcut) && !string.IsNullOrWhiteSpace(Delimiter);
         }
 
         /// <summary>
@@ -143,10 +164,10 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         private void Output()
         {
             // TODO:ファイルの存在確認ぐらいはしてあげよう。
-            MessageBox.Show($"Output");
+            //MessageBox.Show($"Output");
 
             // スニペットXML
-            var language = SnippetGenerator.Common.Language.CSharp;
+            Language language;
             switch (Language)
             {
                 case "XAML":
@@ -181,10 +202,18 @@ namespace SorcerySplinter.Modules.Common.ViewModels
                 });
             }
             input.Declarations = declarations;
-            // TODO:ライブラリとクライアントの両方にnullチェックを付けること。
-            var xml = SnippetService.MakeSnippetXml(input).ToString();
-            //writer.Write
-            MessageBox.Show(xml);
+            // TODO:クライアントに入力内容のnullチェックを付けること。
+            try
+            {
+                var output = SnippetService.MakeSnippetXml(input);
+
+                var xml = output.ToString();
+                MessageBox.Show(xml);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"{e.Message}", "だめじゃん");
+            }
         }
 
         private void OpenVsFolder()
