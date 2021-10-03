@@ -1,6 +1,7 @@
 ﻿using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
+using Prism.Regions;
 using SnippetGenerator;
 using SnippetGenerator.Common;
 using SorcerySplinter.Modules.Common.Events;
@@ -14,7 +15,7 @@ using System.Windows;
 
 namespace SorcerySplinter.Modules.Common.ViewModels
 {
-    public class EditViewModel : BindableBase
+    public class EditViewModel : BindableBase, IConfirmNavigationRequest
     {
         /// <summary>変数リスト</summary>
         public List<TemplateVariable> Variables { get; set; }
@@ -117,7 +118,8 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         /// <returns></returns>
         static public Dictionary<string, EnumType> CreateEnumDictionary<EnumType>()
         {
-            return Enum.GetValues(typeof(EnumType)).Cast<EnumType>().ToDictionary(t => t.ToString(), t => t);
+            // "CSharp" は "C#" と表示する
+            return Enum.GetValues(typeof(EnumType)).Cast<EnumType>().ToDictionary(t => t.ToString() == "CSharp" ? "C#" : t.ToString(), t => t);
         }
 
         public EditViewModel(IEventAggregator eventAggregator, ISnippetService snippetService)
@@ -125,11 +127,13 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             EventAggregator = eventAggregator;
             SnippetService = snippetService;
 
-            Variables = new List<TemplateVariable>
-            {
-                new TemplateVariable{Name = "1郎", Description = "説明1", DefValue = "aaaa", IsClassName = true },
-                new TemplateVariable{Name = "2郎", Description = "説明2", DefValue = "bbbb", IsClassName = false }
-            };
+            // 変数リスト
+            Variables = new List<TemplateVariable>();
+            //Variables = new List<TemplateVariable>
+            //{
+            //    new TemplateVariable{Name = "1郎", Description = "説明1", DefValue = "aaaa", IsClassName = true },
+            //    new TemplateVariable{Name = "2郎", Description = "説明2", DefValue = "bbbb", IsClassName = false }
+            //};
 
             LanguageDictionary = CreateEnumDictionary<Language>();
 
@@ -163,7 +167,10 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         /// </summary>
         private void SetIsEnableOutput()
         {
-            IsEnableOutput = !string.IsNullOrWhiteSpace(Shortcut) && !string.IsNullOrWhiteSpace(Delimiter);
+            var vs = ModuleSettings.Default.SnippetDirectoryVs;
+            var common = ModuleSettings.Default.SnippetDirectory;
+
+            IsEnableOutput = !string.IsNullOrWhiteSpace(Shortcut) && !string.IsNullOrWhiteSpace(Delimiter) && !(string.IsNullOrWhiteSpace(vs) || string.IsNullOrWhiteSpace(common));
         }
 
         /// <summary>
@@ -177,22 +184,69 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             IsExistsVsFolder = Directory.Exists(ModuleSettings.Default.SnippetDirectoryVs);
         }
 
+        /// <summary>
+        /// 指定したパスにディレクトリが存在しない場合
+        /// すべてのディレクトリとサブディレクトリを作成します
+        /// </summary>
+        /// <param name="directory"></param>
+        /// <returns></returns>
+        private DirectoryInfo SafeCreateDirectory(string directory)
+        {
+            if (!directory.EndsWith("\\") && !directory.EndsWith("/"))
+            {
+                directory = directory + "/";
+            }
+            if (Directory.Exists(directory))
+            {
+                return null;
+            }
+            return Directory.CreateDirectory(directory);
+        }
+        
+        /// <summary>
+        /// 現在入力している情報でXMLを生成し、ファイルを出力する
+        /// フォルダがなかったら作る
+        /// 設定でフォルダ指定していない場合は何もしない
+        /// ファイル存在確認をする
+        /// </summary>
         private void Output()
         {
-            // ファイルの存在確認
-            var res = MessageBox.Show(
-                "同じファイル名のスニペットがあります。上書きしますか？",
-                "確認",
-                MessageBoxButton.OKCancel,
-                MessageBoxImage.Question, MessageBoxResult.Cancel
-            );
-            if (res == MessageBoxResult.Cancel)
+            // TODO:面倒なのでフォルダ設定していない場合の動作を確認していない。
+            var isUseVs = !string.IsNullOrWhiteSpace(ModuleSettings.Default.SnippetDirectoryVs);
+            var isUseCommon = !string.IsNullOrWhiteSpace(ModuleSettings.Default.SnippetDirectory);
+
+            // VSのフォルダと任意指定のフォルダをそれぞれ確認する
+            var vs = Path.Combine(ModuleSettings.Default.SnippetDirectoryVs, SnippetService.GetLanguagePath(Language));
+            var common = Path.Combine(ModuleSettings.Default.SnippetDirectory, SnippetService.GetLanguagePath(Language));
+
+            // 任意設定の方にディレクトリがなければ作る
+            if (isUseVs)
             {
-                return;
+                SafeCreateDirectory(vs);
+            }
+            if (isUseCommon)
+            {
+                SafeCreateDirectory(common);
             }
 
-            var input = new Snippet(Shortcut, ModuleSettings.Default.Author, Description, Shortcut, TemplateInput, Language, Delimiter, Kind.Any);
+            // ファイルの存在確認
+            var vsFilePath = Path.Combine(vs, Shortcut + ".snippet");
+            var commonFilePath = Path.Combine(common, Shortcut + ".snippet");
+            if (File.Exists(vsFilePath) || File.Exists(commonFilePath))
+            {
+                var res = MessageBox.Show(
+                    "同じファイル名のスニペットがあります。上書きしますか？",
+                    "確認",
+                    MessageBoxButton.OKCancel,
+                    MessageBoxImage.Question, MessageBoxResult.Cancel
+                );
+                if (res == MessageBoxResult.Cancel)
+                {
+                    return;
+                }
+            }
 
+            // テンプレート内変数リスト
             var declarations = new List<Literal>();
             foreach (var variable in Variables)
             {
@@ -205,15 +259,32 @@ namespace SorcerySplinter.Modules.Common.ViewModels
                     Function = variable.IsClassName ? Function.ClassName : Function.None
                 });
             }
-            input.Declarations = declarations;
+
+            // テンプレート生成パラメータの作成
+            var input = new Snippet(Shortcut, ModuleSettings.Default.Author, Description, Shortcut, TemplateInput, Language, Delimiter, Kind.Any, declarations, null);
 
             try
             {
+                // ファイル出力処理
                 var output = SnippetService.MakeSnippetXml(input);
-
                 var xml = output.ToString();
-                MessageBox.Show(xml);       // TODO:ここを完成させよう
 
+                var res = MessageBox.Show(xml, "これでいいですか？",
+                    MessageBoxButton.OKCancel,
+                    MessageBoxImage.Question, MessageBoxResult.Cancel);
+                if (res == MessageBoxResult.Cancel)
+                {
+                    return;
+                }
+                if (isUseVs)
+                {
+                    File.WriteAllText(vsFilePath, xml);
+                }
+                if (isUseCommon)
+                {
+                    File.WriteAllText(commonFilePath, xml);
+                }
+                // TODO:動作確認が終わったら、自分がVSに設定しているスニペットフォルダを全部変更しよう。
                 MessageBox.Show("保存しました。");
             }
             catch (Exception e)
@@ -229,7 +300,7 @@ namespace SorcerySplinter.Modules.Common.ViewModels
 
         private void OpenCommonFolder()
         {
-            System.Diagnostics.Process.Start("explorer.exe", ModuleSettings.Default.SnippetDirectoryVs);
+            System.Diagnostics.Process.Start("explorer.exe", ModuleSettings.Default.SnippetDirectory);
         }
 
         /// <summary>
@@ -253,6 +324,27 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             {
                 TemplateInput = obj.InputText;
             }
+        }
+
+        public void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
+        {
+            // 確認すべきだけど面倒なので実装しない
+            continuationCallback(true);
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            // 何もしない
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return false;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+            SetIsEnableOutput();
         }
     }
 

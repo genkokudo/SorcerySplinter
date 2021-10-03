@@ -51,7 +51,7 @@
         </StackPanel>
         <!-- 右側 -->
         <ScrollViewer Grid.Row="0" Grid.Column="1">
-        <StackPanel Margin="20,0,0,0">
+        <StackPanel Margin="20,0,0,0" ToolTip="消したいときは、対象行のどれかの列を選択した状態で「Delete」キーを押します。">
             <Label Margin="0,0,0,0" Content="テンプレート内変数リスト"></Label>
             <DataGrid ItemsSource="{Binding Variables}" 
                       CanUserAddRows="True" 
@@ -96,8 +96,8 @@
         </TextBox>
         <!-- 右下 -->
         <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="VSフォルダを開く" Margin="10,0" Command="{Binding OpenVsFolderCommand}" IsEnabled="{Binding IsExistsCommonFolder}" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
-            <Button Content="任意フォルダを開く" Margin="10,0" Command="{Binding OpenCommonFolderCommand}" IsEnabled="{Binding IsExistsVsFolder}" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+            <Button Content="VSフォルダを開く" Margin="10,0" Command="{Binding OpenVsFolderCommand}" IsEnabled="{Binding IsExistsVsFolder}" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+            <Button Content="任意フォルダを開く" Margin="10,0" Command="{Binding OpenCommonFolderCommand}" IsEnabled="{Binding IsExistsCommonFolder}" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
             <Button Content="出力" Margin="10,0,0,0" Command="{Binding OutputCommand}" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsEnabled="{Binding IsEnableOutput}" />
         </StackPanel>
     </Grid>
