@@ -43,6 +43,9 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         /// <summary>スニペット出力サービス</summary>
         public ISnippetService SnippetService { get; set; }
 
+        /// <summary>言語選択肢</summary>
+        public Dictionary<string, Language> LanguageDictionary { get; set; }
+
         // ファイル名＆ショートカットフレーズ
         private string _shortcut;
         public string Shortcut
@@ -52,8 +55,8 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         }
 
         // 言語
-        private string _language;
-        public string Language
+        private Language _language;
+        public Language Language
         {
             get { return _language; }
             set { SetProperty(ref _language, value); }
@@ -106,6 +109,17 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             set { SetProperty(ref _isEnableOutput, value); }
         }
 
+        /// <summary>
+        /// EnumをDictionaryにする
+        /// 便利なメソッドなのでとっておきたい
+        /// </summary>
+        /// <typeparam name="EnumType"></typeparam>
+        /// <returns></returns>
+        static public Dictionary<string, EnumType> CreateEnumDictionary<EnumType>()
+        {
+            return Enum.GetValues(typeof(EnumType)).Cast<EnumType>().ToDictionary(t => t.ToString(), t => t);
+        }
+
         public EditViewModel(IEventAggregator eventAggregator, ISnippetService snippetService)
         {
             EventAggregator = eventAggregator;
@@ -116,6 +130,8 @@ namespace SorcerySplinter.Modules.Common.ViewModels
                 new TemplateVariable{Name = "1郎", Description = "説明1", DefValue = "aaaa", IsClassName = true },
                 new TemplateVariable{Name = "2郎", Description = "説明2", DefValue = "bbbb", IsClassName = false }
             };
+
+            LanguageDictionary = CreateEnumDictionary<Language>();
 
             // コマンドを設定
             SetTextCommand = new DelegateCommand<string>(SetText);
@@ -138,12 +154,12 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             Delimiter = "$";
             Description = string.Empty;
             TemplateInput = string.Empty;
-            Language = "CSharp";
+            Language = Language.CSharp;
             IsEnableOutput = false;
         }
 
         /// <summary>
-        /// ファイル名と特殊文字が
+        /// ファイル名と特殊文字が入力されていることをチェックする
         /// </summary>
         private void SetIsEnableOutput()
         {
@@ -163,31 +179,19 @@ namespace SorcerySplinter.Modules.Common.ViewModels
 
         private void Output()
         {
-            // TODO:ファイルの存在確認ぐらいはしてあげよう。
-            //MessageBox.Show($"Output");
-
-            // スニペットXML
-            Language language;
-            switch (Language)
+            // ファイルの存在確認
+            var res = MessageBox.Show(
+                "同じファイル名のスニペットがあります。上書きしますか？",
+                "確認",
+                MessageBoxButton.OKCancel,
+                MessageBoxImage.Question, MessageBoxResult.Cancel
+            );
+            if (res == MessageBoxResult.Cancel)
             {
-                case "XAML":
-                    language = SnippetGenerator.Common.Language.XAML;
-                    break;
-                case "JavaScript":
-                    language = SnippetGenerator.Common.Language.JavaScript;
-                    break;
-                case "TypeScript":
-                    language = SnippetGenerator.Common.Language.TypeScript;
-                    break;
-                case "HTML":
-                    language = SnippetGenerator.Common.Language.HTML;
-                    break;
-                default:
-                    language = SnippetGenerator.Common.Language.CSharp;
-                    break;
+                return;
             }
 
-            var input = new Snippet(Shortcut, ModuleSettings.Default.Author, Description, Shortcut, TemplateInput, language, Delimiter, Kind.Any);
+            var input = new Snippet(Shortcut, ModuleSettings.Default.Author, Description, Shortcut, TemplateInput, Language, Delimiter, Kind.Any);
 
             var declarations = new List<Literal>();
             foreach (var variable in Variables)
@@ -202,17 +206,19 @@ namespace SorcerySplinter.Modules.Common.ViewModels
                 });
             }
             input.Declarations = declarations;
-            // TODO:クライアントに入力内容のnullチェックを付けること。
+
             try
             {
                 var output = SnippetService.MakeSnippetXml(input);
 
                 var xml = output.ToString();
-                MessageBox.Show(xml);
+                MessageBox.Show(xml);       // TODO:ここを完成させよう
+
+                MessageBox.Show("保存しました。");
             }
             catch (Exception e)
             {
-                MessageBox.Show($"{e.Message}", "だめじゃん");
+                MessageBox.Show($"{e.Message}", "だめじゃん",MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
