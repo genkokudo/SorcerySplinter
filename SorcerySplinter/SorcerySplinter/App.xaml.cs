@@ -28,8 +28,9 @@ namespace SorcerySplinter
         /// <param name="containerRegistry"></param>
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterSingleton<IMessageService, MessageService>(); // シングルトン
+            //containerRegistry.RegisterSingleton<IMessageService, MessageService>(); // シングルトン
             containerRegistry.Register<ISnippetService, SnippetService>(); // 都度生成
+            containerRegistry.Register<IDirectoryService, DirectoryService>(); 
         }
 
         /// <summary>

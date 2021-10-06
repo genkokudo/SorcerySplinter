@@ -11,6 +11,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\SnippetGenerator\SnippetGenerator\SnippetGenerator.csproj" />
+    <ProjectReference Include="..\SorcerySplinter\Services\SorcerySplinter.Services\SorcerySplinter.Services.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="ModuleSettings.Designer.cs">

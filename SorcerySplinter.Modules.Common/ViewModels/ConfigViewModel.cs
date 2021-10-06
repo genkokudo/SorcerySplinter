@@ -4,7 +4,10 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
+using SnippetGenerator;
+using SnippetGenerator.Common;
 using SorcerySplinter.Modules.Common.Events;
+using SorcerySplinter.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -31,6 +34,12 @@ namespace SorcerySplinter.Modules.Common.ViewModels
 
         /// <summary>自分用モードであることを他のモジュールに通知する</summary>
         public IEventAggregator EventAggregator { get; set; }
+
+        /// <summary>スニペット出力サービス</summary>
+        public ISnippetService SnippetService { get; set; }
+
+        /// <summary>ディレクトリ作成サービス</summary>
+        public IDirectoryService DirectoryService { get; set; }
 
         // 作者名
         private string _author;
@@ -72,9 +81,11 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             set { SetProperty(ref _isGinpayMode, value); }
         }
 
-        public ConfigViewModel(IEventAggregator eventAggregator)
+        public ConfigViewModel(IEventAggregator eventAggregator, ISnippetService snippetService, IDirectoryService directoryService)
         {
             EventAggregator = eventAggregator;
+            SnippetService = snippetService;
+            DirectoryService = directoryService;
 
             // コマンド設定
             SaveCommand = new DelegateCommand(SaveConfig);
@@ -272,19 +283,61 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         private void Synchronize()
         {
             var res = MessageBox.Show(
-                "同じファイル名のスニペットなどのチェックは行いません。同期してよろしいですか？",
+                "同じファイル名のスニペットなどのチェックは行いません。\n同期してよろしいですか？",
                 "確認",
                 MessageBoxButton.OKCancel,
                 MessageBoxImage.Question, MessageBoxResult.Cancel
             );
             if (res == MessageBoxResult.Cancel)
             {
-                return;
+                return ;
             }
 
-            // VSのフォルダと任意指定のフォルダをそれぞれ取得する
-            //var vs = Path.Combine(ModuleSettings.Default.SnippetDirectoryVs, SnippetService.GetLanguagePath(Language));
-            //var common = Path.Combine(ModuleSettings.Default.SnippetDirectory, SnippetService.GetLanguagePath(Language));
+            // 設定フォルダ
+            var common = ModuleSettings.Default.SnippetDirectory;
+            var vs = ModuleSettings.Default.SnippetDirectoryVs;
+
+            // 各言語のフォルダを取得
+            var langs = (Language[])Enum.GetValues(typeof(Language));
+            foreach (var lang in langs)
+            {
+                // 各言語について、ディレクトリが取得できたものだけ上書きコピーする
+                var langdir = SnippetService.GetLanguagePath(lang);
+                var sourceDir = Path.Combine(common, langdir);
+                var destDir = Path.Combine(vs, langdir);
+
+                if (Directory.Exists(sourceDir))
+                {
+                    MessageBox.Show(lang.ToString() + "のスニペットをコピーします。");
+                    
+                    // これ要らない
+                    //if (!Directory.Exists(destDir))
+                    //{
+                    //    // 無かったら作成
+                    //    DirectoryService.SafeCreateDirectory(destDir);
+                    //}
+
+                    // コピー元の.snippetファイルを全て挙げる
+                    var fileList = new List<string>();
+                    DirectoryService.FolderInsiteSearch(sourceDir, fileList, new string[] { ".snippet" });
+                    MessageBox.Show(string.Join("\n",fileList));
+
+                    // コピーするが、ディレクトリが無ければ作る
+                    // その時、ディレクトリ差分を求めなければならない。
+                    // public static void Copy (string sourceFileName, string destFileName, true);
+
+                    // 例：
+                    // common\言語フォルダ\aaaa\bbbb.snippet
+                    // vs\言語\aaaa\bbbb.snippet
+                    // この時は、vs\言語フォルダ\aaaaのフォルダを作成する。
+                    // destDirは、"\vs\言語フォルダ"までなので、aaaaフォルダが作れない。
+                    // aaaaの求め方は、fileListのパスを"言語フォルダ"でSplitして、末尾からファイル名を取り除く → "\aaaa\"
+                }
+            }
+            MessageBox.Show("処理が終わりました。");
+
+            // 各言語について、ディレクトリが取得できたものだけ上書きコピーする
+            // TODO:フォルダを再帰的に探索するコードを見つけること。
         }
 
         // 表示した時の処理

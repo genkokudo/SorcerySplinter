@@ -5,6 +5,7 @@ using Prism.Regions;
 using SnippetGenerator;
 using SnippetGenerator.Common;
 using SorcerySplinter.Modules.Common.Events;
+using SorcerySplinter.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -43,6 +44,9 @@ namespace SorcerySplinter.Modules.Common.ViewModels
 
         /// <summary>スニペット出力サービス</summary>
         public ISnippetService SnippetService { get; set; }
+
+        /// <summary>ディレクトリ作成サービス</summary>
+        public IDirectoryService DirectoryService { get; set; }
 
         /// <summary>言語選択肢</summary>
         public Dictionary<string, Language> LanguageDictionary { get; set; }
@@ -87,21 +91,6 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             set { SetProperty(ref _templateInput, value); }
         }
 
-        //// フォルダ存在確認
-        //private bool _isExistsCommonFolder;
-        //public bool IsExistsCommonFolder
-        //{
-        //    get { return _isExistsCommonFolder; }
-        //    set { SetProperty(ref _isExistsCommonFolder, value); }
-        //}
-        //// フォルダ存在確認VS
-        //private bool _isExistsVsFolder;
-        //public bool IsExistsVsFolder
-        //{
-        //    get { return _isExistsVsFolder; }
-        //    set { SetProperty(ref _isExistsVsFolder, value); }
-        //}
-
         // 出力ボタンが有効であるか
         private bool _isEnableOutput;
         public bool IsEnableOutput
@@ -122,10 +111,11 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             return Enum.GetValues(typeof(EnumType)).Cast<EnumType>().ToDictionary(t => t.ToString() == "CSharp" ? "C#" : t.ToString(), t => t);
         }
 
-        public EditViewModel(IEventAggregator eventAggregator, ISnippetService snippetService)
+        public EditViewModel(IEventAggregator eventAggregator, ISnippetService snippetService, IDirectoryService directoryService)
         {
             EventAggregator = eventAggregator;
             SnippetService = snippetService;
+            DirectoryService = directoryService;
 
             // 変数リスト
             Variables = new List<TemplateVariable>();
@@ -146,12 +136,6 @@ namespace SorcerySplinter.Modules.Common.ViewModels
 
             // 通知イベントを設定
             eventAggregator.GetEvent<InputTemplateEvent>().Subscribe(SetTextInput);
-
-            //// モジュールからの通知内容を設定
-            //eventAggregator.GetEvent<GinpayModeEvent>().Subscribe(SetIsGinpayMode);
-
-            //// 初期化処理の1つ
-            //SetIsGinpayMode(new GinpayMode());
 
             // 初期値
             Shortcut = string.Empty;
@@ -179,36 +163,6 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             // 許可条件
             IsEnableOutput = !string.IsNullOrWhiteSpace(Shortcut) && (isEnableVs || isEnableCommon);
         }
-
-        ///// <summary>
-        ///// コンフィグの更新を受信
-        ///// </summary>
-        ///// <param name="isGinpayMode"></param>
-        //private void SetIsGinpayMode(GinpayMode obj)
-        //{
-        //    // フォルダ存在確認
-        //    IsExistsCommonFolder = Directory.Exists(ModuleSettings.Default.SnippetDirectory);
-        //    IsExistsVsFolder = Directory.Exists(ModuleSettings.Default.SnippetDirectoryVs);
-        //}
-
-        /// <summary>
-        /// 指定したパスにディレクトリが存在しない場合
-        /// すべてのディレクトリとサブディレクトリを作成します
-        /// </summary>
-        /// <param name="directory"></param>
-        /// <returns></returns>
-        private DirectoryInfo SafeCreateDirectory(string directory)
-        {
-            if (!directory.EndsWith("\\") && !directory.EndsWith("/"))
-            {
-                directory = directory + "/";
-            }
-            if (Directory.Exists(directory))
-            {
-                return null;
-            }
-            return Directory.CreateDirectory(directory);
-        }
         
         /// <summary>
         /// 現在入力している情報でXMLを生成し、ファイルを出力する
@@ -235,11 +189,11 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             // ディレクトリがなければ作る
             if (isUseVs)
             {
-                SafeCreateDirectory(vs);
+                DirectoryService.SafeCreateDirectory(vs);
             }
             if (isUseCommon)
             {
-                SafeCreateDirectory(common);
+                DirectoryService.SafeCreateDirectory(common);
             }
 
             // ファイルの存在確認
