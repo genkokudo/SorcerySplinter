@@ -50,11 +50,16 @@
                     </Style>
                 </GroupBox.Style>
                 <StackPanel>
-                <Label Content="（自分用）書き溜めファイル" />
+                    <Label Content="（自分用）書き溜めファイル" />
                     <StackPanel Orientation="Horizontal">
                         <TextBox Text="{Binding GinpayModeFile}" ToolTip="スニペット作成の為のメモを書き溜めておくテキストファイルを指定すると、このソフトで直接参照できます。" materialDesign:HintAssist.Hint="C:\Users\(UserName)\Documents\スニペット.txt" materialDesign:HintAssist.HelperTextFontSize="16" MinWidth="400" />
                         <Button Content="参照" Margin="10,0,0,0" Command="{Binding FileCommand}" HorizontalAlignment="Right" VerticalAlignment="Center" Height="24"/>
                     </StackPanel>
+                    <Label Content="同期ボタン" Margin="0,20,0,0" />
+                    <Label Content="このボタンを押すと、保存場所（任意）から保存場所（VisualStudio用）にファイルをコピーします。開発環境構築時に使用します。" />
+                    <Label Content="同名のファイルがある場合は上書きしてしまいます。" Foreground="Red" />
+                    <Button Content="同期する"  Command="{Binding FileCommand}" HorizontalAlignment="Left" ToolTip="保存場所（任意）から保存場所（VisualStudio用）にファイルをコピーします。" />
+
                 </StackPanel>
             </GroupBox>
             <Button Content="保存" Command="{Binding SaveCommand}" Margin="20" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>

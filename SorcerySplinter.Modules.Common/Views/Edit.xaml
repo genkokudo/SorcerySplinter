@@ -35,12 +35,6 @@
             <ComboBox ItemsSource="{Binding LanguageDictionary}" SelectedValuePath="Value" DisplayMemberPath="Key" SelectedValue="{Binding Language}" ToolTip="どの言語のスニペットか選択します。"/>
             <Label Margin="0,20,0,0" Content="特殊文字"></Label>
             <TextBox Text="{Binding Delimiter, UpdateSourceTrigger=PropertyChanged}" Width="48" HorizontalAlignment="Left" materialDesign:HintAssist.Hint="$" ToolTip="この文字で囲んだ文字列が変数となります。VisualStudioの仕様上、設定しない場合'$'になります。" MaxLength="1">
-                <i:Interaction.Triggers>
-                    <!-- 入力時の処理：出力可能か判定する -->
-                    <i:EventTrigger EventName="TextChanged">
-                        <i:InvokeCommandAction Command="{Binding SetIsEnableOutputCommand}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
             </TextBox>
             <Label Margin="0,20,0,0" Content="説明"></Label>
             <TextBox Text="{Binding Description}" TextWrapping="Wrap" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="VSで表示する説明文" ToolTip="この説明はVSで表示させることができます。" />

@@ -87,22 +87,22 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             set { SetProperty(ref _templateInput, value); }
         }
 
-        // フォルダ存在確認
-        private bool _isExistsCommonFolder;
-        public bool IsExistsCommonFolder
-        {
-            get { return _isExistsCommonFolder; }
-            set { SetProperty(ref _isExistsCommonFolder, value); }
-        }
-        // フォルダ存在確認VS
-        private bool _isExistsVsFolder;
-        public bool IsExistsVsFolder
-        {
-            get { return _isExistsVsFolder; }
-            set { SetProperty(ref _isExistsVsFolder, value); }
-        }
+        //// フォルダ存在確認
+        //private bool _isExistsCommonFolder;
+        //public bool IsExistsCommonFolder
+        //{
+        //    get { return _isExistsCommonFolder; }
+        //    set { SetProperty(ref _isExistsCommonFolder, value); }
+        //}
+        //// フォルダ存在確認VS
+        //private bool _isExistsVsFolder;
+        //public bool IsExistsVsFolder
+        //{
+        //    get { return _isExistsVsFolder; }
+        //    set { SetProperty(ref _isExistsVsFolder, value); }
+        //}
 
-        // フォルダ存在確認VS
+        // 出力ボタンが有効であるか
         private bool _isEnableOutput;
         public bool IsEnableOutput
         {
@@ -147,11 +147,11 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             // 通知イベントを設定
             eventAggregator.GetEvent<InputTemplateEvent>().Subscribe(SetTextInput);
 
-            // モジュールからの通知内容を設定
-            eventAggregator.GetEvent<GinpayModeEvent>().Subscribe(SetIsGinpayMode);
+            //// モジュールからの通知内容を設定
+            //eventAggregator.GetEvent<GinpayModeEvent>().Subscribe(SetIsGinpayMode);
 
-            // 初期化処理の1つ
-            SetIsGinpayMode(new GinpayMode());
+            //// 初期化処理の1つ
+            //SetIsGinpayMode(new GinpayMode());
 
             // 初期値
             Shortcut = string.Empty;
@@ -170,19 +170,26 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             var vs = ModuleSettings.Default.SnippetDirectoryVs;
             var common = ModuleSettings.Default.SnippetDirectory;
 
-            IsEnableOutput = !string.IsNullOrWhiteSpace(Shortcut) && !string.IsNullOrWhiteSpace(Delimiter) && !(string.IsNullOrWhiteSpace(vs) || string.IsNullOrWhiteSpace(common));
+            // フォルダ存在確認
+            var isEnableVs = !string.IsNullOrWhiteSpace(vs) && Directory.Exists(vs);
+            var isEnableCommon = !string.IsNullOrWhiteSpace(common) && Directory.Exists(common);
+
+            // 許可条件
+            // ショートカットの入力があること
+            // フォルダが少なくとも1つ設定されていること、設定されている場合そのディレクトリが存在していること
+            IsEnableOutput = !string.IsNullOrWhiteSpace(Shortcut) && (isEnableVs || isEnableCommon);
         }
 
-        /// <summary>
-        /// コンフィグの更新を受信
-        /// </summary>
-        /// <param name="isGinpayMode"></param>
-        private void SetIsGinpayMode(GinpayMode obj)
-        {
-            // フォルダ存在確認
-            IsExistsCommonFolder = Directory.Exists(ModuleSettings.Default.SnippetDirectory);
-            IsExistsVsFolder = Directory.Exists(ModuleSettings.Default.SnippetDirectoryVs);
-        }
+        ///// <summary>
+        ///// コンフィグの更新を受信
+        ///// </summary>
+        ///// <param name="isGinpayMode"></param>
+        //private void SetIsGinpayMode(GinpayMode obj)
+        //{
+        //    // フォルダ存在確認
+        //    IsExistsCommonFolder = Directory.Exists(ModuleSettings.Default.SnippetDirectory);
+        //    IsExistsVsFolder = Directory.Exists(ModuleSettings.Default.SnippetDirectoryVs);
+        //}
 
         /// <summary>
         /// 指定したパスにディレクトリが存在しない場合
