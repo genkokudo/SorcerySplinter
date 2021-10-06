@@ -26,6 +26,9 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         /// <summary>ファイル選択するコマンド</summary>
         public DelegateCommand FileCommand { get; private set; }
 
+        /// <summary>自分用モード：同期するコマンド</summary>
+        public DelegateCommand SynchronizeCommand { get; private set; }
+
         /// <summary>自分用モードであることを他のモジュールに通知する</summary>
         public IEventAggregator EventAggregator { get; set; }
 
@@ -77,6 +80,31 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             SaveCommand = new DelegateCommand(SaveConfig);
             FolderCommand = new DelegateCommand<string>(ChooseFolder);
             FileCommand = new DelegateCommand(ChooseFile);
+            SynchronizeCommand = new DelegateCommand(Synchronize);
+        }
+
+        // 同期ボタンの許可
+        private bool _isEnableSynchronize;
+        public bool IsEnableSynchronize
+        {
+            get { return _isEnableSynchronize; }
+            set { SetProperty(ref _isEnableSynchronize, value); }
+        }
+
+        /// <summary>
+        /// 設定保存時に呼ぶ
+        /// 同期ボタンが押せるかチェックする
+        /// 保存場所が2つとも設定されており、存在すること
+        /// </summary>
+        private void SetIsEnableSynchronize()
+        {
+            // フォルダ存在確認
+            var vs = ModuleSettings.Default.SnippetDirectoryVs;
+            var common = ModuleSettings.Default.SnippetDirectory;
+            var isEnableVs = !string.IsNullOrWhiteSpace(vs) && Directory.Exists(vs);
+            var isEnableCommon = !string.IsNullOrWhiteSpace(common) && Directory.Exists(common);
+
+            IsEnableSynchronize = isEnableVs && isEnableCommon;
         }
 
         /// <summary>
@@ -89,6 +117,7 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             ModuleSettings.Default.SnippetDirectoryVs = SnippetDirectoryVs;
             ModuleSettings.Default.GinpayModeFile = GinpayModeFile;
             ModuleSettings.Default.IsGinpayMode = IsGinpayMode;
+            IsEnableSynchronize = false;
 
             // 保存
             ModuleSettings.Default.Save();
@@ -96,6 +125,11 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             // 設定内容を他のモジュールに通知
             EventAggregator.GetEvent<GinpayModeEvent>()
                 .Publish(new GinpayMode { IsGinpayMode = IsGinpayMode });
+
+            // 同期ボタンの許可
+            SetIsEnableSynchronize();
+
+            MessageBox.Show($"保存しました");
         }
 
         /// <summary>
@@ -229,6 +263,30 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             }
         }
 
+        /// <summary>
+        /// 自分用モード
+        /// 任意の保存場所からVS保存場所にファイルを同期する
+        /// 同名のファイルがある場合は上書きする
+        /// このソフトで使用可能な言語で、存在しているフォルダしか同期しない
+        /// </summary>
+        private void Synchronize()
+        {
+            var res = MessageBox.Show(
+                "同じファイル名のスニペットなどのチェックは行いません。同期してよろしいですか？",
+                "確認",
+                MessageBoxButton.OKCancel,
+                MessageBoxImage.Question, MessageBoxResult.Cancel
+            );
+            if (res == MessageBoxResult.Cancel)
+            {
+                return;
+            }
+
+            // VSのフォルダと任意指定のフォルダをそれぞれ取得する
+            //var vs = Path.Combine(ModuleSettings.Default.SnippetDirectoryVs, SnippetService.GetLanguagePath(Language));
+            //var common = Path.Combine(ModuleSettings.Default.SnippetDirectory, SnippetService.GetLanguagePath(Language));
+        }
+
         // 表示した時の処理
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
@@ -238,6 +296,9 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             SnippetDirectoryVs = ModuleSettings.Default.SnippetDirectoryVs;
             GinpayModeFile = ModuleSettings.Default.GinpayModeFile;
             IsGinpayMode = ModuleSettings.Default.IsGinpayMode;
+
+            // 同期ボタンの許可
+            SetIsEnableSynchronize();
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)

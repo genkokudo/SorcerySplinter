@@ -163,7 +163,9 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         }
 
         /// <summary>
-        /// ファイル名と特殊文字が入力されていることをチェックする
+        /// チェックする
+        /// ファイル名が入力されていること
+        /// 有効なフォルダが少なくとも1つ設定されていること
         /// </summary>
         private void SetIsEnableOutput()
         {
@@ -175,8 +177,6 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             var isEnableCommon = !string.IsNullOrWhiteSpace(common) && Directory.Exists(common);
 
             // 許可条件
-            // ショートカットの入力があること
-            // フォルダが少なくとも1つ設定されていること、設定されている場合そのディレクトリが存在していること
             IsEnableOutput = !string.IsNullOrWhiteSpace(Shortcut) && (isEnableVs || isEnableCommon);
         }
 
@@ -219,14 +219,20 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         private void Output()
         {
             // TODO:面倒なのでフォルダ設定していない場合の動作を確認していない。
-            var isUseVs = !string.IsNullOrWhiteSpace(ModuleSettings.Default.SnippetDirectoryVs);
-            var isUseCommon = !string.IsNullOrWhiteSpace(ModuleSettings.Default.SnippetDirectory);
+            // フォルダが設定されていて、そのディレクトリがあることを確認する
+            var isUseVs = !string.IsNullOrWhiteSpace(ModuleSettings.Default.SnippetDirectoryVs) && Directory.Exists(ModuleSettings.Default.SnippetDirectoryVs);
+            var isUseCommon = !string.IsNullOrWhiteSpace(ModuleSettings.Default.SnippetDirectory) && Directory.Exists(ModuleSettings.Default.SnippetDirectory);
+            if (!isUseVs && !isUseCommon)
+            {
+                MessageBox.Show($"設定されている保存場所が存在しないので保存できません。", "だめじゃん", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
             // VSのフォルダと任意指定のフォルダをそれぞれ確認する
             var vs = Path.Combine(ModuleSettings.Default.SnippetDirectoryVs, SnippetService.GetLanguagePath(Language));
             var common = Path.Combine(ModuleSettings.Default.SnippetDirectory, SnippetService.GetLanguagePath(Language));
 
-            // 任意設定の方にディレクトリがなければ作る
+            // ディレクトリがなければ作る
             if (isUseVs)
             {
                 SafeCreateDirectory(vs);

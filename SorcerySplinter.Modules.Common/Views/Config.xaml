@@ -58,7 +58,7 @@
                     <Label Content="同期ボタン" Margin="0,20,0,0" />
                     <Label Content="このボタンを押すと、保存場所（任意）から保存場所（VisualStudio用）にファイルをコピーします。開発環境構築時に使用します。" />
                     <Label Content="同名のファイルがある場合は上書きしてしまいます。" Foreground="Red" />
-                    <Button Content="同期する"  Command="{Binding FileCommand}" HorizontalAlignment="Left" ToolTip="保存場所（任意）から保存場所（VisualStudio用）にファイルをコピーします。" />
+                    <Button Content="同期する"  Command="{Binding SynchronizeCommand}" IsEnabled="{Binding IsEnableSynchronize}" HorizontalAlignment="Left" ToolTip="保存場所（任意）から保存場所（VisualStudio用）にファイルをコピーします。" />
 
                 </StackPanel>
             </GroupBox>
