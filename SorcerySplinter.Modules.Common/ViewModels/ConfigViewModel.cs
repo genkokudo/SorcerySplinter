@@ -331,9 +331,6 @@ namespace SorcerySplinter.Modules.Common.ViewModels
                 }
             }
             MessageBox.Show("処理が終わりました。");
-
-            // 各言語について、ディレクトリが取得できたものだけ上書きコピーする
-            // TODO:フォルダを再帰的に探索するコードを見つけること。
         }
 
         // 表示した時の処理
