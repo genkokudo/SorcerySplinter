@@ -294,8 +294,8 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             }
 
             // 設定フォルダ
-            var common = ModuleSettings.Default.SnippetDirectory;
-            var vs = ModuleSettings.Default.SnippetDirectoryVs;
+            var common = ModuleSettings.Default.SnippetDirectory.Replace('/','\\').TrimEnd('\\');
+            var vs = ModuleSettings.Default.SnippetDirectoryVs.Replace('/', '\\').TrimEnd('\\');    // ここを揃えておけばおかしなことにならないはず
 
             // 各言語のフォルダを取得
             var langs = (Language[])Enum.GetValues(typeof(Language));
@@ -304,34 +304,30 @@ namespace SorcerySplinter.Modules.Common.ViewModels
                 // 各言語について、ディレクトリが取得できたものだけ上書きコピーする
                 var langdir = SnippetService.GetLanguagePath(lang);
                 var sourceDir = Path.Combine(common, langdir);
-                var destDir = Path.Combine(vs, langdir);
 
                 if (Directory.Exists(sourceDir))
                 {
                     MessageBox.Show(lang.ToString() + "のスニペットをコピーします。");
                     
-                    // これ要らない
-                    //if (!Directory.Exists(destDir))
-                    //{
-                    //    // 無かったら作成
-                    //    DirectoryService.SafeCreateDirectory(destDir);
-                    //}
-
                     // コピー元の.snippetファイルを全て挙げる
                     var fileList = new List<string>();
                     DirectoryService.FolderInsiteSearch(sourceDir, fileList, new string[] { ".snippet" });
-                    MessageBox.Show(string.Join("\n",fileList));
 
                     // コピーするが、ディレクトリが無ければ作る
-                    // その時、ディレクトリ差分を求めなければならない。
-                    // public static void Copy (string sourceFileName, string destFileName, true);
+                    foreach (var snippetFilePath in fileList)
+                    {
+                        var relativePath = Path.GetDirectoryName(snippetFilePath).Replace(common, string.Empty);
+                        var filename = Path.GetFileName(snippetFilePath);
+                        var destDirectory = vs + relativePath;
+                        
+                        // フォルダが無ければ作成
+                        DirectoryService.SafeCreateDirectory(destDirectory);
+                        var destFilePath = Path.Combine(destDirectory, filename);
+                        
+                        // ファイルを上書きコピー
+                        File.Copy(snippetFilePath, destFilePath, true);
+                    }
 
-                    // 例：
-                    // common\言語フォルダ\aaaa\bbbb.snippet
-                    // vs\言語\aaaa\bbbb.snippet
-                    // この時は、vs\言語フォルダ\aaaaのフォルダを作成する。
-                    // destDirは、"\vs\言語フォルダ"までなので、aaaaフォルダが作れない。
-                    // aaaaの求め方は、fileListのパスを"言語フォルダ"でSplitして、末尾からファイル名を取り除く → "\aaaa\"
                 }
             }
             MessageBox.Show("処理が終わりました。");
