@@ -298,38 +298,33 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             var vs = ModuleSettings.Default.SnippetDirectoryVs.Replace('/', '\\').TrimEnd('\\');    // ここを揃えておけばおかしなことにならないはず
 
             // 各言語のフォルダを取得
-            var langs = (Language[])Enum.GetValues(typeof(Language));
-            foreach (var lang in langs)
+            var dirDict = SnippetService.GetExistDirectryDictionary(common);
+
+            // 各言語について、ディレクトリが取得できたものだけ上書きコピーする
+            foreach (var language in dirDict.Keys)
             {
-                // 各言語について、ディレクトリが取得できたものだけ上書きコピーする
-                var langdir = SnippetService.GetLanguagePath(lang);
-                var sourceDir = Path.Combine(common, langdir);
-
-                if (Directory.Exists(sourceDir))
-                {
-                    MessageBox.Show(lang.ToString() + "のスニペットをコピーします。");
+                MessageBox.Show(language.ToString() + "のスニペットをコピーします。");
                     
-                    // コピー元の.snippetファイルを全て挙げる
-                    var fileList = new List<string>();
-                    DirectoryService.FolderInsiteSearch(sourceDir, fileList, new string[] { ".snippet" });
+                // コピー元の.snippetファイルを全て挙げる
+                var fileList = new List<string>();
+                DirectoryService.FolderInsiteSearch(dirDict[language], fileList, new string[] { ".snippet" });
 
-                    // コピーするが、ディレクトリが無ければ作る
-                    foreach (var snippetFilePath in fileList)
-                    {
-                        var relativePath = Path.GetDirectoryName(snippetFilePath).Replace(common, string.Empty);
-                        var filename = Path.GetFileName(snippetFilePath);
-                        var destDirectory = vs + relativePath;
+                // コピーするが、ディレクトリが無ければ作る
+                foreach (var snippetFilePath in fileList)
+                {
+                    var relativePath = Path.GetDirectoryName(snippetFilePath).Replace(common, string.Empty);
+                    var filename = Path.GetFileName(snippetFilePath);
+                    var destDirectory = vs + relativePath;
                         
-                        // フォルダが無ければ作成
-                        DirectoryService.SafeCreateDirectory(destDirectory);
-                        var destFilePath = Path.Combine(destDirectory, filename);
+                    // フォルダが無ければ作成
+                    DirectoryService.SafeCreateDirectory(destDirectory);
+                    var destFilePath = Path.Combine(destDirectory, filename);
                         
-                        // ファイルを上書きコピー
-                        File.Copy(snippetFilePath, destFilePath, true);
-                    }
-
+                    // ファイルを上書きコピー
+                    File.Copy(snippetFilePath, destFilePath, true);
                 }
             }
+
             MessageBox.Show("処理が終わりました。");
         }
 

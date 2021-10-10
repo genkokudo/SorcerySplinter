@@ -19,9 +19,9 @@ namespace SorcerySplinter.Services
         /// 指定拡張子のファイル名をリストに順次追加していく
         /// </summary>
         /// <param name="folderPath">探索するフォルダ</param>
-        /// <param name="filenameList">ファイル名のリスト</param>
+        /// <param name="fileFullPathList">ファイル名のフルパスリスト</param>
         /// <param name="extensions">検索する拡張子群{ ".cs", ".exe"}みたいな感じ</param>
-        public void FolderInsiteSearch(string folderPath, List<string> filenameList, string[] extensions);
+        public void FolderInsiteSearch(string folderPath, List<string> fileFullPathList, string[] extensions);
 
         /// <summary>
         /// ファイルを対象のディレクトリにコピーします
