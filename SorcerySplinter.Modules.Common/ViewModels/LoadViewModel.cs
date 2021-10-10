@@ -89,7 +89,7 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         private void SelectSnippet()
         {
             // TODO:ListViewは、選択すると「選択状態」にそのデータを置く
-            MessageBox.Show($"{Snippet.Discription}\n{Snippet.FullPath}", $"{Snippet.Title}を選択", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show($"{Snippet.Description}\n{Snippet.FullPath}", $"{Snippet.Title}を選択", MessageBoxButton.OK, MessageBoxImage.Error);
 
             // TODO:読み込みボタンを作成
             // 「選択状態」のデータがあれば有効化。
