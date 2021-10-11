@@ -251,7 +251,6 @@ namespace SorcerySplinter.Modules.Common.ViewModels
                 {
                     File.WriteAllText(commonFilePath, xml);
                 }
-                // TODO:動作確認が終わったら、自分がVSに設定しているスニペットフォルダを全部変更しよう。
                 MessageBox.Show("保存しました。");
             }
             catch (Exception e)

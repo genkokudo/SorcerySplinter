@@ -24,6 +24,12 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         /// <summary>スニペット選択時のコマンド</summary>
         public DelegateCommand SelectSnippetCommand { get; private set; }
 
+        /// <summary>読み込みボタンのコマンド</summary>
+        public DelegateCommand LoadSnippetCommand { get; private set; }
+
+        /// <summary>削除ボタンのコマンド</summary>
+        public DelegateCommand DeleteSnippetCommand { get; private set; }
+
         /// <summary>画面アクセス時に読み込む全ての言語のスニペットリスト</summary>
         public Dictionary<Language, List<SnippetInfo>> SnippetListDictionary;
 
@@ -44,8 +50,8 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         }
 
         // 選択した言語
-        private Language _language;
-        public Language Language
+        private Language? _language;
+        public Language? Language
         {
             get { return _language; }
             set { SetProperty(ref _language, value); }
@@ -59,6 +65,14 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             set { SetProperty(ref _snippet, value); }
         }
 
+        // ボタンの有効化
+        private bool _isEnableButton;
+        public bool IsEnableButton
+        {
+            get { return _isEnableButton; }
+            set { SetProperty(ref _isEnableButton, value); }
+        }
+
         public LoadViewModel(ISnippetService snippetService)
         {
             SnippetService = snippetService;
@@ -66,9 +80,11 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             // コマンド設定
             SelectLanguageCommand = new DelegateCommand(SelectLanguage);
             SelectSnippetCommand = new DelegateCommand(SelectSnippet);
+            LoadSnippetCommand = new DelegateCommand(LoadSnippet);
+            DeleteSnippetCommand = new DelegateCommand(DeleteSnippet);
 
             // 初期値
-            Language = Language.CSharp;
+            Language = null;
         }
 
         /// <summary>
@@ -80,20 +96,66 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         {
             //MessageBox.Show($"{Language}を選択", "だめじゃん", MessageBoxButton.OK, MessageBoxImage.Error);
             // 読み込んでおいたスニペットリストから、ファイルリストを表示
-            SnippetList = SnippetListDictionary[Language];
+            SnippetList = SnippetListDictionary[Language.Value];
         }
 
         /// <summary>
         /// スニペット選択時
+        /// ※選択解除されたときも呼ばれるので注意
         /// </summary>
         private void SelectSnippet()
         {
-            // TODO:ListViewは、選択すると「選択状態」にそのデータを置く
-            MessageBox.Show($"{Snippet.Description}\n{Snippet.FullPath}", $"{Snippet.Title}を選択", MessageBoxButton.OK, MessageBoxImage.Error);
+            IsEnableButton = Snippet != null;   // ボタンの有効化
+        }
 
-            // TODO:読み込みボタンを作成
-            // 「選択状態」のデータがあれば有効化。
+        /// <summary>
+        /// 読み込むボタン
+        /// </summary>
+        private void LoadSnippet()
+        {
             // クリックしたら読み込んで編集画面に遷移する。
+            MessageBox.Show($"読み込む", $"読み込む", MessageBoxButton.OK, MessageBoxImage.Error);
+
+            //var snippetDocument = SnippetService.ReadSnippet(Snippet.FullPath);
+            // イベントで次の画面に渡す
+
+            // TODO:イベント作る LoadSnippetEvent
+            // ・編集画面にこういう受信を書く
+            // eventAggregator.GetEvent<LoadSnippetEvent>().Subscribe(SetLoadedSnippet);
+
+            // ・イベント発行処理を書く
+            //EventAggregator.GetEvent<GinpayModeEvent>()
+            //    .Publish(new GinpayMode { IsGinpayMode = IsGinpayMode });
+            // TODO:でもちょっと待って！OnNavigatedToを使えばイベント要らないのでは？読み込み処理もここでやる必要なくない？
+
+            // 遷移処理を書く
+            // IRegionManager regionManagerをDIする。
+            var param = new NavigationParameters();
+            param.Add("SnippetFullPath", Snippet.FullPath);
+            //_regionManager.RequestNavigate(RegionNames.ContentRegion, "Edit", "ここに読み込み用のフルパスを書いて次の画面に渡す！！");
+
+            // 遷移先での受け取り方
+            // navigationContext.Parameters["SnippetFullPath"] as string;
+        }
+
+        /// <summary>
+        /// 削除ボタン
+        /// </summary>
+        private void DeleteSnippet()
+        {
+            var res = MessageBox.Show(
+                "本当にこのスニペットを削除してしまいますが\nよろしいですか？",
+                "確認メッセージ",
+                MessageBoxButton.OKCancel,
+                MessageBoxImage.Question, MessageBoxResult.Cancel
+                );
+            if (res != MessageBoxResult.Cancel)
+            {
+                MessageBox.Show("削除しました。", "結果", MessageBoxButton.OK, MessageBoxImage.Information);
+                
+                // TODO:これってVS側しか削除できないから、Common側もList取っておいて同時に削除するようにしたい。
+                // Languageとファイル名を使って、Common側のファイル情報を探す
+            }
         }
 
 
@@ -130,6 +192,10 @@ namespace SorcerySplinter.Modules.Common.ViewModels
 
             // 言語選択肢を作成する
             LanguageDictionary = SnippetListDictionary.Keys.ToDictionary(t => t.ToString() == "CSharp" ? "C#" : t.ToString(), t => t);
+
+            // 初期値
+            IsEnableButton = false;
+            Language = null;
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)

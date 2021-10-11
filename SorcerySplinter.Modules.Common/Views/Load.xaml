@@ -14,6 +14,10 @@
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
         <!-- 左側 -->
         <ListBox Grid.Column="0" SelectionMode="Single" ItemsSource="{Binding LanguageDictionary}" SelectedValuePath="Value" DisplayMemberPath="Key" SelectedValue="{Binding Language}" ToolTip="言語を選択します。">
             <i:Interaction.Triggers>
@@ -23,8 +27,12 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </ListBox>
+        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal">
+            <Button Content="読み込む"  Command="{Binding LoadSnippetCommand}" IsEnabled="{Binding IsEnableButton}" HorizontalAlignment="Left" ToolTip="選択したスニペットを読み込みます。" />
+            <Button Content="削除する" Margin="24 0" Background="Red" BorderBrush="Red" Command="{Binding DeleteSnippetCommand}" IsEnabled="{Binding IsEnableButton}" HorizontalAlignment="Left" ToolTip="選択したスニペットを削除します。" />
+        </StackPanel>
         <!-- 右側 -->
-        <ListBox Grid.Column="1" SelectionMode="Single" ItemsSource="{Binding SnippetList}" SelectedValue="{Binding Snippet}" ToolTip="読み込むスニペットを選択します。" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.IsSharedSizeScope="True" Margin="12 0 12 0">
+        <ListBox Grid.Column="1" Grid.RowSpan="2" SelectionMode="Single" ItemsSource="{Binding SnippetList}" SelectedValue="{Binding Snippet}" ToolTip="読み込むスニペットを選択します。" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.IsSharedSizeScope="True" Margin="12 0 12 0">
             <i:Interaction.Triggers>
                 <!-- 入力時の処理 -->
                 <i:EventTrigger EventName="SelectionChanged">
