@@ -54,7 +54,7 @@
                       CanUserResizeRows="False"
                       HeadersVisibility="All"
                       SelectionUnit="FullRow"
-                      ToolTip="スニペット内の変数を定義します。C#のみ「クラス名を代入」をチェックすると、値は無視されてそのスニペットを貼ったクラス名が代入されます。">
+                      ToolTip="スニペット内の変数を定義します。C#のみ「クラス名を代入」をチェックすると、そのスニペットを貼ったクラス名が代入されます。この時、デフォルト値は必要ありません。">
                 <!-- 各項目の設定 -->
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="変数名" Binding="{Binding Name}"

@@ -304,8 +304,19 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             var snippetFullPath = navigationContext.Parameters["SnippetFullPath"] as string;
             if (!string.IsNullOrWhiteSpace(snippetFullPath))
             {
+                // スニペットを読み込んで、画面に反映する
                 var snippetDocument = SnippetService.ReadSnippet(snippetFullPath);
-                MessageBox.Show($"{snippetFullPath}", $"読み込む", MessageBoxButton.OK, MessageBoxImage.Error);
+                Shortcut = snippetDocument.Shortcut;
+                Language = snippetDocument.Language;
+                Delimiter = snippetDocument.Delimiter;
+                Description = snippetDocument.Description;
+                TemplateInput = snippetDocument.Code;
+
+                // 変数
+                foreach (var declaration in snippetDocument.Declarations)
+                {
+                    Variables.Add(new TemplateVariable { Name = declaration.Id, Description = declaration.ToolTip, DefValue = declaration.Default, IsClassName = declaration.Function == Function.ClassName });
+                }
             }
         }
 
