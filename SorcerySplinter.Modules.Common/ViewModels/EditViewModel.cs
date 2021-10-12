@@ -300,7 +300,13 @@ namespace SorcerySplinter.Modules.Common.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            // 何もしない
+            // 読み込み画面からの遷移の場合、読み込むファイルパスを受け取る
+            var snippetFullPath = navigationContext.Parameters["SnippetFullPath"] as string;
+            if (!string.IsNullOrWhiteSpace(snippetFullPath))
+            {
+                var snippetDocument = SnippetService.ReadSnippet(snippetFullPath);
+                MessageBox.Show($"{snippetFullPath}", $"読み込む", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)

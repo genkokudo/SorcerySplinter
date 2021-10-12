@@ -19,7 +19,7 @@
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <!-- 左側 -->
-        <ListBox Grid.Column="0" SelectionMode="Single" ItemsSource="{Binding LanguageDictionary}" SelectedValuePath="Value" DisplayMemberPath="Key" SelectedValue="{Binding Language}" ToolTip="言語を選択します。">
+        <ListBox Grid.Column="0" SelectionMode="Single" IsEnabled="{Binding IsEnabledList}" ItemsSource="{Binding LanguageDictionary}" SelectedValuePath="Value" DisplayMemberPath="Key" SelectedValue="{Binding Language}" ToolTip="言語を選択します。">
             <i:Interaction.Triggers>
                 <!-- 入力時の処理 -->
                 <i:EventTrigger EventName="SelectionChanged">

@@ -15,8 +15,11 @@ namespace SorcerySplinter.Modules.Common.ViewModels
     // 取り敢えず、VSフォルダに対して、ファイルの一覧を取る。
     public class LoadViewModel : BindableBase, IConfirmNavigationRequest
     {
-        /// <summary>スニペット出力サービス</summary>
-        public ISnippetService SnippetService { get; set; }
+        /// <summary>スニペット出力</summary>
+        private ISnippetService _snippetService;
+
+        /// <summary>画面遷移</summary>
+        private IRegionManager _regionManager;
 
         /// <summary>言語選択時のコマンド</summary>
         public DelegateCommand SelectLanguageCommand { get; private set; }
@@ -32,6 +35,17 @@ namespace SorcerySplinter.Modules.Common.ViewModels
 
         /// <summary>画面アクセス時に読み込む全ての言語のスニペットリスト</summary>
         public Dictionary<Language, List<SnippetInfo>> SnippetListDictionary;
+
+        /// <summary>画面アクセス時に読み込む全ての言語のスニペットリスト（削除用にもう一方のパスのリストを持つ）</summary>
+        public Dictionary<Language, List<SnippetInfo>> SnippetListDictionarySecondary;
+
+        // この画面を使用できるか
+        private bool _isEnabledList;
+        public bool IsEnabledList
+        {
+            get { return _isEnabledList; }
+            set { SetProperty(ref _isEnabledList, value); }
+        }
 
         // SnippetListDictionaryから選んだ言語のスニペット選択肢
         private List<SnippetInfo> _snippetList;
@@ -73,9 +87,11 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             set { SetProperty(ref _isEnableButton, value); }
         }
 
-        public LoadViewModel(ISnippetService snippetService)
+        public LoadViewModel(ISnippetService snippetService, IRegionManager regionManager)
         {
-            SnippetService = snippetService;
+            // DI
+            _snippetService = snippetService;
+            _regionManager = regionManager;
 
             // コマンド設定
             SelectLanguageCommand = new DelegateCommand(SelectLanguage);
@@ -113,29 +129,16 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         /// </summary>
         private void LoadSnippet()
         {
-            // クリックしたら読み込んで編集画面に遷移する。
-            MessageBox.Show($"読み込む", $"読み込む", MessageBoxButton.OK, MessageBoxImage.Error);
+            // TODO:要ノート
+            // 遷移処理
+            var param = new NavigationParameters
+            {
+                { "SnippetFullPath", Snippet.FullPath }
+            };
 
-            //var snippetDocument = SnippetService.ReadSnippet(Snippet.FullPath);
-            // イベントで次の画面に渡す
+            // TODO:この"ContentRegion"はグローバルな情報。リージョン名は呼び出し元からもらうようにしたい、サービスに持たせる？オプション？
+            _regionManager.RequestNavigate("ContentRegion", ViewNames.ViewEdit, param);
 
-            // TODO:イベント作る LoadSnippetEvent
-            // ・編集画面にこういう受信を書く
-            // eventAggregator.GetEvent<LoadSnippetEvent>().Subscribe(SetLoadedSnippet);
-
-            // ・イベント発行処理を書く
-            //EventAggregator.GetEvent<GinpayModeEvent>()
-            //    .Publish(new GinpayMode { IsGinpayMode = IsGinpayMode });
-            // TODO:でもちょっと待って！OnNavigatedToを使えばイベント要らないのでは？読み込み処理もここでやる必要なくない？
-
-            // 遷移処理を書く
-            // IRegionManager regionManagerをDIする。
-            var param = new NavigationParameters();
-            param.Add("SnippetFullPath", Snippet.FullPath);
-            //_regionManager.RequestNavigate(RegionNames.ContentRegion, "Edit", "ここに読み込み用のフルパスを書いて次の画面に渡す！！");
-
-            // 遷移先での受け取り方
-            // navigationContext.Parameters["SnippetFullPath"] as string;
         }
 
         /// <summary>
@@ -151,10 +154,14 @@ namespace SorcerySplinter.Modules.Common.ViewModels
                 );
             if (res != MessageBoxResult.Cancel)
             {
-                MessageBox.Show("削除しました。", "結果", MessageBoxButton.OK, MessageBoxImage.Information);
-                
                 // TODO:これってVS側しか削除できないから、Common側もList取っておいて同時に削除するようにしたい。
-                // Languageとファイル名を使って、Common側のファイル情報を探す
+                if (SnippetListDictionarySecondary != null)
+                {
+                    // TODO:もう一方も削除する
+                    // Languageとファイル名を使って、Common側のファイル情報を探す
+                }
+
+                MessageBox.Show("削除しました。", "結果", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -175,6 +182,10 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         // 表示した時の処理
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
+            // 初期値
+            IsEnableButton = false;
+            Language = null;
+
             // 設定している保存ディレクトリを取得、VSフォルダを設定していない場合は任意フォルダを使用する
             SnippetDirectoryVs = ModuleSettings.Default.SnippetDirectoryVs;
             if (string.IsNullOrWhiteSpace(SnippetDirectoryVs))
@@ -182,20 +193,28 @@ namespace SorcerySplinter.Modules.Common.ViewModels
                 SnippetDirectoryVs = ModuleSettings.Default.SnippetDirectory;
                 if (string.IsNullOrWhiteSpace(SnippetDirectoryVs))
                 {
-                    // TODO:両方設定していなければ無効化する
+                    // 両方設定していなければ画面（最初のリスト）を無効化する
+                    IsEnabledList = false;
                     MessageBox.Show($"先にスニペットを保存するディレクトリを設定してください。");
+                    return;
+                }
+            }
+            else
+            {
+                // VSが設定されていれば、もう一方も読み込む（ない場合もある）
+                var snippetDirectoryCommon = ModuleSettings.Default.SnippetDirectory;
+                if (string.IsNullOrWhiteSpace(snippetDirectoryCommon))
+                {
+                    SnippetListDictionarySecondary = _snippetService.GetSnippetList(snippetDirectoryCommon);
                 }
             }
 
+            IsEnabledList = true;
             // 全ての言語のスニペットのリストを読み込む
-            SnippetListDictionary = SnippetService.GetSnippetList(SnippetDirectoryVs);
+            SnippetListDictionary = _snippetService.GetSnippetList(SnippetDirectoryVs);
 
             // 言語選択肢を作成する
             LanguageDictionary = SnippetListDictionary.Keys.ToDictionary(t => t.ToString() == "CSharp" ? "C#" : t.ToString(), t => t);
-
-            // 初期値
-            IsEnableButton = false;
-            Language = null;
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
