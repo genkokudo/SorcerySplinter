@@ -5,6 +5,7 @@ using SnippetGenerator;
 using SnippetGenerator.Common;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -110,7 +111,6 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         /// </summary>
         private void SelectLanguage()
         {
-            //MessageBox.Show($"{Language}を選択", "だめじゃん", MessageBoxButton.OK, MessageBoxImage.Error);
             // 読み込んでおいたスニペットリストから、ファイルリストを表示
             SnippetList = SnippetListDictionary[Language.Value];
         }
@@ -135,9 +135,7 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             {
                 { "SnippetFullPath", Snippet.FullPath }
             };
-
-            // TODO:この"ContentRegion"はグローバルな情報。リージョン名は呼び出し元からもらうようにしたい、サービスに持たせる？オプション？
-            _regionManager.RequestNavigate("ContentRegion", ViewNames.ViewEdit, param);
+            _regionManager.RequestNavigate(ModuleSettings.Default.RegionName, ViewNames.ViewEdit, param);
 
         }
 
@@ -154,12 +152,22 @@ namespace SorcerySplinter.Modules.Common.ViewModels
                 );
             if (res != MessageBoxResult.Cancel)
             {
-                // TODO:これってVS側しか削除できないから、Common側もList取っておいて同時に削除するようにしたい。
                 if (SnippetListDictionarySecondary != null)
                 {
-                    // TODO:もう一方も削除する
-                    // Languageとファイル名を使って、Common側のファイル情報を探す
+                    // もう一方も削除する
+                    if (SnippetListDictionarySecondary.Keys.Contains(Language.Value))
+                    {
+                        var another = SnippetListDictionarySecondary[Language.Value].FirstOrDefault(x => x.Title == Snippet.Title);
+                        if (another != null)
+                        {
+                            File.Delete(another.FullPath);
+                            SnippetListDictionary[Language.Value].Remove(another);
+                        }
+                    }
                 }
+                File.Delete(Snippet.FullPath);
+                SnippetListDictionary[Language.Value].Remove(Snippet);
+                Snippet = null;
 
                 MessageBox.Show("削除しました。", "結果", MessageBoxButton.OK, MessageBoxImage.Information);
             }
@@ -203,7 +211,7 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             {
                 // VSが設定されていれば、もう一方も読み込む（ない場合もある）
                 var snippetDirectoryCommon = ModuleSettings.Default.SnippetDirectory;
-                if (string.IsNullOrWhiteSpace(snippetDirectoryCommon))
+                if (!string.IsNullOrWhiteSpace(snippetDirectoryCommon))
                 {
                     SnippetListDictionarySecondary = _snippetService.GetSnippetList(snippetDirectoryCommon);
                 }
