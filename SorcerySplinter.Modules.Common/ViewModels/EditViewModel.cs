@@ -39,6 +39,9 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         /// <summary>出力ボタンの有効化を判断するコマンド</summary>
         public DelegateCommand SetIsEnableOutputCommand { get; private set; }
 
+        /// <summary>入力内容のクリアコマンド</summary>
+        public DelegateCommand ClearCommand { get; private set; }
+
         /// <summary>他のモジュールに通知する</summary>
         public IEventAggregator EventAggregator { get; set; }
 
@@ -99,6 +102,20 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             set { SetProperty(ref _isEnableOutput, value); }
         }
 
+        // フォルダ存在確認
+        private bool _isExistsVsFolder;
+        public bool IsExistsVsFolder
+        {
+            get { return _isExistsVsFolder; }
+            set { SetProperty(ref _isExistsVsFolder, value); }
+        }
+        private bool _isExistsCommonFolder;
+        public bool IsExistsCommonFolder
+        {
+            get { return _isExistsCommonFolder; }
+            set { SetProperty(ref _isExistsCommonFolder, value); }
+        }
+
         /// <summary>
         /// EnumをDictionaryにする
         /// 便利なメソッドなのでとっておきたい
@@ -117,14 +134,6 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             SnippetService = snippetService;
             DirectoryService = directoryService;
 
-            // 変数リスト
-            Variables = new List<TemplateVariable>();
-            //Variables = new List<TemplateVariable>
-            //{
-            //    new TemplateVariable{Name = "1郎", Description = "説明1", DefValue = "aaaa", IsClassName = true },
-            //    new TemplateVariable{Name = "2郎", Description = "説明2", DefValue = "bbbb", IsClassName = false }
-            //};
-
             LanguageDictionary = CreateEnumDictionary<Language>();
 
             // コマンドを設定
@@ -133,11 +142,26 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             OpenVsFolderCommand = new DelegateCommand(OpenVsFolder);
             OpenCommonFolderCommand = new DelegateCommand(OpenCommonFolder);
             SetIsEnableOutputCommand = new DelegateCommand(SetIsEnableOutput);
+            ClearCommand = new DelegateCommand(Clear);
 
             // 通知イベントを設定
             eventAggregator.GetEvent<InputTemplateEvent>().Subscribe(SetTextInput);
 
             // 初期値
+            Clear();
+        }
+
+        /// <summary>
+        /// 入力内容をクリアする
+        /// </summary>
+        private void Clear()
+        {
+            Variables = new List<TemplateVariable>();   // 変数リスト
+            //Variables = new List<TemplateVariable>
+            //{
+            //    new TemplateVariable{Name = "1郎", Description = "説明1", DefValue = "aaaa", IsClassName = true },
+            //    new TemplateVariable{Name = "2郎", Description = "説明2", DefValue = "bbbb", IsClassName = false }
+            //};
             Shortcut = string.Empty;
             Delimiter = "$";
             Description = string.Empty;
@@ -329,6 +353,10 @@ namespace SorcerySplinter.Modules.Common.ViewModels
                 EventAggregator.GetEvent<InputTemplateEvent>()
                     .Publish(new InputTemplate { InputText = snippetDocument.Code, SendFromViewModelName = GetType().Name });
             }
+
+            // フォルダ存在確認
+            IsExistsVsFolder = Directory.Exists(ModuleSettings.Default.SnippetDirectoryVs);
+            IsExistsCommonFolder = Directory.Exists(ModuleSettings.Default.SnippetDirectory);
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)

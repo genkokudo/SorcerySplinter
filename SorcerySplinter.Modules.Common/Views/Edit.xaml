@@ -94,5 +94,8 @@
             <Button Content="任意フォルダを開く" Margin="10,0" Command="{Binding OpenCommonFolderCommand}" IsEnabled="{Binding IsExistsCommonFolder}" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
             <Button Content="出力" Margin="10,0,0,0" Command="{Binding OutputCommand}" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsEnabled="{Binding IsEnableOutput}" />
         </StackPanel>
+        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
+            <Button Content="入力のクリア" Margin="20,0" Background="Red" BorderBrush="Red" Command="{Binding ClearCommand}" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+        </StackPanel>
     </Grid>
 </UserControl>
