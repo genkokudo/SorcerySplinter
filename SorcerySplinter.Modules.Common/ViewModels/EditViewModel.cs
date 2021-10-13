@@ -286,7 +286,11 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         /// <param name="text"></param>
         private void SetTextInput(InputTemplate obj)
         {
-            if (obj.SendFromViewModelName != GetType().Name)
+            if (obj.SendFromViewModelName == "Initialize")
+            {
+                SetText(TemplateInput);
+            }
+            else if (obj.SendFromViewModelName != GetType().Name)
             {
                 TemplateInput = obj.InputText;
             }
@@ -317,12 +321,19 @@ namespace SorcerySplinter.Modules.Common.ViewModels
                 {
                     Variables.Add(new TemplateVariable { Name = declaration.Id, Description = declaration.ToolTip, DefValue = declaration.Default, IsClassName = declaration.Function == Function.ClassName });
                 }
+
+                // 出力ボタン
+                SetIsEnableOutput();
+
+                // 内容を他のモジュールに通知
+                EventAggregator.GetEvent<InputTemplateEvent>()
+                    .Publish(new InputTemplate { InputText = snippetDocument.Code, SendFromViewModelName = GetType().Name });
             }
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
-            return false;
+            return true;        // 画面遷移してもリセットしない
         }
 
         public void OnNavigatedFrom(NavigationContext navigationContext)

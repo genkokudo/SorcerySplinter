@@ -19,6 +19,7 @@ namespace SorcerySplinter.Modules.Common.Events
 
         /// <summary>
         /// 送信元ViewModel名
+        /// "Initialize"にすると、再送してもらう
         /// </summary>
         public string SendFromViewModelName { get; set; }
     }

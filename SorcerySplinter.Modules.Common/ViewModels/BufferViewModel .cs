@@ -60,6 +60,10 @@ namespace SorcerySplinter.Modules.Common.ViewModels
 
             // 通知イベントを設定
             eventAggregator.GetEvent<InputTemplateEvent>().Subscribe(SetTextInput);
+
+            // 初期化したことを伝えて、もしスニペット入力があれば送ってもらう
+            EventAggregator.GetEvent<InputTemplateEvent>()
+                .Publish(new InputTemplate { InputText = string.Empty, SendFromViewModelName = "Initialize" });
         }
 
         /// <summary>
