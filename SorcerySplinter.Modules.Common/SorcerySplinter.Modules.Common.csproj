@@ -10,6 +10,7 @@
     <PackageReference Include="WinCopies.WindowsAPICodePack.Shell" Version="2.8.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\MithrilCube\MithrilCube\MithrilCube.csproj" />
     <ProjectReference Include="..\..\SnippetGenerator\SnippetGenerator\SnippetGenerator.csproj" />
     <ProjectReference Include="..\SorcerySplinter\Services\SorcerySplinter.Services\SorcerySplinter.Services.csproj" />
   </ItemGroup>

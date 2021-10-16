@@ -1,4 +1,5 @@
-﻿using Prism.Ioc;
+﻿using MithrilCube.Services;
+using Prism.Ioc;
 using Prism.Modularity;
 using SnippetGenerator;
 using SorcerySplinter.Modules.Common;

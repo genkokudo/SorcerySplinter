@@ -129,7 +129,6 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         /// </summary>
         private void LoadSnippet()
         {
-            // TODO:要ノート
             // 遷移処理
             var param = new NavigationParameters
             {

@@ -26,6 +26,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SorcerySplinter.Modules.Com
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SnippetGenerator", "..\SnippetGenerator\SnippetGenerator\SnippetGenerator.csproj", "{D4DD72D3-D1DD-4FE9-8887-1D182B6914AD}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MithrilCube", "..\MithrilCube\MithrilCube\MithrilCube.csproj", "{06ABAE96-40EE-40EA-8513-0274DD172503}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,6 +62,10 @@ Global
 		{D4DD72D3-D1DD-4FE9-8887-1D182B6914AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4DD72D3-D1DD-4FE9-8887-1D182B6914AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4DD72D3-D1DD-4FE9-8887-1D182B6914AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06ABAE96-40EE-40EA-8513-0274DD172503}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06ABAE96-40EE-40EA-8513-0274DD172503}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06ABAE96-40EE-40EA-8513-0274DD172503}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06ABAE96-40EE-40EA-8513-0274DD172503}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
