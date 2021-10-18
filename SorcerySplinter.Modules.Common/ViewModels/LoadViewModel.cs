@@ -3,6 +3,7 @@ using Prism.Mvvm;
 using Prism.Regions;
 using SnippetGenerator;
 using SnippetGenerator.Common;
+using SorcerySplinter.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,6 +22,9 @@ namespace SorcerySplinter.Modules.Common.ViewModels
 
         /// <summary>画面遷移</summary>
         private IRegionManager _regionManager;
+
+        /// <summary>モジュールを描画するRegionの名前</summary>
+        private string _regionName;
 
         /// <summary>言語選択時のコマンド</summary>
         public DelegateCommand SelectLanguageCommand { get; private set; }
@@ -88,11 +92,12 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             set { SetProperty(ref _isEnableButton, value); }
         }
 
-        public LoadViewModel(ISnippetService snippetService, IRegionManager regionManager)
+        public LoadViewModel(ISnippetService snippetService, IRegionManager regionManager, IParameterService parameterService)
         {
             // DI
             _snippetService = snippetService;
             _regionManager = regionManager;
+            _regionName = parameterService.GetRegionName();
 
             // コマンド設定
             SelectLanguageCommand = new DelegateCommand(SelectLanguage);
@@ -134,7 +139,7 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             {
                 { "SnippetFullPath", Snippet.FullPath }
             };
-            _regionManager.RequestNavigate(ModuleSettings.Default.RegionName, ViewNames.ViewEdit, param);
+            _regionManager.RequestNavigate(_regionName, ViewNames.ViewEdit, param);
 
         }
 

@@ -1,7 +1,9 @@
-﻿using MithrilCube.Services;
+﻿using Microsoft.Extensions.Options;
+using MithrilCube.Services;
 using Prism.Ioc;
 using Prism.Modularity;
 using SnippetGenerator;
+using SorcerySplinter.Core;
 using SorcerySplinter.Modules.Common;
 using SorcerySplinter.Services;
 using SorcerySplinter.Views;
@@ -31,7 +33,10 @@ namespace SorcerySplinter
         {
             //containerRegistry.RegisterSingleton<IMessageService, MessageService>(); // シングルトン
             containerRegistry.Register<ISnippetService, SnippetService>(); // 都度生成
-            containerRegistry.Register<IDirectoryService, DirectoryService>(); 
+            containerRegistry.Register<IDirectoryService, DirectoryService>();
+            
+            containerRegistry.Register<IParameterService, ParameterService>();
+            containerRegistry.RegisterInstance(typeof(IOptions<ParameterOptions>), Options.Create(new ParameterOptions { RegionName = RegionNames.ContentRegion }));
         }
 
         /// <summary>

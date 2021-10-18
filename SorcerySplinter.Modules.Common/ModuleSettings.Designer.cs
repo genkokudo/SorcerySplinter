@@ -82,14 +82,5 @@ namespace SorcerySplinter.Modules.Common {
                 this["GinpayModeFile"] = value;
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("ContentRegion")]
-        public string RegionName {
-            get {
-                return ((string)(this["RegionName"]));
-            }
-        }
     }
 }

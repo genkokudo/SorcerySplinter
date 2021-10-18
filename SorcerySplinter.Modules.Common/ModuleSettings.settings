@@ -17,8 +17,5 @@
     <Setting Name="GinpayModeFile" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="RegionName" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">ContentRegion</Value>
-    </Setting>
   </Settings>
 </SettingsFile>
