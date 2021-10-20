@@ -35,6 +35,7 @@ namespace SorcerySplinter
             containerRegistry.Register<ISnippetService, SnippetService>(); // 都度生成
             containerRegistry.Register<IDirectoryService, DirectoryService>();
             
+            // オプション付きサービス
             containerRegistry.Register<IParameterService, ParameterService>();
             containerRegistry.RegisterInstance(typeof(IOptions<ParameterOptions>), Options.Create(new ParameterOptions { RegionName = RegionNames.ContentRegion }));
         }

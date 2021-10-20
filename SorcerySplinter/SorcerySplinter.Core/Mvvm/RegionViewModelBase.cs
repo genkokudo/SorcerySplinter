@@ -3,7 +3,7 @@ using System;
 
 namespace SorcerySplinter.Core.Mvvm
 {
-    public class RegionViewModelBase : ViewModelBase, INavigationAware, IConfirmNavigationRequest
+    public class RegionViewModelBase : ViewModelBase, IConfirmNavigationRequest
     {
         protected IRegionManager RegionManager { get; private set; }
 

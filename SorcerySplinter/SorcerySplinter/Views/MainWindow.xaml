@@ -38,8 +38,6 @@
                 <MenuItem Icon="{materialDesign:PackIcon Kind=FileDownload}" Header="読み込み" Command="{Binding NavigateCommand}" CommandParameter="Load"></MenuItem>
                 <MenuItem Icon="{materialDesign:PackIcon Kind=Pencil}" Header="編集" Command="{Binding NavigateCommand}" CommandParameter="Edit"></MenuItem>
                 <!-- このボタンだけ、自分用モードの時のみ表示 -->
-                <!-- TODO:モードレス表示にしたい。他の方法は？例えば画面を2段組みにして左をスニペット、右をメモにするとか。モードレスやるにはウィンドウ作らなあかんし。 -->
-                <!-- Window2 win2 = new Window2(); win2.Show(); -->
                 <MenuItem Icon="{materialDesign:PackIcon Kind=Buffer}" Header="書き溜め" Command="{Binding NavigateCommand}" CommandParameter="Buffer">
                     <MenuItem.Style>
                         <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
