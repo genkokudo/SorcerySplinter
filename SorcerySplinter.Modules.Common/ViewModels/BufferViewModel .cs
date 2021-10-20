@@ -12,7 +12,7 @@ using System.Windows;
 
 namespace SorcerySplinter.Modules.Common.ViewModels
 {
-    public class BufferViewModel : BindableBase
+    public class BufferViewModel : RegionViewModelBase
     {
         /// <summary>保存するコマンド</summary>
         public DelegateCommand SaveCommand { get; private set; }

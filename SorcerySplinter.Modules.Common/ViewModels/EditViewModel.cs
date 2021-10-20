@@ -17,7 +17,7 @@ using System.Windows;
 
 namespace SorcerySplinter.Modules.Common.ViewModels
 {
-    public class EditViewModel : BindableBase, IConfirmNavigationRequest
+    public class EditViewModel : RegionViewModelBase
     {
         /// <summary>変数リスト</summary>
         public List<TemplateVariable> Variables { get; set; }
@@ -321,14 +321,10 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             }
         }
 
-        public void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
+        public override void OnNavigatedTo(NavigationContext navigationContext)
         {
-            // 確認すべきだけど面倒なので実装しない
-            continuationCallback(true);
-        }
+            base.OnNavigatedTo(navigationContext);
 
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
             // 読み込み画面からの遷移の場合、読み込むファイルパスを受け取る
             var snippetFullPath = navigationContext.Parameters["SnippetFullPath"] as string;
             if (!string.IsNullOrWhiteSpace(snippetFullPath))
@@ -360,14 +356,9 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             IsExistsCommonFolder = Directory.Exists(ModuleSettings.Default.SnippetDirectory);
         }
 
-        public bool IsNavigationTarget(NavigationContext navigationContext)
+        public override bool IsNavigationTarget(NavigationContext navigationContext)
         {
             return true;        // 画面遷移してもリセットしない
-        }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-            SetIsEnableOutput();
         }
     }
 

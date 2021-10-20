@@ -13,7 +13,6 @@
     <ProjectReference Include="..\..\MithrilCube\MithrilCube\MithrilCube.csproj" />
     <ProjectReference Include="..\..\SnippetGenerator\SnippetGenerator\SnippetGenerator.csproj" />
     <ProjectReference Include="..\SorcerySplinter\Services\SorcerySplinter.Services\SorcerySplinter.Services.csproj" />
-    <ProjectReference Include="..\SorcerySplinter\SorcerySplinter.Core\SorcerySplinter.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="ModuleSettings.Designer.cs">

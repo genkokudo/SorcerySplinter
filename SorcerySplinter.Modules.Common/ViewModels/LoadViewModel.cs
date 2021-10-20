@@ -15,7 +15,7 @@ using System.Windows;
 namespace SorcerySplinter.Modules.Common.ViewModels
 {
     // 取り敢えず、VSフォルダに対して、ファイルの一覧を取る。
-    public class LoadViewModel : BindableBase, IConfirmNavigationRequest
+    public class LoadViewModel : RegionViewModelBase
     {
         /// <summary>スニペット出力</summary>
         private ISnippetService _snippetService;
@@ -177,12 +177,6 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             }
         }
 
-
-        public void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
-        {
-            continuationCallback(true);
-        }
-
         // スニペットを保存するディレクトリ（VSが優先）
         private string _snippetDirectoryVs;
         public string SnippetDirectoryVs
@@ -192,8 +186,10 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         }
 
         // 表示した時の処理
-        public void OnNavigatedTo(NavigationContext navigationContext)
+        public override void OnNavigatedTo(NavigationContext navigationContext)
         {
+            base.OnNavigatedTo(navigationContext);
+
             // 初期値
             IsEnableButton = false;
             Language = null;
@@ -227,17 +223,6 @@ namespace SorcerySplinter.Modules.Common.ViewModels
 
             // 言語選択肢を作成する
             LanguageDictionary = SnippetListDictionary.Keys.ToDictionary(t => t.ToString() == "CSharp" ? "C#" : t.ToString(), t => t);
-        }
-
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            // Viewは使い回さない
-            return false;
-        }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-            // 画面から離れる時何もしない
         }
     }
 }

@@ -7,7 +7,6 @@ using Prism.Mvvm;
 using Prism.Regions;
 using SnippetGenerator;
 using SnippetGenerator.Common;
-using SorcerySplinter.Core.Mvvm;
 using SorcerySplinter.Modules.Common.Events;
 using SorcerySplinter.Services;
 using System;
@@ -307,6 +306,8 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         // 表示した時の処理
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
+            base.OnNavigatedTo(navigationContext);
+
             // 設定の読み込み
             Author = ModuleSettings.Default.Author;
             SnippetDirectory = ModuleSettings.Default.SnippetDirectory;
@@ -316,8 +317,6 @@ namespace SorcerySplinter.Modules.Common.ViewModels
 
             // 同期ボタンの許可
             SetIsEnableSynchronize();
-
-            base.OnNavigatedTo(navigationContext);
         }
 
         public override void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)

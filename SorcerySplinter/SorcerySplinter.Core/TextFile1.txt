@@ -3,5 +3,11 @@
 
 これ結局使ったの？？
 →使わなかった
-→使ってみる。
+理由はMainWindowとModuleの組み合わせのみで作っているため、
+SorcerySplinterにはViewが1つしかないから。
+それとModuleから親のCoreをプロジェクト参照するのはおかしいから。
 
+RegionViewModelBase.csはModuleに持たせる。
+
+
+もう少し色々機能追加して、複数のアプリで使うようにしたら切り離してViewModelの共通クラスにしても良いと思う。

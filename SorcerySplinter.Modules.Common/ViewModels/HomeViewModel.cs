@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SorcerySplinter.Modules.Common.ViewModels
 {
-    public class HomeViewModel : BindableBase
+    public class HomeViewModel : RegionViewModelBase
     {
         private string _message;
         public string Message
