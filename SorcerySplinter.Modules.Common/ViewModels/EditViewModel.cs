@@ -9,6 +9,7 @@ using SorcerySplinter.Modules.Common.Events;
 using SorcerySplinter.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -20,7 +21,7 @@ namespace SorcerySplinter.Modules.Common.ViewModels
     public class EditViewModel : RegionViewModelBase
     {
         /// <summary>変数リスト</summary>
-        public List<TemplateVariable> Variables { get; set; }
+        public ObservableCollection<TemplateVariable> Variables { get; set; }
 
         ///// <summary>インポートリスト（未実装）</summary>
         //public List<TemplateVariable> Imports { get; set; }
@@ -149,6 +150,7 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             eventAggregator.GetEvent<InputTemplateEvent>().Subscribe(SetTextInput);
 
             // 初期値
+            Variables = new ObservableCollection<TemplateVariable>();
             Clear();
         }
 
@@ -157,12 +159,7 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         /// </summary>
         private void Clear()
         {
-            Variables = new List<TemplateVariable>();   // 変数リスト
-            //Variables = new List<TemplateVariable>
-            //{
-            //    new TemplateVariable{Name = "1郎", Description = "説明1", DefValue = "aaaa", IsClassName = true },
-            //    new TemplateVariable{Name = "2郎", Description = "説明2", DefValue = "bbbb", IsClassName = false }
-            //};
+            Variables.Clear();
             Shortcut = string.Empty;
             Delimiter = "$";
             Description = string.Empty;
