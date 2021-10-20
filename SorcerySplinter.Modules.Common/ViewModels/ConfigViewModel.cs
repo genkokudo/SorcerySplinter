@@ -7,6 +7,7 @@ using Prism.Mvvm;
 using Prism.Regions;
 using SnippetGenerator;
 using SnippetGenerator.Common;
+using SorcerySplinter.Core.Mvvm;
 using SorcerySplinter.Modules.Common.Events;
 using SorcerySplinter.Services;
 using System;
@@ -19,7 +20,7 @@ using System.Windows;
 
 namespace SorcerySplinter.Modules.Common.ViewModels
 {
-    public class ConfigViewModel : BindableBase, IConfirmNavigationRequest
+    public class ConfigViewModel : RegionViewModelBase
     {
         /// <summary>保存するコマンド</summary>
         public DelegateCommand SaveCommand { get; private set; }
@@ -249,32 +250,6 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             return cofd.FileName;
         }
 
-        public void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
-        {
-            // 変更があるかチェック
-            var isModified =
-                Author != ModuleSettings.Default.Author ||
-                SnippetDirectory != ModuleSettings.Default.SnippetDirectory ||
-                SnippetDirectoryVs != ModuleSettings.Default.SnippetDirectoryVs ||
-                GinpayModeFile != ModuleSettings.Default.GinpayModeFile ||
-                IsGinpayMode != ModuleSettings.Default.IsGinpayMode;
-
-            if (isModified)
-            {
-                var res = MessageBox.Show(
-                    "設定を保存していませんが\n破棄してよろしいですか？",
-                    "確認メッセージ",
-                    MessageBoxButton.OKCancel,
-                    MessageBoxImage.Question, MessageBoxResult.Cancel
-                    );
-                continuationCallback(res != MessageBoxResult.Cancel);
-            }
-            else
-            {
-                continuationCallback(true);
-            }
-        }
-
         /// <summary>
         /// 自分用モード
         /// 任意の保存場所からVS保存場所にファイルを同期する
@@ -330,7 +305,7 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         }
 
         // 表示した時の処理
-        public void OnNavigatedTo(NavigationContext navigationContext)
+        public override void OnNavigatedTo(NavigationContext navigationContext)
         {
             // 設定の読み込み
             Author = ModuleSettings.Default.Author;
@@ -341,17 +316,38 @@ namespace SorcerySplinter.Modules.Common.ViewModels
 
             // 同期ボタンの許可
             SetIsEnableSynchronize();
+
+            base.OnNavigatedTo(navigationContext);
         }
 
-        public bool IsNavigationTarget(NavigationContext navigationContext)
+        public override void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
         {
-            // Viewは使い回さない
-            return false;
-        }
+            // 変更があるかチェック
+            var isModified =
+                Author != ModuleSettings.Default.Author ||
+                SnippetDirectory != ModuleSettings.Default.SnippetDirectory ||
+                SnippetDirectoryVs != ModuleSettings.Default.SnippetDirectoryVs ||
+                GinpayModeFile != ModuleSettings.Default.GinpayModeFile ||
+                IsGinpayMode != ModuleSettings.Default.IsGinpayMode;
 
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-            // 画面から離れる時何もしない
+            if (isModified)
+            {
+                var res = MessageBox.Show(
+                    "設定を保存していませんが\n破棄してよろしいですか？",
+                    "確認メッセージ",
+                    MessageBoxButton.OKCancel,
+                    MessageBoxImage.Question, MessageBoxResult.Cancel
+                    );
+                if (res != MessageBoxResult.Cancel)
+                    base.ConfirmNavigationRequest(navigationContext, continuationCallback);
+                else
+                    continuationCallback(false);
+            }
+            else
+            {
+                // 確認しなくても良い場合
+                base.ConfirmNavigationRequest(navigationContext, continuationCallback);
+            }
         }
     }
 }

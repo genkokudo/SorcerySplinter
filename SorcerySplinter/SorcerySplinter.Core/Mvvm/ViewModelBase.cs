@@ -15,9 +15,15 @@ namespace SorcerySplinter.Core.Mvvm
 
         public virtual void Destroy()
         {
+            // NotifyCollectionChangedAction.Removeのときに呼ぶ
+            // 要するにコレクションから削除されたとき
 
+            // private CompositeDisposable disposables = new CompositeDisposable();
+            // これをViewModelに持たせて、IDisposableを実装したオブジェクトを一括管理。
+            // disposables.Dispose()で一発Disposeできる。
+
+            // disposables.Dispose();
         }
     }
 
-    // IActiveAware：タブページの選択を検知、タブへの遷移時にある処理を行いたい
 }

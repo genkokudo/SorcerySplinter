@@ -3,14 +3,19 @@ using System;
 
 namespace SorcerySplinter.Core.Mvvm
 {
+    /// <summary>
+    /// このソフトでは共通にするような処理はないので
+    /// IConfirmNavigationRequestを使うときにBindableBaseの代わりとして継承すると良い。
+    /// </summary>
     public class RegionViewModelBase : ViewModelBase, IConfirmNavigationRequest
     {
-        protected IRegionManager RegionManager { get; private set; }
+        //protected IRegionManager RegionManager { get; private set; }
 
-        public RegionViewModelBase(IRegionManager regionManager)
-        {
-            RegionManager = regionManager;
-        }
+        //// 共通でDIしたいものがあればここに追加する
+        //public RegionViewModelBase(IRegionManager regionManager)
+        //{
+        //    RegionManager = regionManager;
+        //}
 
         /// <summary>
         /// 状況に応じて遷移をキャンセルする
