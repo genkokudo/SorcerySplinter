@@ -3,7 +3,6 @@ using Prism.Mvvm;
 using Prism.Regions;
 using SnippetGenerator;
 using SnippetGenerator.Common;
-using SorcerySplinter.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,11 +19,8 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         /// <summary>スニペット出力</summary>
         private ISnippetService _snippetService;
 
-        /// <summary>画面遷移</summary>
-        private IRegionManager _regionManager;
-
-        /// <summary>モジュールを描画するRegionの名前</summary>
-        private string _regionName;
+        /// <summary>画面遷移（DIするのではなく、遷移時に受け取る）</summary>
+        private IRegionNavigationService _regionNavigationService;
 
         /// <summary>言語選択時のコマンド</summary>
         public DelegateCommand SelectLanguageCommand { get; private set; }
@@ -92,12 +88,10 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             set { SetProperty(ref _isEnableButton, value); }
         }
 
-        public LoadViewModel(ISnippetService snippetService, IRegionManager regionManager, IParameterService parameterService)
+        public LoadViewModel(ISnippetService snippetService)
         {
             // DI
             _snippetService = snippetService;
-            _regionManager = regionManager;
-            _regionName = parameterService.GetRegionName();
 
             // コマンド設定
             SelectLanguageCommand = new DelegateCommand(SelectLanguage);
@@ -139,7 +133,7 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             {
                 { "SnippetFullPath", Snippet.FullPath }
             };
-            _regionManager.RequestNavigate(_regionName, ViewNames.ViewEdit, param);
+            _regionNavigationService.RequestNavigate(ViewNames.ViewEdit, param);
 
         }
 
@@ -189,6 +183,8 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
             base.OnNavigatedTo(navigationContext);
+
+            _regionNavigationService = navigationContext.NavigationService;
 
             // 初期値
             IsEnableButton = false;

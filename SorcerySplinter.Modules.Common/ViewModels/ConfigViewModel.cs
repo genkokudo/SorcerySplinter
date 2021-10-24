@@ -8,7 +8,6 @@ using Prism.Regions;
 using SnippetGenerator;
 using SnippetGenerator.Common;
 using SorcerySplinter.Modules.Common.Events;
-using SorcerySplinter.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
