@@ -5,6 +5,7 @@
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
         xmlns:core="clr-namespace:SorcerySplinter.Core;assembly=SorcerySplinter.Core"
+        xmlns:module="clr-namespace:SorcerySplinter.Modules.Common;assembly=SorcerySplinter.Modules.Common"
         Title="{Binding Title}"
         Width="1100" Height="800"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -33,12 +34,12 @@
         <StackPanel Grid.Row="0">
             <!-- メニュー（色の付け方が分からないけどもういい。） -->
             <Menu IsMainMenu="True">
-                <MenuItem Icon="{materialDesign:PackIcon Kind=Home}" Header="説明" Command="{Binding NavigateCommand}" CommandParameter="Home"></MenuItem>
-                <MenuItem Icon="{materialDesign:PackIcon Kind=Cog}" Header="設定" Command="{Binding NavigateCommand}" CommandParameter="Config"></MenuItem>
-                <MenuItem Icon="{materialDesign:PackIcon Kind=FileDownload}" Header="読み込み" Command="{Binding NavigateCommand}" CommandParameter="Load"></MenuItem>
-                <MenuItem Icon="{materialDesign:PackIcon Kind=Pencil}" Header="編集" Command="{Binding NavigateCommand}" CommandParameter="Edit"></MenuItem>
+                <MenuItem Icon="{materialDesign:PackIcon Kind=Home}" Header="説明" Command="{Binding NavigateCommand}" CommandParameter="{x:Static module:ViewNames.ViewHome}"></MenuItem>
+                <MenuItem Icon="{materialDesign:PackIcon Kind=Cog}" Header="設定" Command="{Binding NavigateCommand}" CommandParameter="{x:Static module:ViewNames.ViewConfig}"></MenuItem>
+                <MenuItem Icon="{materialDesign:PackIcon Kind=FileDownload}" Header="読み込み" Command="{Binding NavigateCommand}" CommandParameter="{x:Static module:ViewNames.ViewLoad}"></MenuItem>
+                <MenuItem Icon="{materialDesign:PackIcon Kind=Pencil}" Header="編集" Command="{Binding NavigateCommand}" CommandParameter="{x:Static module:ViewNames.ViewEdit}"></MenuItem>
                 <!-- このボタンだけ、自分用モードの時のみ表示 -->
-                <MenuItem Icon="{materialDesign:PackIcon Kind=Buffer}" Header="書き溜め" Command="{Binding NavigateCommand}" CommandParameter="Buffer">
+                <MenuItem Icon="{materialDesign:PackIcon Kind=Buffer}" Header="書き溜め" Command="{Binding NavigateCommand}" CommandParameter="{x:Static module:ViewNames.ViewBuffer}">
                     <MenuItem.Style>
                         <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
                             <Style.Triggers>
