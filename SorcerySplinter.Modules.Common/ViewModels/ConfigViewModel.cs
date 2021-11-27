@@ -280,8 +280,7 @@ namespace SorcerySplinter.Modules.Common.ViewModels
                 MessageBox.Show(language.ToString() + "のスニペットをコピーします。");
                     
                 // コピー元の.snippetファイルを全て挙げる
-                var fileList = new List<string>();
-                DirectoryService.FolderInsiteSearch(dirDict[language], fileList, new string[] { ".snippet" });
+                var fileList = DirectoryService.FolderInsiteSearch(dirDict[language], new string[] { ".snippet" });
 
                 // コピーするが、ディレクトリが無ければ作る
                 foreach (var snippetFilePath in fileList)
