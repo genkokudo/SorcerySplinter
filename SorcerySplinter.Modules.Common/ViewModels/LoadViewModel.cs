@@ -111,7 +111,10 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         private void SelectLanguage()
         {
             // 読み込んでおいたスニペットリストから、ファイルリストを表示
-            SnippetList = SnippetListDictionary[Language.Value];
+            if (Language != null)
+            {
+                SnippetList = SnippetListDictionary[Language.Value];
+            }
         }
 
         /// <summary>
