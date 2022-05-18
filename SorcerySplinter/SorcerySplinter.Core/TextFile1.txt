@@ -11,3 +11,12 @@ RegionViewModelBase.csはModuleに持たせる。
 
 
 もう少し色々機能追加して、複数のアプリで使うようにしたら切り離してViewModelの共通クラスにしても良いと思う。
+
+★発行方法
+SorcerySplinterを右クリックして発行
+ClickOnceで。
+構成は、フレームワーク依存にすること。
+
+
+
+
