@@ -13,7 +13,10 @@ using System.Windows;
 
 namespace SorcerySplinter.Modules.Common.ViewModels
 {
+    // 画面遷移した時に、リストの選択状態は残らないことに注意。ぬるぽが出る時は大体それが原因。（どうしたら残せるんだっけ？）
+
     // 取り敢えず、VSフォルダに対して、ファイルの一覧を取る。
+    [RegionMemberLifetime(KeepAlive = true)]        // 入力内容は遷移しても保持する
     public class LoadViewModel : RegionViewModelBase
     {
         /// <summary>スニペット出力</summary>
@@ -171,7 +174,21 @@ namespace SorcerySplinter.Modules.Common.ViewModels
                 Snippet = null;
 
                 MessageBox.Show("削除しました。", "結果", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                // 再描画
+                RefreshList();
             }
+        }
+
+        /// <summary>
+        /// スニペットリストを再描画
+        /// もっと良い書き方ないのか？
+        /// </summary>
+        private void RefreshList()
+        {
+            var tempList = SnippetList;
+            SnippetList = null;
+            SnippetList = tempList;
         }
 
         // スニペットを保存するディレクトリ（VSが優先）
@@ -189,9 +206,8 @@ namespace SorcerySplinter.Modules.Common.ViewModels
 
             _regionNavigationService = navigationContext.NavigationService;
 
-            // 初期値
-            IsEnableButton = false;
-            Language = null;
+            //// 初期値
+            //IsEnableButton = false;
 
             // 設定している保存ディレクトリを取得、VSフォルダを設定していない場合は任意フォルダを使用する
             SnippetDirectoryVs = ModuleSettings.Default.SnippetDirectoryVs;
@@ -222,6 +238,7 @@ namespace SorcerySplinter.Modules.Common.ViewModels
 
             // 言語選択肢を作成する
             LanguageDictionary = SnippetListDictionary.Keys.ToDictionary(t => t.ToString() == "CSharp" ? "C#" : t.ToString(), t => t);
+            RefreshList();
         }
     }
 }
