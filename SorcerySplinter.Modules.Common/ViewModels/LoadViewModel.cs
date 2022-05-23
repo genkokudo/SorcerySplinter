@@ -186,9 +186,10 @@ namespace SorcerySplinter.Modules.Common.ViewModels
         /// </summary>
         private void RefreshList()
         {
-            var tempList = SnippetList;
+            //var tempList = SnippetList;
             SnippetList = null;
-            SnippetList = tempList;
+            //SnippetList = tempList;
+            SnippetList = SnippetListDictionary[Language.Value];
         }
 
         // スニペットを保存するディレクトリ（VSが優先）
@@ -205,9 +206,6 @@ namespace SorcerySplinter.Modules.Common.ViewModels
             base.OnNavigatedTo(navigationContext);
 
             _regionNavigationService = navigationContext.NavigationService;
-
-            //// 初期値
-            //IsEnableButton = false;
 
             // 設定している保存ディレクトリを取得、VSフォルダを設定していない場合は任意フォルダを使用する
             SnippetDirectoryVs = ModuleSettings.Default.SnippetDirectoryVs;

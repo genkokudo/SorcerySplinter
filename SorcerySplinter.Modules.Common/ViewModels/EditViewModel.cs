@@ -258,9 +258,9 @@ namespace SorcerySplinter.Modules.Common.ViewModels
                 var xml = output.ToString();
 
                 var res = MessageBox.Show(xml, "これでいいですか？",
-                    MessageBoxButton.OKCancel,
-                    MessageBoxImage.Question, MessageBoxResult.Cancel);
-                if (res == MessageBoxResult.Cancel)
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question, MessageBoxResult.No);
+                if (res == MessageBoxResult.No)
                 {
                     return;
                 }
